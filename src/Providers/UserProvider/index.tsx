@@ -6,7 +6,7 @@ import {
   ReactNode,
 } from "react";
 
-import { api } from "../services/api";
+import { api } from "../../services/api";
 
 interface UserProviderProps {
   children: ReactNode;

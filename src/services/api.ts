@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://json-server-capstone.herokuapp.com/",
+  baseURL: "https://json-server-capstone.herokuapp.com",
 });

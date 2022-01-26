@@ -5,7 +5,9 @@ export const Home = () => {
   return (
     <Box>
       <DarkModeButton />
-      <Text>Testando o Dark Mode</Text>
+      <Text color="brown" fontWeight="extrabold">
+        Testando o Dark Mode
+      </Text>
     </Box>
   )
 }

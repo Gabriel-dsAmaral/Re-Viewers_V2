@@ -1,11 +1,16 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import { ReactNode } from 'react'
-import { theme } from '../styles/theme'
+import { ChakraProvider } from "@chakra-ui/react";
+import { ReactNode } from "react";
+import { theme } from "../styles/theme";
+import { UserProvider } from "../Providers/UserContext";
 
 interface AppProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  return <ChakraProvider theme={theme}>{children}</ChakraProvider>
-}
+  return (
+    <UserProvider>
+      <ChakraProvider theme={theme}>{children}</ChakraProvider>
+    </UserProvider>
+  );
+};

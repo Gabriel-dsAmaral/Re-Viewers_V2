@@ -1,27 +1,27 @@
 import { FormControl, InputGroup, InputRightElement } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
+import { BiSearchAlt } from "react-icons/bi";
 import { Input } from "./Input";
 
 interface InputSearchProps {
   closeInputSearch: () => void;
-  filterProducts: (inputValue: string) => void;
+  filterAnimes: (inputValue: string) => void;
 }
 
 export const InputSearch = ({
   closeInputSearch,
-  filterProducts,
+  filterAnimes,
 }: InputSearchProps) => {
   return (
     <FormControl padding="5px">
       <InputGroup
         w={["100%", "100%", "30vw", "30vw"]}
         border="1px solid #BDBDBD"
-        borderRadius="5px"
+        borderRadius="10px"
       >
         <InputRightElement
           mt="1"
           mr="1.5"
-          bg="green.300"
+          bg="white"
           borderRadius="5px"
           transition="filter .1s linear "
           _hover={{
@@ -32,23 +32,23 @@ export const InputSearch = ({
           aria-label="supprimer"
           onClick={closeInputSearch}
         >
-          <FaSearch color="gray.100" width="100%" />
+          <BiSearchAlt size={30} />
         </InputRightElement>
         <Input
           type="search"
           name="title"
-          placeholder="Digitar Pesquisa"
+          // placeholder="Digitar Pesquisa"
           defaultValue=""
           onChangeCapture={(event: React.ChangeEvent<HTMLInputElement>) =>
-            filterProducts(event.target.value)
+            filterAnimes(event.target.value)
           }
           border="none"
           variant="filled"
-          bg="gray.0"
+          bg="#CFCFDE"
           paddingRight="55px"
-          color="gray.300"
+          color="black"
           _hover={{ filter: "brightness(1.1)" }}
-          _focus={{ bg: "gray.0" }}
+          _focus={{ bg: "#CFCFDE" }}
         />
       </InputGroup>
     </FormControl>

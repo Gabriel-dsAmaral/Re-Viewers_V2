@@ -17,7 +17,7 @@ const ButtonBase: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
 ) => {
   return (
     <ChakraButton
-      bgColor={
+      background={
         model === '1'
           ? 'grey.light80'
           : model === '2'
@@ -26,9 +26,29 @@ const ButtonBase: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
           ? 'grey.dark'
           : 'gold.light50'
       }
-      color={
+      border="2px"
+      borderStyle="solid"
+      borderColor={
         model === '1'
-          ? 'grey.grey'
+          ? 'grey.light80'
+          : model === '2' || model === '3'
+          ? 'none'
+          : 'gold.light50'
+      }
+      _hover={{
+        background:
+          model === '1'
+            ? 'grey.light80'
+            : model === '2'
+            ? 'gold.sand'
+            : model === '3'
+            ? 'grey.dark'
+            : 'gold.light50',
+        borderColor: model === '3' ? 'primary' : 'black'
+      }}
+      textColor={
+        model === '1'
+          ? 'grey.dark'
           : model === '2'
           ? 'white'
           : model === '3'

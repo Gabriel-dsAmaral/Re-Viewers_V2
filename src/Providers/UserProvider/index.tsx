@@ -5,6 +5,7 @@ import {
   useState,
   ReactNode,
 } from "react";
+import { StringMappingType } from "typescript";
 
 import { api } from "../../services/api";
 
@@ -29,12 +30,17 @@ interface SigNupCredentials {
   name: string;
 }
 
+interface EditUserCredentials {
+  email: string;
+}
+
 interface UserContextData {
   user: User;
   accessToken: string;
   signOut: () => void;
   signIn: (credentials: SighInCredentials) => Promise<void>;
   sigNup: (credentials: SigNupCredentials) => Promise<void>;
+  EditUser: (credentials: EditUserCredentials) => Promise<void>;
 }
 
 interface UserState {
@@ -83,6 +89,18 @@ const UserProvider = ({ children }: UserProviderProps) => {
     },
     []
   );
+
+  const EditUser = useCallback(async ({ email }: EditUserCredentials) => {
+    const userId = data.user.id;
+    const accessToken = data.accessToken;
+    await api.patch(
+      `/users/${userId}`,
+      { email },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+  }, []);
   return (
     <UserContext.Provider
       value={{
@@ -91,6 +109,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
         sigNup,
         signIn,
         signOut,
+        EditUser,
       }}
     >
       {children}

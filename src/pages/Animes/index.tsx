@@ -18,7 +18,7 @@ export const AnimePage = () => {
 
   useEffect(() => {
     getAnimes();
-    getAnimeById(11);
+    getAnimeById(53);
     console.log(selectedAnime);
   }, []);
   console.log(animes);

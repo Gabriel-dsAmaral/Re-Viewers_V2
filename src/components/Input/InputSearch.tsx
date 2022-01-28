@@ -1,37 +1,43 @@
-import { FormControl, InputGroup, InputRightElement } from '@chakra-ui/react'
-import { FaSearch } from 'react-icons/fa'
-import { Input } from './Input'
+import {
+  FormControl,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
+import { BiSearchAlt } from "react-icons/bi";
+// import { Input } from "./Input";
+
 interface InputSearchProps {
-  closeInputSearch: () => void
-  filterAnimes: (inputValue: string) => void
+  closeInputSearch: () => void;
+  filterAnimes: (inputValue: string) => void;
 }
 
 export const InputSearch = ({
   closeInputSearch,
-  filterAnimes
+  filterAnimes,
 }: InputSearchProps) => {
   return (
     <FormControl padding="5px">
       <InputGroup
-        w={['100%', '100%', '30vw', '30vw']}
+        w={["100%", "100%", "30vw", "30vw"]}
         border="1px solid #BDBDBD"
         borderRadius="5px"
       >
         <InputRightElement
-          mt="1"
-          mr="1.5"
-          bg="green.300"
-          borderRadius="5px"
+          width="40px"
+          height="40px"
+          bg="white"
+          borderRadius="10px"
           transition="filter .1s linear "
           _hover={{
-            filter: 'brightness(1.1)',
-            cursor: 'pointer'
+            filter: "brightness(1.1)",
+            cursor: "pointer",
           }}
-          _active={{ filter: 'brightness(.8)' }}
+          _active={{ filter: "brightness(.8)" }}
           aria-label="supprimer"
           onClick={closeInputSearch}
         >
-          <FaSearch color="gray.100" width="100%" />
+          <BiSearchAlt color="gray.100" width="100%" />
         </InputRightElement>
         <Input
           type="search"
@@ -46,10 +52,10 @@ export const InputSearch = ({
           bg="gray.0"
           paddingRight="55px"
           color="gray.300"
-          _hover={{ filter: 'brightness(1.1)' }}
-          _focus={{ bg: 'gray.0' }}
+          _hover={{ filter: "brightness(1.1)" }}
+          _focus={{ bg: "gray.0" }}
         />
       </InputGroup>
     </FormControl>
-  )
-}
+  );
+};

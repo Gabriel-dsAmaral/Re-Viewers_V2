@@ -12,7 +12,7 @@ interface Anime {
   banner_url: string;
   id: number;
   image_url: string;
-  launch_data: string;
+  launch_date: string;
   original: string;
   synopsis: string;
   rate?: Array<string>;

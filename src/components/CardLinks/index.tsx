@@ -4,11 +4,11 @@ import { useHistory } from "react-router-dom";
 
 interface CardLinksProps {
   title: string;
-  animes: Anime[];
+  animes: AnimesData[];
 }
 
-interface Anime {
-  title?: string;
+interface AnimesData {
+  title: string;
   banner_url: string;
   id: number;
   image_url: string;
@@ -22,7 +22,6 @@ interface Anime {
   data?: object;
   userId?: number;
 }
-
 export const CardLinks = ({ title, animes }: CardLinksProps) => {
   const history = useHistory();
   const { getAnimeById } = useAnime();

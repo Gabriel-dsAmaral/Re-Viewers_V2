@@ -2,8 +2,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { theme } from "../styles/theme";
 import { AnimeProvider } from "./AnimesProvider";
-import { UserProvider } from "./UserProvider";
 import { CommentProvider } from "./CommentsProvider";
+import { UserProvider } from "./UserProvider";
 
 interface AppProviderProps {
   children: ReactNode;

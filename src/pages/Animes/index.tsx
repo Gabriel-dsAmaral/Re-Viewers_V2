@@ -9,30 +9,26 @@ import {
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Button } from "../../components/Button";
+import { CardLinks } from "../../components/CardLinks";
+import { Header } from "../../components/Header";
 import { useAnime } from "../../Providers/AnimesProvider";
 
-interface AnimeId {
-  id: number;
-}
-
 export const AnimePage = () => {
-  const { getAnimeById, selectedAnime } = useAnime();
+  const { getAnimeById, getAnimes, selectedAnime, animes } = useAnime();
 
   useEffect(() => {
-    getAnimeById(53);
+    getAnimes();
+    getAnimeById(11);
     console.log(selectedAnime);
   }, []);
-  console.log(selectedAnime);
+  console.log(animes);
 
   return (
     <div>
-      {selectedAnime[0] && (
+      {selectedAnime && (
         <>
-          <Img
-            height="330px"
-            width="100vw"
-            src="https://tm.ibxk.com.br/2017/11/27/27085616853003.jpg?ims=704x264"
-          />
+          <Header />
+          <Img height="330px" width="100vw" src={selectedAnime.banner_url} />
 
           <div>
             <Text
@@ -42,11 +38,11 @@ export const AnimePage = () => {
               fontSize="30px"
               color="grey.dark"
             >
-              {selectedAnime[0].title}
+              {selectedAnime.title}
             </Text>
           </div>
           <HStack marginLeft="270px">
-            {selectedAnime[0].category?.map((thisCat) => {
+            {selectedAnime.category?.map((thisCat) => {
               return (
                 <Box
                   border="solid 2px"
@@ -83,7 +79,7 @@ export const AnimePage = () => {
             <Flex
               marginLeft="20px"
               direction={["row", "row", "column", "column"]}
-              top={["70px"]}
+              top={["100px"]}
               float={["none", "left"]}
               position={["absolute", "fixed", "fixed", "fixed"]}
             >
@@ -91,7 +87,7 @@ export const AnimePage = () => {
                 h={["200px", "200px", "200px", "300px"]}
                 w="230px"
                 borderRadius="3px"
-                src={selectedAnime[0].image_url}
+                src={selectedAnime.image_url}
               />
               <VStack>
                 <Button w={["30px", "30px", "230px", "230px"]} model="1">
@@ -108,15 +104,21 @@ export const AnimePage = () => {
                 </Button>
               </VStack>
             </Flex>
-            <article>
-              <Text
-                textAlign={["center", "center", "unset", "unset"]}
-                marginTop="10px"
-                marginLeft="270px"
-              >
-                {selectedAnime[0].synopsis}
-              </Text>
-            </article>
+
+            <Flex direction="row">
+              <article>
+                <Text
+                  textAlign={["center", "center", "unset", "unset"]}
+                  marginTop="10px"
+                  marginLeft="270px"
+                >
+                  {selectedAnime.synopsis}
+                </Text>
+              </article>
+              <Box marginBottom="20px" w="400px">
+                <CardLinks title="relacionados" animes={[selectedAnime]} />
+              </Box>
+            </Flex>
           </section>
         </>
       )}

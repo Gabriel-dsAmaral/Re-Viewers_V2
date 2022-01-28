@@ -8,7 +8,7 @@ interface Children {
 interface AnimesData {
   title: string;
   banner_url: string;
-  id?: number | undefined;
+  id: number;
   image_url: string;
   launch_data: string;
   original: string;
@@ -24,7 +24,7 @@ interface AnimeProviderData {
   animes: AnimesData[];
   myList: AnimesData[] | object;
   shounenAnimes: AnimesData[];
-  selectedAnime: AnimesData[];
+  selectedAnime: AnimesData;
 
   getAnimeById: (id: number) => void;
   getAnimes: () => void;
@@ -40,7 +40,9 @@ const AnimeProvider = ({ children }: Children) => {
 
   const [animes, setAnimes] = useState<AnimesData[]>([]);
   const [shounenAnimes, setShounenAnimes] = useState<AnimesData[]>([]);
-  const [selectedAnime, setSelectedAnime] = useState<AnimesData[]>([]);
+  const [selectedAnime, setSelectedAnime] = useState<AnimesData>(
+    {} as AnimesData
+  );
   const [myList, setMyList] = useState<AnimesData[]>([]);
 
   const getAnimes = async () => {
@@ -63,8 +65,8 @@ const AnimeProvider = ({ children }: Children) => {
     const response = await api.get(`/animes?id=${id}`);
 
     const data = response.data;
-
-    setSelectedAnime(data);
+    console.log(data);
+    setSelectedAnime(data[0]);
   };
 
   const addAnimeList = async (data: AnimesData) => {

@@ -1,3 +1,9 @@
-import { Routes } from './routes'
+import { Routes } from "./routes";
 
-export const App = () => <Routes />
+export const App = () => {
+  return (
+    <>
+      <Routes />
+    </>
+  );
+};

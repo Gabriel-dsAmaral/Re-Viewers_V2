@@ -1,8 +1,19 @@
-import { Box, IconButton, useBreakpointValue } from "@chakra-ui/react";
-import { Flex } from "@chakra-ui/react";
-import { useState } from "react";
-import { BiUserCircle, BiLogOut, BiSearchAlt } from "react-icons/bi";
+import {
+  Box,
+  IconButton,
+  useBreakpointValue,
+  Flex,
+  useColorMode,
+} from "@chakra-ui/react";
 import { InputSearch } from "../Input/InputSearch";
+import { useState } from "react";
+import {
+  BiUserCircle,
+  BiLogOut,
+  BiSearchAlt,
+  BiMoon,
+  BiSun,
+} from "react-icons/bi";
 
 interface AnimeProps {
   id: number;
@@ -21,6 +32,16 @@ interface AnimeProps {
 export const Header = () => {
   const [filteredAnimes, setFilteredAnimes] = useState<AnimeProps[]>([]);
 
+  const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
+
+  const [showSearchBox, setShowSearchBox] = useState(false);
+
+  const openSearchBox = () => setShowSearchBox(true);
+
+  const closeSearchBox = () => setShowSearchBox(false);
+
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const filterAnimes = (inputValue: string) => {
     setFilteredAnimes(
       [...filteredAnimes].filter((item) => {
@@ -31,11 +52,10 @@ export const Header = () => {
     );
   };
 
-  const [showSearchBox, setShowSearchBox] = useState(false);
-
-  const openSearchBox = () => setShowSearchBox(true);
-
-  const closeSearchBox = () => setShowSearchBox(false);
+  const toggleTheme = () => {
+    setIsLightTheme(!isLightTheme);
+    toggleColorMode();
+  };
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -44,7 +64,7 @@ export const Header = () => {
 
   return (
     <Flex
-      background="#F3DABC"
+      backgroundColor={"gold.light50"}
       w="100%"
       justifyContent="space-between"
       alignItems="center"
@@ -86,7 +106,20 @@ export const Header = () => {
             )}
 
             <IconButton
-              bg="white"
+              bg="transparent"
+              icon={isLightTheme ? <BiMoon size={30} /> : <BiSun size={30} />}
+              transition="scale .2s linear "
+              _hover={{
+                cursor: "pointer",
+                transform: "scale(1.05)",
+              }}
+              aria-label="supprimer"
+              borderRadius="10px"
+              onClick={toggleTheme}
+            />
+
+            <IconButton
+              bg="transparent"
               icon={<BiUserCircle size={30} />}
               transition="scale .2s linear "
               _hover={{
@@ -98,7 +131,7 @@ export const Header = () => {
             />
 
             <IconButton
-              bg="white"
+              bg="transparent"
               icon={<BiLogOut size={30} />}
               transition="scale .2s linear "
               _hover={{

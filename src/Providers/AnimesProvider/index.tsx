@@ -10,7 +10,7 @@ interface AnimesData {
   banner_url: string;
   id?: number | undefined;
   image_url: string;
-  launch_data: string;
+  launch_date: string;
   original: string;
   synopsis: string;
   rate?: Array<string>;

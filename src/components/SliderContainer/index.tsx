@@ -17,6 +17,7 @@ export const SliderContainer = () => {
         <Box
           key={index}
           backgroundImage={`url(${image})`}
+          _hover={{ cursor: "pointer" }}
           backgroundPosition="center"
           backgroundSize="cover"
           height="330px"

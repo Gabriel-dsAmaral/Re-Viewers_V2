@@ -27,7 +27,7 @@ export const SectionContainer = ({
   <>
     <Heading
       as="h3"
-      bg="white"
+      color="grey.greyStone"
       textAlign="center"
       w="100%"
       fontSize="28px"
@@ -46,12 +46,16 @@ export const SectionContainer = ({
     />
 
     <Flex
-      justifyContent={["flex-start", "space-around"]}
+      justifyContent={[
+        "flex-start",
+        "flex-start",
+        "flex-start",
+        "space-around",
+      ]}
       alignItems="center"
-      gap="30px"
-      paddingX="20px"
-      width="100%"
       overflowY="auto"
+      width="100%"
+      gap="20px"
     >
       {animeList.map((anime, i) => (
         <Animecard image={anime.image_url} key={i} />

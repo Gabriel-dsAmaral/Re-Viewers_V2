@@ -33,30 +33,33 @@ export const CardLinks = ({ title, animes }: CardLinksProps) => {
 
   return (
     <Flex
-      flexDirection="column"
-      w="400px"
+      direction="column"
+      maxW={["100%", "100%", "400px", "400px"]}
       justifyContent="center"
       alignItems="center"
       backgroundColor="gold.sand20"
       borderRadius="8px"
       border="2px solid #D3A16F"
+      paddingY="30px"
+      // boxShadow={" -3px -1px 19px -1px #D3A16F"}
     >
       <Text
         textAlign="center"
         color="grey.greyStone"
-        mt="15px"
         fontWeight="700"
-        fontSize="30px"
+        fontSize="28px"
+        lineHeight="25px"
       >
         {title}
       </Text>
       <Flex
         w="100%"
         wrap={["nowrap", "nowrap", "wrap", "wrap"]}
-        gap="40px"
-        padding="40px"
+        gap={["20px", "20px", "20px", "30px"]}
+        padding={["15px", "15px", "15px", "20px"]}
+        paddingX={["0", "0"]}
         alignItems="center"
-        justifyContent="flex-start"
+        justifyContent={["flex-start", "flex-start", "center", "center"]}
         maxH="480px"
         overflow={["hidden", "hidden", "overlay", "overlay"]}
         overflowX={["auto", "auto", "hidden", "hidden"]}

@@ -22,9 +22,11 @@ export const SignupForm = ({ handleSignup, errors, register }: SignupData) => {
       w="90%"
       bg="white"
       textAlign="left"
+      background="primary"
+      color="grey.greyStone"
     >
       <Flex width="100%">
-        <Heading size="3">Signup</Heading>
+        <Heading size="3">Criar Conta</Heading>
       </Flex>
       <VStack spacing="7" mt="5">
         <Input label="Name" error={errors.name} {...register('name')} />
@@ -50,13 +52,13 @@ export const SignupForm = ({ handleSignup, errors, register }: SignupData) => {
         />
         <Button
           mt="10"
-          bg="red"
+          bg="grey.dark"
           w="50%"
           margin="0 auto"
           color="white"
           h="40px"
           borderRadius="10px"
-          _hover={{ bg: '#2a76f1' }}
+          _hover={{ bg: 'grey.grey' }}
           type="submit"
         >
           Criar Conta

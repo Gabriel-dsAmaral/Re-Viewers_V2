@@ -1,16 +1,16 @@
-import { Box, Button, Flex, Grid, Heading, VStack } from '@chakra-ui/react'
-import { Input } from '../../Input/Input'
+import { Box, Button, Flex, Grid, Heading, VStack } from "@chakra-ui/react";
+import { Input } from "../../Input/Input";
 import {
   DeepMap,
   FieldError,
   FieldValues,
-  UseFormRegister
-} from 'react-hook-form'
+  UseFormRegister,
+} from "react-hook-form";
 
 interface SignInData {
-  handleSignIn: () => void
-  errors: DeepMap<FieldValues, FieldError>
-  register: UseFormRegister<FieldValues>
+  handleSignIn: () => void;
+  errors: DeepMap<FieldValues, FieldError>;
+  register: UseFormRegister<FieldValues>;
 }
 
 export const SignInForm = ({ handleSignIn, errors, register }: SignInData) => {
@@ -33,14 +33,14 @@ export const SignInForm = ({ handleSignIn, errors, register }: SignInData) => {
             label="E-mail"
             error={errors.email}
             type="email"
-            {...register('email')}
+            {...register("email")}
           />
         </Box>
         <Input
           label="Password"
           type="password"
           error={errors.password}
-          {...register('password')}
+          {...register("password")}
         />
 
         <Button
@@ -51,12 +51,12 @@ export const SignInForm = ({ handleSignIn, errors, register }: SignInData) => {
           color="white"
           h="40px"
           borderRadius="10px"
-          _hover={{ bg: 'grey.grey' }}
+          _hover={{ bg: "grey.grey" }}
           type="submit"
         >
           Logar
         </Button>
       </VStack>
     </Grid>
-  )
-}
+  );
+};

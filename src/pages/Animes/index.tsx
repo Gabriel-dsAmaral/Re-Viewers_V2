@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  Flex,
-  HStack,
-  Img,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Button } from "../../components/Button";
 import { CardLinks } from "../../components/CardLinks";
@@ -14,14 +6,11 @@ import { Header } from "../../components/Header";
 import { useAnime } from "../../Providers/AnimesProvider";
 
 export const AnimePage = () => {
-  const { getAnimeById, getAnimes, selectedAnime, animes } = useAnime();
+  const { getAnimes, selectedAnime } = useAnime();
 
   useEffect(() => {
     getAnimes();
-    getAnimeById(53);
-    console.log(selectedAnime);
   }, []);
-  console.log(animes);
 
   return (
     <div>

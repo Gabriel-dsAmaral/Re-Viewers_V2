@@ -2,78 +2,95 @@ import {
   Box,
   IconButton,
   useBreakpointValue,
-  useDisclosure
-} from '@chakra-ui/react'
-import { Flex } from '@chakra-ui/react'
-import { useState } from 'react'
-import { BiUserCircle, BiLogOut, BiSearchAlt } from 'react-icons/bi'
-import { InputSearch } from '../Input/InputSearch'
-import { Signup } from '../Modals/Signup'
-import { SignIn } from '../Modals/SignIn'
+  Flex,
+  useColorMode,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { InputSearch } from "../Input/InputSearch";
+import { useState } from "react";
+import {
+  BiUserCircle,
+  BiLogOut,
+  BiSearchAlt,
+  BiMoon,
+  BiSun,
+} from "react-icons/bi";
+
+import { Signup } from "../Modals/Signup";
+import { SignIn } from "../Modals/SignIn";
 
 interface AnimeProps {
-  id: number
-  title: string
-  categoria: []
-  rate: []
-  banner_url: string
-  image_url: string
-  original: string
-  status: string
-  launch_date: string
-  studio: string
-  synopsis: string
+  id: number;
+  title: string;
+  categoria: [];
+  rate: [];
+  banner_url: string;
+  image_url: string;
+  original: string;
+  status: string;
+  launch_date: string;
+  studio: string;
+  synopsis: string;
 }
 
 export const Header = () => {
-  const [filteredAnimes, setFilteredAnimes] = useState<AnimeProps[]>([])
+  const [filteredAnimes, setFilteredAnimes] = useState<AnimeProps[]>([]);
 
   const {
     isOpen: isModalSignupOpen,
     onOpen: onModalSignupOpen,
-    onClose: onModalSignupClose
-  } = useDisclosure()
+    onClose: onModalSignupClose,
+  } = useDisclosure();
 
   const {
     isOpen: isModalSignInOpen,
     onOpen: onModalSignInOpen,
-    onClose: onModalSignInClose
-  } = useDisclosure()
+    onClose: onModalSignInClose,
+  } = useDisclosure();
+
+  const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
+
+  const [showSearchBox, setShowSearchBox] = useState(false);
+
+  const openSearchBox = () => setShowSearchBox(true);
+
+  const closeSearchBox = () => setShowSearchBox(false);
+
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const filterAnimes = (inputValue: string) => {
     setFilteredAnimes(
-      [...filteredAnimes].filter(item => {
+      [...filteredAnimes].filter((item) => {
         return item.title
           .toLocaleLowerCase()
-          .includes(inputValue.toLocaleLowerCase())
+          .includes(inputValue.toLocaleLowerCase());
       })
-    )
-  }
+    );
+  };
 
-  const [showSearchBox, setShowSearchBox] = useState(false)
-
-  const openSearchBox = () => setShowSearchBox(true)
-
-  const closeSearchBox = () => setShowSearchBox(false)
+  const toggleTheme = () => {
+    setIsLightTheme(!isLightTheme);
+    toggleColorMode();
+  };
 
   const isWideVersion = useBreakpointValue({
     base: false,
-    md: true
-  })
+    md: true,
+  });
 
   return (
     <Flex
-      background="#F3DABC"
+      backgroundColor={"gold.light50"}
       w="100%"
       justifyContent="space-between"
       alignItems="center"
       height="75px"
-      paddingX={['10px', '40px']}
+      paddingX={["10px", "40px"]}
     >
       {showSearchBox ? (
         <InputSearch
           closeInputSearch={closeSearchBox}
-          filterAnimes={() => console.log('oi')}
+          filterAnimes={() => console.log("oi")}
         />
       ) : (
         <>
@@ -82,12 +99,12 @@ export const Header = () => {
           <Flex
             justifyContent="space-between"
             alignItems="center"
-            gap={['20px', '60px']}
+            gap={["20px", "60px"]}
           >
             {isWideVersion ? (
               <InputSearch
                 closeInputSearch={closeSearchBox}
-                filterAnimes={() => console.log('oi')}
+                filterAnimes={() => console.log("oi")}
               />
             ) : (
               <IconButton
@@ -95,8 +112,8 @@ export const Header = () => {
                 icon={<BiSearchAlt size={30} />}
                 transition="scale .2s linear "
                 _hover={{
-                  cursor: 'pointer',
-                  transform: 'scale(1.05)'
+                  cursor: "pointer",
+                  transform: "scale(1.05)",
                 }}
                 aria-label="supprimer"
                 borderRadius="10px"
@@ -108,12 +125,25 @@ export const Header = () => {
             <SignIn isOpen={isModalSignInOpen} onClose={onModalSignInClose} />
 
             <IconButton
-              bg="white"
+              bg="transparent"
+              icon={isLightTheme ? <BiMoon size={30} /> : <BiSun size={30} />}
+              transition="scale .2s linear "
+              _hover={{
+                cursor: "pointer",
+                transform: "scale(1.05)",
+              }}
+              aria-label="supprimer"
+              borderRadius="10px"
+              onClick={toggleTheme}
+            />
+
+            <IconButton
+              bg="transparent"
               icon={<BiUserCircle size={30} />}
               transition="scale .2s linear "
               _hover={{
-                cursor: 'pointer',
-                transform: 'scale(1.05)'
+                cursor: "pointer",
+                transform: "scale(1.05)",
               }}
               aria-label="supprimer"
               borderRadius="10px"
@@ -121,12 +151,12 @@ export const Header = () => {
             />
 
             <IconButton
-              bg="white"
+              bg="transparent"
               icon={<BiLogOut size={30} />}
               transition="scale .2s linear "
               _hover={{
-                cursor: 'pointer',
-                transform: 'scale(1.05)'
+                cursor: "pointer",
+                transform: "scale(1.05)",
               }}
               aria-label="supprimer"
               borderRadius="10px"
@@ -136,5 +166,5 @@ export const Header = () => {
         </>
       )}
     </Flex>
-  )
-}
+  );
+};

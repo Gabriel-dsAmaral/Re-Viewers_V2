@@ -20,8 +20,9 @@ export const SignInForm = ({ handleSignIn, errors, register }: SignInData) => {
       as="form"
       margin="4"
       w="90%"
-      bg="white"
       textAlign="left"
+      background="primary"
+      color="grey.greyStone"
     >
       <Flex width="100%">
         <Heading size="3">SignIn</Heading>
@@ -44,13 +45,13 @@ export const SignInForm = ({ handleSignIn, errors, register }: SignInData) => {
 
         <Button
           mt="10"
-          bg="red"
+          bg="grey.dark"
           w="50%"
           margin="0 auto"
           color="white"
           h="40px"
           borderRadius="10px"
-          _hover={{ bg: '#2a76f1' }}
+          _hover={{ bg: 'grey.grey' }}
           type="submit"
         >
           Logar

@@ -66,15 +66,16 @@ export const Signup = ({ isOpen, onClose }: ModalCartProps) => {
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent background="primary">
           <ModalCloseButton />
           <ModalSuccess
+            mess="Okaeri-nasai mase, Goshujin-sama!!!"
             isOpen={isModalSuccessOpen}
             onClose={onModalSuccessClose}
           />
 
           <ModalError
-            mess="Your e-mail already exist!!!"
+            mess="Deu Ruim"
             isOpen={isModalErrorOpen}
             onClose={onModalErrorClose}
           />

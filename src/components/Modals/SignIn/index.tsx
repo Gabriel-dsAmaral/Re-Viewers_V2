@@ -10,7 +10,6 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SignInForm } from './SignInForm'
 import { api } from '../../../services/api'
-import { ModalSuccess } from '../ModalSuccess'
 import { ModalError } from '../ModalError'
 
 const SignInSchema = yup.object().shape({
@@ -54,6 +53,7 @@ export const SignIn = ({ isOpen, onClose }: ModalCartProps) => {
     api
       .post('/login', { email, password })
       .then(res => onModalSuccessOpen())
+      .then(_ => onClose())
       .catch(err => onModalErrorOpen())
   }
 
@@ -61,12 +61,8 @@ export const SignIn = ({ isOpen, onClose }: ModalCartProps) => {
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent background="primary" color="grey.greyStone">
           <ModalCloseButton />
-          <ModalSuccess
-            isOpen={isModalSuccessOpen}
-            onClose={onModalSuccessClose}
-          />
 
           <ModalError
             mess="Deu Ruim!!!"

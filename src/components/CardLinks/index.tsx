@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { useHistory } from "react-router-dom";
+import { useComment } from "../../Providers/CommentsProvider";
 
 interface CardLinksProps {
   title: string;
@@ -25,8 +26,11 @@ interface AnimesData {
 export const CardLinks = ({ title, animes }: CardLinksProps) => {
   const history = useHistory();
   const { getAnimeById } = useAnime();
+  const { LoadComments, comments } = useComment();
   const handleAnimePage = (animeID: number) => {
     getAnimeById(animeID);
+    LoadComments(animeID);
+    console.log(comments);
     history.push("/animePage");
   };
 

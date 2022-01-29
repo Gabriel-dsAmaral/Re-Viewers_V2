@@ -1,16 +1,13 @@
 import { Box, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
-import { useEffect } from "react";
+
 import { Button } from "../../components/Button";
 import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
 import { useAnime } from "../../Providers/AnimesProvider";
+import { Comments } from "../../components/Comments";
 
 export const AnimePage = () => {
-  const { getAnimes, selectedAnime } = useAnime();
-
-  useEffect(() => {
-    getAnimes();
-  }, []);
+  const { selectedAnime } = useAnime();
 
   return (
     <div>
@@ -42,7 +39,6 @@ export const AnimePage = () => {
                   width="130px"
                   textAlign="center"
                 >
-                  {" "}
                   <p>{thisCat}</p>
                 </Box>
               );
@@ -109,6 +105,7 @@ export const AnimePage = () => {
               </Box>
             </Flex>
           </section>
+          <Comments />
         </>
       )}
     </div>

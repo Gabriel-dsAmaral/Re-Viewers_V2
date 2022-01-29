@@ -4,6 +4,7 @@ import {
   useBreakpointValue,
   Flex,
   useColorMode,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { InputSearch } from "../Input/InputSearch";
 import { useState } from "react";
@@ -14,6 +15,9 @@ import {
   BiMoon,
   BiSun,
 } from "react-icons/bi";
+
+import { Signup } from "../Modals/Signup";
+import { SignIn } from "../Modals/SignIn";
 
 interface AnimeProps {
   id: number;
@@ -31,6 +35,18 @@ interface AnimeProps {
 
 export const Header = () => {
   const [filteredAnimes, setFilteredAnimes] = useState<AnimeProps[]>([]);
+
+  const {
+    isOpen: isModalSignupOpen,
+    onOpen: onModalSignupOpen,
+    onClose: onModalSignupClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isModalSignInOpen,
+    onOpen: onModalSignInOpen,
+    onClose: onModalSignInClose,
+  } = useDisclosure();
 
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
 
@@ -68,13 +84,13 @@ export const Header = () => {
       w="100%"
       justifyContent="space-between"
       alignItems="center"
-      height="60px"
+      height="75px"
       paddingX={["10px", "40px"]}
     >
       {showSearchBox ? (
         <InputSearch
-          filterAnimes={() => console.log("teste")}
           closeInputSearch={closeSearchBox}
+          filterAnimes={() => console.log("oi")}
         />
       ) : (
         <>
@@ -88,7 +104,7 @@ export const Header = () => {
             {isWideVersion ? (
               <InputSearch
                 closeInputSearch={closeSearchBox}
-                filterAnimes={() => console.log("teste")}
+                filterAnimes={() => console.log("oi")}
               />
             ) : (
               <IconButton
@@ -104,6 +120,9 @@ export const Header = () => {
                 onClick={openSearchBox}
               />
             )}
+
+            <Signup isOpen={isModalSignupOpen} onClose={onModalSignupClose} />
+            <SignIn isOpen={isModalSignInOpen} onClose={onModalSignInClose} />
 
             <IconButton
               bg="transparent"
@@ -128,6 +147,7 @@ export const Header = () => {
               }}
               aria-label="supprimer"
               borderRadius="10px"
+              onClick={onModalSignInOpen}
             />
 
             <IconButton
@@ -140,6 +160,7 @@ export const Header = () => {
               }}
               aria-label="supprimer"
               borderRadius="10px"
+              onClick={onModalSignupOpen}
             />
           </Flex>
         </>

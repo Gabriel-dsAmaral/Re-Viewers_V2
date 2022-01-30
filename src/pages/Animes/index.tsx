@@ -31,9 +31,10 @@ export const AnimePage = () => {
             </Text>
           </div>
           <HStack marginLeft="270px">
-            {selectedAnime.category?.map((thisCat) => {
+            {selectedAnime.category?.map((thisCat, index) => {
               return (
                 <Box
+                  key={index}
                   border="solid 2px"
                   borderColor="secondary"
                   color="secondary"
@@ -42,7 +43,6 @@ export const AnimePage = () => {
                   width="130px"
                   textAlign="center"
                 >
-                  {" "}
                   <p>{thisCat}</p>
                 </Box>
               );

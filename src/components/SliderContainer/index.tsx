@@ -16,11 +16,11 @@ export const SliderContainer = () => {
       {slideImages.map((image, index) => (
         <Box
           key={index}
-          backgroundImage={`url(${image})`}
+          background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${image})`}
           _hover={{ cursor: "pointer" }}
           backgroundPosition="center"
           backgroundSize="cover"
-          height="330px"
+          height="350px"
         />
       ))}
     </Slide>

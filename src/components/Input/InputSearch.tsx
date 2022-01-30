@@ -26,6 +26,7 @@ export const InputSearch = ({
           width="40px"
           height="40px"
           bg="transparent"
+          color={"white"}
           borderRadius="10px"
           transition="filter .1s linear "
           _hover={{
@@ -39,6 +40,7 @@ export const InputSearch = ({
           <BiSearchAlt size={30} />
         </InputRightElement>
         <Input
+          background="transparent"
           type="search"
           name="title"
           placeholder="Digitar Pesquisa"
@@ -49,7 +51,7 @@ export const InputSearch = ({
           border="none"
           variant="filled"
           paddingRight="55px"
-          color="dark"
+          color="white"
           _hover={{ filter: "brightness(1.1)" }}
         />
       </InputGroup>

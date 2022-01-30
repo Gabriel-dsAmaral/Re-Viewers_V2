@@ -1,11 +1,10 @@
 import { useBreakpointValue, Box, Flex } from "@chakra-ui/react";
 import { SectionContainer } from "../../components/SectionContainer";
 import { SliderContainer } from "../../components/SliderContainer";
-import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
-import { Animes, Animes2, Animes3 } from "../../utils";
+import { Animes } from "../../utils";
 
-export const Home = () => {
+export const HomeTeste = () => {
   const isWideVersion = useBreakpointValue({
     base: false,
     md: true,
@@ -22,18 +21,13 @@ export const Home = () => {
         gap="20px"
         padding={["20px", "20px", "20px", "30px"]}
       >
-        <Flex
-          flexDirection="column"
-          w={isWideVersion ? "70%" : "100%"}
-          overflow="hidden"
-          minW="50vw"
-        >
-          <SectionContainer title="5 beast" animeList={Animes2} />
+        <Flex flexDirection="column" w="100%" overflow="hidden">
+          <SectionContainer title="7 most voted" animeList={Animes} />
 
-          <SectionContainer title="Most Popular" animeList={Animes2} />
+          <SectionContainer title="Most Popular" animeList={Animes} />
+
+          <SectionContainer title="Similar" animeList={Animes} />
         </Flex>
-
-        <CardLinks title="Recomendados" animes={Animes3} />
       </Flex>
     </Box>
   );

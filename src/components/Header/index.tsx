@@ -80,12 +80,15 @@ export const Header = () => {
 
   return (
     <Flex
-      backgroundColor={"gold.light50"}
+      // backgroundColor={"gold.light50"}
       w="100%"
       justifyContent="space-between"
       alignItems="center"
-      height="75px"
+      height="60px"
       paddingX={["10px", "40px"]}
+      position="absolute"
+      top="0"
+      zIndex="1"
     >
       {showSearchBox ? (
         <InputSearch
@@ -94,7 +97,7 @@ export const Header = () => {
         />
       ) : (
         <>
-          <Box>LOGO</Box>
+          <Box>RE:VIEWERS</Box>
 
           <Flex
             justifyContent="space-between"
@@ -125,8 +128,10 @@ export const Header = () => {
             <SignIn isOpen={isModalSignInOpen} onClose={onModalSignInClose} />
 
             <IconButton
-              bg="transparent"
               icon={isLightTheme ? <BiMoon size={30} /> : <BiSun size={30} />}
+              mixBlendMode="difference"
+              bg="transparent"
+              color="white"
               transition="scale .2s linear "
               _hover={{
                 cursor: "pointer",
@@ -138,8 +143,10 @@ export const Header = () => {
             />
 
             <IconButton
-              bg="transparent"
               icon={<BiUserCircle size={30} />}
+              mixBlendMode="difference"
+              bg="transparent"
+              color="white"
               transition="scale .2s linear "
               _hover={{
                 cursor: "pointer",
@@ -151,8 +158,10 @@ export const Header = () => {
             />
 
             <IconButton
-              bg="transparent"
               icon={<BiLogOut size={30} />}
+              mixBlendMode="difference"
+              bg="transparent"
+              color="white"
               transition="scale .2s linear "
               _hover={{
                 cursor: "pointer",

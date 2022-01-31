@@ -9,10 +9,9 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignInForm } from "./SignInForm";
-
+import { ModalSuccess } from "../ModalSuccess";
 import { ModalError } from "../ModalError";
 import { useUser } from "../../../Providers/UserProvider";
-import { ModalSuccess } from "../ModalSuccess";
 
 const SignInSchema = yup.object().shape({
   email: yup

@@ -21,23 +21,10 @@ interface CommentProviderProps {
 
 interface CommentsContextData {
   comments: Comment[];
-  MakeComment: (credentials: MakeCommentCredentials) => Promise<void>;
-  DeleteComment: (credentials: DeleteCommentCredentials) => Promise<void>;
-  LoadComments: (credentials: LoadCommentsCredentials) => Promise<void>;
+  MakeComment: (animeId: number, comment: string) => Promise<void>;
+  DeleteComment: (credentials: number) => Promise<void>;
+  LoadComments: (credentials: number) => Promise<void>;
   EditComment: (credentials: EditCommentCredentials) => Promise<void>;
-}
-
-interface MakeCommentCredentials {
-  animeId: number;
-  comment: string;
-}
-
-interface DeleteCommentCredentials {
-  CommentId: number;
-}
-
-interface LoadCommentsCredentials {
-  animeId: number;
 }
 
 interface EditCommentCredentials {
@@ -55,41 +42,32 @@ const CommentProvider = ({ children }: CommentProviderProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const { accessToken, user } = useUser();
 
-  const MakeComment = useCallback(
-    async ({ animeId, comment }: MakeCommentCredentials) => {
-      const userId = user.id;
-      await api
-        .post(
-          "/comments",
-          { animeId, comment, userId },
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        )
-        .catch((err) => console.log(err));
-    },
-    []
-  );
-
-  const DeleteComment = useCallback(
-    async ({ CommentId }: DeleteCommentCredentials) => {
-      await api
-        .delete(`/comments/${CommentId}`, {
+  const MakeComment = useCallback(async (animeId: number, comment: string) => {
+    const userId = user.id;
+    await api
+      .post(
+        "/comments",
+        { animeId, comment, userId },
+        {
           headers: { Authorization: `Bearer ${accessToken}` },
-        })
-        .catch((err) => console.log(err));
-    },
-    []
-  );
+        }
+      )
+      .catch((err) => console.log(err));
+  }, []);
 
-  const LoadComments = useCallback(
-    async ({ animeId }: LoadCommentsCredentials) => {
-      await api
-        .get(`/comments?animeId=${animeId}`)
-        .then((response) => setComments(response.data));
-    },
-    []
-  );
+  const LoadComments = useCallback(async (animeId: number) => {
+    await api
+      .get(`/comments?animeId=${animeId}`)
+      .then((response) => setComments(response.data));
+  }, []);
+
+  const DeleteComment = useCallback(async (CommentId: number) => {
+    await api
+      .delete(`/comments/${CommentId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const EditComment = useCallback(
     async ({ comment, CommentId }: EditCommentCredentials) => {

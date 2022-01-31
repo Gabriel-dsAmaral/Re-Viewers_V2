@@ -75,8 +75,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem("@re:viewers:acessToken");
-    localStorage.removeItem("@re:viewers:user");
+    localStorage.clear();
 
     setData({} as UserState);
   }, []);

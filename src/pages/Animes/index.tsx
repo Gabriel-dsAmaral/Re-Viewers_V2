@@ -1,23 +1,25 @@
 import { Box, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { Button } from "../../components/Button";
 import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
 import { useAnime } from "../../Providers/AnimesProvider";
+import { Comments } from "../../components/Comments";
 
 export const AnimePage = () => {
-  const { getAnimes, selectedAnime } = useAnime();
-
-  useEffect(() => {
-    getAnimes();
-  }, []);
+  const { selectedAnime } = useAnime();
 
   return (
     <div>
       {selectedAnime && (
         <>
           <Header />
-          <Img height="330px" width="100vw" src={selectedAnime.banner_url} />
+
+          <Box
+            background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${selectedAnime.banner_url})`}
+            // background={`linear-gradient(rgba(211, 236, 226, 1), rgba(246, 236, 226, 0)),url(${selectedAnime.banner_url})`}
+            height="330px"
+            width="100vw"
+          />
 
           <div>
             <Text
@@ -109,6 +111,7 @@ export const AnimePage = () => {
               </Box>
             </Flex>
           </section>
+          <Comments />
         </>
       )}
     </div>

@@ -5,9 +5,9 @@ import {
   Flex,
   useColorMode,
   useDisclosure,
+  Button,
 } from "@chakra-ui/react";
-import { InputSearch } from "../Input/InputSearch";
-import { useState } from "react";
+
 import {
   BiUserCircle,
   BiLogOut,
@@ -16,8 +16,11 @@ import {
   BiSun,
 } from "react-icons/bi";
 
+import { InputSearch } from "../Input/InputSearch";
 import { Signup } from "../Modals/Signup";
 import { SignIn } from "../Modals/SignIn";
+import { useState } from "react";
+import { useUser } from "../../Providers/UserProvider";
 
 interface AnimeProps {
   id: number;
@@ -56,7 +59,9 @@ export const Header = () => {
 
   const closeSearchBox = () => setShowSearchBox(false);
 
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { toggleColorMode } = useColorMode();
+
+  const { accessToken, signOut } = useUser();
 
   const filterAnimes = (inputValue: string) => {
     setFilteredAnimes(
@@ -80,7 +85,6 @@ export const Header = () => {
 
   return (
     <Flex
-      // backgroundColor={"gold.light50"}
       w="100%"
       justifyContent="space-between"
       alignItems="center"
@@ -97,7 +101,7 @@ export const Header = () => {
         />
       ) : (
         <>
-          <Box>RE:VIEWERS</Box>
+          <Box>LOGO</Box>
 
           <Flex
             justifyContent="space-between"
@@ -111,8 +115,10 @@ export const Header = () => {
               />
             ) : (
               <IconButton
-                bg="white"
                 icon={<BiSearchAlt size={30} />}
+                mixBlendMode="difference"
+                bg="transparent"
+                color="white"
                 transition="scale .2s linear "
                 _hover={{
                   cursor: "pointer",
@@ -124,8 +130,8 @@ export const Header = () => {
               />
             )}
 
-            <Signup isOpen={isModalSignupOpen} onClose={onModalSignupClose} />
             <SignIn isOpen={isModalSignInOpen} onClose={onModalSignInClose} />
+            <Signup isOpen={isModalSignupOpen} onClose={onModalSignupClose} />
 
             <IconButton
               icon={isLightTheme ? <BiMoon size={30} /> : <BiSun size={30} />}
@@ -142,35 +148,64 @@ export const Header = () => {
               onClick={toggleTheme}
             />
 
-            <IconButton
-              icon={<BiUserCircle size={30} />}
-              mixBlendMode="difference"
-              bg="transparent"
-              color="white"
-              transition="scale .2s linear "
-              _hover={{
-                cursor: "pointer",
-                transform: "scale(1.05)",
-              }}
-              aria-label="supprimer"
-              borderRadius="10px"
-              onClick={onModalSignInOpen}
-            />
+            {!!accessToken ? (
+              <>
+                <IconButton
+                  icon={<BiUserCircle size={30} />}
+                  mixBlendMode="difference"
+                  bg="transparent"
+                  color="white"
+                  transition="scale .2s linear "
+                  _hover={{
+                    cursor: "pointer",
+                    transform: "scale(1.05)",
+                  }}
+                  aria-label="supprimer"
+                  borderRadius="10px"
+                  onClick={onModalSignInOpen}
+                />
 
-            <IconButton
-              icon={<BiLogOut size={30} />}
-              mixBlendMode="difference"
-              bg="transparent"
-              color="white"
-              transition="scale .2s linear "
-              _hover={{
-                cursor: "pointer",
-                transform: "scale(1.05)",
-              }}
-              aria-label="supprimer"
-              borderRadius="10px"
-              onClick={onModalSignupOpen}
-            />
+                <IconButton
+                  icon={<BiLogOut size={30} />}
+                  mixBlendMode="difference"
+                  bg="transparent"
+                  color="white"
+                  transition="scale .2s linear "
+                  _hover={{
+                    cursor: "pointer",
+                    transform: "scale(1.05)",
+                  }}
+                  aria-label="supprimer"
+                  borderRadius="10px"
+                  onClick={signOut}
+                />
+              </>
+            ) : (
+              <>
+                <Button
+                  mixBlendMode="difference"
+                  bg="transparent"
+                  color="white"
+                  _hover={{
+                    background: "gray",
+                  }}
+                  onClick={onModalSignupOpen}
+                >
+                  Sign Up
+                </Button>
+                <Button
+                  mixBlendMode="difference"
+                  bg="transparent"
+                  color="white"
+                  _hover={{
+                    background: "gray",
+                  }}
+                  onClick={onModalSignInOpen}
+                >
+                  Sign In
+                </Button>
+              </>
+            )}
           </Flex>
         </>
       )}

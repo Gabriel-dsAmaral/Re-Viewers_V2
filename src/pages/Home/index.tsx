@@ -1,11 +1,23 @@
-import { useBreakpointValue, Box, Flex } from "@chakra-ui/react";
-import { SectionContainer } from "../../components/SectionContainer";
-import { SliderContainer } from "../../components/SliderContainer";
+import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
-import { Animes, Animes2, Animes3 } from "../../utils";
+import { useUser } from "../../Providers/UserProvider";
+import { useAnime } from "../../Providers/AnimesProvider";
+import { useComment } from "../../Providers/CommentsProvider";
+import { useEffect } from "react";
+import { SliderContainer } from "../../components/SliderContainer";
+import { SectionContainer } from "../../components/SectionContainer";
+import { Animes2, Animes3 } from "../../utils";
 
 export const Home = () => {
+  const { signOut } = useUser();
+  const { animes, getAnimes } = useAnime();
+  const { MakeComment } = useComment();
+
+  useEffect(() => {
+    getAnimes();
+  }, []);
+
   const isWideVersion = useBreakpointValue({
     base: false,
     md: true,

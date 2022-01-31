@@ -17,6 +17,7 @@ export const SliderContainer = () => {
         <Box
           key={index}
           background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${image})`}
+          // background={`linear-gradient(rgba(246, 236, 226, 1), rgba(246, 236, 226, 0)),url(${image})`}
           _hover={{ cursor: "pointer" }}
           backgroundPosition="center"
           backgroundSize="cover"

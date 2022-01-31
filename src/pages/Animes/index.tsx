@@ -1,10 +1,10 @@
 import { Box, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
-
 import { Button } from "../../components/Button";
 import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { Comments } from "../../components/Comments";
+import { useComment } from "../../Providers/CommentsProvider";
 
 export const AnimePage = () => {
   const { selectedAnime } = useAnime();
@@ -28,9 +28,10 @@ export const AnimePage = () => {
             </Text>
           </div>
           <HStack marginLeft="270px">
-            {selectedAnime.category?.map((thisCat) => {
+            {selectedAnime.category?.map((thisCat, index) => {
               return (
                 <Box
+                  key={index}
                   border="solid 2px"
                   borderColor="secondary"
                   color="secondary"

@@ -32,6 +32,16 @@ interface EditCommentCredentials {
   CommentId: number;
 }
 
+interface User {
+  email: string;
+  id: string;
+  name: string;
+}
+
+interface UserState {
+  user: User;
+}
+
 const CommentsContext = createContext<CommentsContextData>(
   {} as CommentsContextData
 );
@@ -41,9 +51,19 @@ const useComment = () => useContext(CommentsContext);
 const CommentProvider = ({ children }: CommentProviderProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const { accessToken, user } = useUser();
+  // const [data, setData] = useState<UserState>(() => {
+  //   const user = localStorage.getItem("@re:viewers:user")})
+  // const id = JSON.parse(localStorage.getItem("@re:viewers:user") || "");
+  // console.log(id);
 
   const MakeComment = useCallback(async (animeId: number, comment: string) => {
+    const user = JSON.parse(localStorage.getItem("@re:viewers:user") || "");
+    console.log(user.id);
     const userId = user.id;
+
+    // const id = user.id;
+    // console.log(id);
+
     await api
       .post(
         "/comments",

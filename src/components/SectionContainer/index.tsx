@@ -46,19 +46,14 @@ export const SectionContainer = ({
     />
 
     <Flex
-      justifyContent={[
-        "flex-start",
-        "flex-start",
-        "flex-start",
-        "space-around",
-      ]}
+      justifyContent={["space-between"]}
       alignItems="center"
       overflowY="auto"
       width="100%"
       gap="20px"
     >
-      {animeList.map((anime, i) => (
-        <Animecard image={anime.image_url} key={i} />
+      {animeList.map((anime) => (
+        <Animecard anime={anime} key={animeList.indexOf(anime)} />
       ))}
     </Flex>
   </>

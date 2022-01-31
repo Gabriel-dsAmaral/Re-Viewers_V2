@@ -1,26 +1,52 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useAnime } from "../../Providers/AnimesProvider";
 
-interface AnimeCardProps {
-  image: string;
+interface AnimesData {
+  id: number;
+  title: string;
+  category: Array<string>;
+  rate?: Array<string>;
+  banner_url: string;
+  image_url: string;
+  original: string;
+  status: string;
+  launch_date: string;
+  studio: string;
+  synopsis: string;
+  userId?: number;
+  data?: object;
 }
 
-export const Animecard = ({ image }: AnimeCardProps) => {
+interface AnimeCardProps {
+  anime: AnimesData;
+}
+
+export const Animecard = ({ anime }: AnimeCardProps) => {
   const [show, setShow] = useState<boolean>(false);
+
+  const history = useHistory();
+  const { getAnimeById } = useAnime();
+  const handleAnimePage = (animeID: number) => {
+    getAnimeById(animeID);
+    history.push("/animePage");
+  };
 
   return (
     <Box
-      backgroundImage={image}
+      backgroundImage={anime.image_url}
       _hover={{ cursor: "pointer" }}
       backgroundPosition="center"
       backgroundSize="cover"
-      max-W="135px"
       minW="135px"
+      width="135px"
       height="180px"
       borderRadius="2px"
       boxShadow={"-2.5px 5px 7.5px -1px rgba(59,45,31,0.97)"}
       onMouseOver={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
+      textAlign="center"
     >
       <Flex
         visibility={show ? "visible" : "hidden"}
@@ -30,15 +56,9 @@ export const Animecard = ({ image }: AnimeCardProps) => {
         height="100%"
         color="white"
         backgroundColor="rgba(0,0,0,0.7)"
+        onClick={() => handleAnimePage(anime.id)}
       >
-        <Text
-          display="inline-flex"
-          align="center"
-          wordBreak="break-word"
-          width="80%"
-        >
-          Nome do Desenho
-        </Text>
+        <Text wordBreak="break-word">{anime.title}</Text>
       </Flex>
     </Box>
   );

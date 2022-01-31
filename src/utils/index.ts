@@ -70,6 +70,34 @@ export const Animes = [
     synopsis:
       "Gol D. Roger era conhecido como o 'Rei dos Piratas', o ser mais forte e mais infame que navegou na Grand Line. A captura e morte de Roger pelo Governo Mundial trouxe uma mudança em todo o mundo. Suas últimas palavras antes de sua morte revelaram a existência do maior tesouro do mundo, One Piece. Foi essa revelação que trouxe a Grande Era dos Piratas, homens que sonhavam em encontrar One Piece - que promete uma quantidade ilimitada de riqueza e fama - e possivelmente o auge da glória e o título de Rei dos Piratas. Entra Monkey D. Luffy, um garoto de 17 anos que desafia sua definição padrão de pirata. Em vez da persona popular de um pirata perverso, endurecido e desdentado saqueando aldeias por diversão, a razão de Luffy ser um pirata é de pura admiração: o pensamento de uma aventura emocionante que o leva a pessoas intrigantes e, finalmente, ao tesouro prometido. Seguindo os passos de seu herói de infância, Luffy e sua tripulação viajam pela Grand Line, vivenciando aventuras loucas, desvendando mistérios sombrios e lutando contra inimigos fortes, tudo para alcançar a mais cobiçada de todas as fortunas – One Piece.",
   },
+  {
+    id: 3,
+    title: "Demon Slayer",
+    category: ["Ação", "Aventura", "Demônio", "Fantasia"],
+    rate: [],
+    banner_url: "https://media.kitsu.io/anime/cover_images/41370/original.jpg",
+    image_url: "https://media.kitsu.io/anime/poster_images/41370/large.jpg",
+    original: "Kimetsu no Yaiba",
+    status: "Concluído",
+    launch_date: "2019",
+    studio: "ufotable",
+    synopsis:
+      "É o Período Taisho no Japão. Tanjiro, um menino de bom coração que vende carvão para viver, encontra sua família massacrada por um demônio. Para piorar a situação, sua irmã mais nova Nezuko, a única sobrevivente, foi transformada em um demônio. Embora devastado por essa realidade sombria, Tanjiro resolve se tornar um “matador de demônios” para que ele possa transformar sua irmã em humana e matar o demônio que massacrou sua família.",
+  },
+  {
+    id: 4,
+    title: "Boku no Hero Academia",
+    category: ["Ação", "Comédia", "Shounen", "Super-hérois "],
+    rate: [],
+    banner_url: "https://media.kitsu.io/anime/cover_images/11469/original.jpg",
+    image_url: "https://media.kitsu.io/anime/poster_images/11469/large.jpg",
+    original: "Boku no Hero Academia",
+    status: "Concluído",
+    launch_date: "2016",
+    studio: "OSSOS, Ossos",
+    synopsis:
+      "Como seria o mundo se 80% da população manifestasse superpoderes extraordinários chamados “Peculiaridades” aos quatro anos? Heróis e vilões estariam lutando em todos os lugares! Tornar-se um herói significaria aprender a usar seu poder, mas onde você iria estudar? Programa Hero da UA High, é claro! Mas o que você faria se fosse um dos 20% que nasceram Quirkless? O estudante do ensino médio Izuku Midoriya quer ser um herói mais do que tudo, mas ele não tem um pingo de poder nele. Sem chance de entrar na prestigiosa UA High School para heróis iniciantes, sua vida está parecendo cada vez mais um beco sem saída. Então, um encontro com All Might, o maior herói de todos, dá a ele a chance de mudar seu destino… (Fonte: Viz Media)",
+  },
 ];
 
 export const Animes2 = [

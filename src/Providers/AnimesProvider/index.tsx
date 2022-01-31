@@ -6,19 +6,19 @@ interface Children {
   children: ReactNode;
 }
 interface AnimesData {
-  title: string;
-  banner_url: string;
   id: number;
-  image_url: string;
-  launch_date: string;
-  original: string;
-  synopsis: string;
+  title: string;
+  category: Array<string>;
   rate?: Array<string>;
-  category?: Array<string>;
-  studio: string;
+  banner_url: string;
+  image_url: string;
+  original: string;
   status: string;
-  data?: object;
+  launch_date: string;
+  studio: string;
+  synopsis: string;
   userId?: number;
+  data?: object;
 }
 interface AnimeProviderData {
   animes: AnimesData[];

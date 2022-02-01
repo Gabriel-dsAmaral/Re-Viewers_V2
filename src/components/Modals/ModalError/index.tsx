@@ -1,6 +1,7 @@
 import {
   Button,
   Center,
+  Image,
   Modal,
   ModalBody,
   ModalContent,
@@ -9,28 +10,43 @@ import {
   ModalOverlay,
   Text
 } from '@chakra-ui/react'
+import aqua from '../../../assets/aqua.png'
 
 interface ModalErrorProps {
   isOpen: boolean
   onClose: () => void
-  mess: string
+  title: string
+  message: string
 }
 
-export const ModalError = ({ isOpen, onClose, mess }: ModalErrorProps) => {
+export const ModalError = ({
+  isOpen,
+  onClose,
+  title,
+  message
+}: ModalErrorProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader color="white" bgColor="gold.sand">
-          Algo de errado não esta certo!!!!
+      <ModalContent background="grey.light">
+        <ModalHeader fontSize="1.5rem" color="white" bgColor="red">
+          {title}
         </ModalHeader>
         <ModalBody>
           <Center flexDir="column">
-            <Text fontWeight="bold" fontSize="lg">
-              {mess}
-            </Text>
+            <Image width="200px" src={aqua} />
           </Center>
         </ModalBody>
+        <Text
+          textAlign="center"
+          color="white"
+          bgColor="red"
+          width="100%"
+          fontWeight="bold"
+          fontSize="20px"
+        >
+          {message}
+        </Text>
 
         <ModalFooter justifyContent="center">
           <Button width="90%" colorScheme="red" onClick={onClose}>

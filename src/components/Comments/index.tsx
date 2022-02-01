@@ -1,24 +1,15 @@
-import {
-  Box,
-  Center,
-  Flex,
-  IconButton,
-  Image,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
+import { Box, Text, useBreakpointValue } from "@chakra-ui/react";
 import { useComment } from "../../Providers/CommentsProvider";
-import { FaCheck } from "react-icons/fa";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { useUser } from "../../Providers/UserProvider";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { EditableComment } from "./EditableComment";
 import { CallingCard } from "./Calling";
 import { Comment } from "./Comment";
+import { StyledTextArea } from "./StyledTextArea.";
 
 export const Comments = () => {
-  const [input, setInput] = useState("");
-  const { DeleteComment, LoadComments, MakeComment, comments } = useComment();
+  const { DeleteComment, LoadComments, comments } = useComment();
   const { selectedAnime } = useAnime();
   const { user, accessToken } = useUser();
 
@@ -26,45 +17,22 @@ export const Comments = () => {
     DeleteComment(id).then(() => LoadComments(selectedAnime.id));
   };
 
-  const handleMake = () => {
-    if (input.length > 1)
-      MakeComment(selectedAnime.id, input).then(() =>
-        LoadComments(selectedAnime.id)
-      );
-  };
-  console.log(comments);
-
   useEffect(() => {
     LoadComments(selectedAnime.id);
-  }, [selectedAnime]);
+  }, [selectedAnime, LoadComments]);
+
+  const Margin = useBreakpointValue({ base: "0px", lg: "300px" });
 
   return (
-    <Box ml={["0px", "0px", "300px", "300px"]}>
+    <Box ml={Margin}>
       <Text fontWeight="SemiBold" fontSize="24px" color="primary">
         To omoimasu (comentarios):
       </Text>
       {!!accessToken ? (
-        <Center>
-          <Textarea
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Lança a braba!"
-            w="500px"
-            h="200px"
-            cursor="default"
-          />
-          <IconButton
-            bg="white"
-            icon={<FaCheck size={30} />}
-            transition="scale .2s linear "
-            _hover={{
-              cursor: "pointer",
-              transform: "scale(1.05)",
-            }}
-            aria-label="supprimer"
-            borderRadius="10px"
-            onClick={() => handleMake()}
-          />
-        </Center>
+        <StyledTextArea
+          name="Rodolfo"
+          img="https://i.pinimg.com/280x280_RS/1a/2d/38/1a2d38f8916060f75fe4af01871bf8f0.jpg"
+        />
       ) : (
         <CallingCard />
       )}

@@ -21,24 +21,10 @@ import { Signup } from "../Modals/Signup";
 import { SignIn } from "../Modals/SignIn";
 import { useState } from "react";
 import { useUser } from "../../Providers/UserProvider";
-
-interface AnimeProps {
-  id: number;
-  title: string;
-  categoria: [];
-  rate: [];
-  banner_url: string;
-  image_url: string;
-  original: string;
-  status: string;
-  launch_date: string;
-  studio: string;
-  synopsis: string;
-}
+import { useAnime } from "../../Providers/AnimesProvider";
+import { useHistory } from "react-router-dom";
 
 export const Header = () => {
-  const [filteredAnimes, setFilteredAnimes] = useState<AnimeProps[]>([]);
-
   const {
     isOpen: isModalSignupOpen,
     onOpen: onModalSignupOpen,
@@ -51,27 +37,28 @@ export const Header = () => {
     onClose: onModalSignInClose,
   } = useDisclosure();
 
+  const { searchList, setSearchList } = useAnime();
+
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
 
   const [showSearchBox, setShowSearchBox] = useState(false);
 
-  const openSearchBox = () => setShowSearchBox(true);
+  const history = useHistory();
 
-  const closeSearchBox = () => setShowSearchBox(false);
+  const searchBox = () => {
+    console.log(searchList);
+    if (searchList[0]) {
+      setShowSearchBox(!showSearchBox);
+      history.push("/search");
+      setSearchList([]);
+    } else {
+      setShowSearchBox(!showSearchBox);
+    }
+  };
 
   const { toggleColorMode } = useColorMode();
 
   const { accessToken, signOut } = useUser();
-
-  const filterAnimes = (inputValue: string) => {
-    setFilteredAnimes(
-      [...filteredAnimes].filter((item) => {
-        return item.title
-          .toLocaleLowerCase()
-          .includes(inputValue.toLocaleLowerCase());
-      })
-    );
-  };
 
   const toggleTheme = () => {
     setIsLightTheme(!isLightTheme);
@@ -95,10 +82,7 @@ export const Header = () => {
       zIndex="1"
     >
       {showSearchBox ? (
-        <InputSearch
-          closeInputSearch={closeSearchBox}
-          filterAnimes={() => console.log("oi")}
-        />
+        <InputSearch searchBox={searchBox} />
       ) : (
         <>
           <Box>LOGO</Box>
@@ -109,10 +93,7 @@ export const Header = () => {
             gap={["20px", "60px"]}
           >
             {isWideVersion ? (
-              <InputSearch
-                closeInputSearch={closeSearchBox}
-                filterAnimes={() => console.log("oi")}
-              />
+              <InputSearch searchBox={searchBox} />
             ) : (
               <IconButton
                 icon={<BiSearchAlt size={30} />}
@@ -126,7 +107,7 @@ export const Header = () => {
                 }}
                 aria-label="supprimer"
                 borderRadius="10px"
-                onClick={openSearchBox}
+                onClick={() => searchBox()}
               />
             )}
 

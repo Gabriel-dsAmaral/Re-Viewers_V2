@@ -25,12 +25,15 @@ interface AnimeProviderData {
   myList: AnimesData[] | object;
   shounenAnimes: AnimesData[];
   selectedAnime: AnimesData;
+  searchList: AnimesData[];
 
+  setSearchList: (prevState: AnimesData[]) => void;
   getAnimeById: (id: number) => void;
   getAnimes: () => void;
   getMyList: (userId: number) => void;
   deleteMyList: (userId: number) => void;
   addAnimeList: (data: AnimesData) => void;
+  searchAnime: (search: string) => void;
 }
 
 const AnimeContext = createContext<AnimeProviderData>({} as AnimeProviderData);
@@ -44,20 +47,12 @@ const AnimeProvider = ({ children }: Children) => {
     {} as AnimesData
   );
   const [myList, setMyList] = useState<AnimesData[]>([]);
+  const [searchList, setSearchList] = useState<AnimesData[]>([]);
 
   const getAnimes = async () => {
     const response = await api.get("/animes");
 
     const data = response.data;
-    const shounen = data.filter(({ category }: AnimesData) => {
-      return category?.includes("Shounen");
-    });
-
-    setShounenAnimes(
-      shounen.sort((current: AnimesData, next: AnimesData) => {
-        return current.title.localeCompare(next.title);
-      })
-    );
     setAnimes(data);
   };
 
@@ -101,6 +96,28 @@ const AnimeProvider = ({ children }: Children) => {
     setMyList(response.data);
   };
 
+  const searchAnime = (search: string) => {
+    const searched = search.toLowerCase();
+    const filterAnimeName = animes.filter((anime) => {
+      return anime.title.toLowerCase().includes(searched);
+    });
+
+    const filterAnimeCategory = animes.filter((anime) => {
+      const category = anime.category.map((actual) => actual.toLowerCase());
+      const filtered = category.filter((actual) => actual.includes(searched));
+
+      if (filtered[0]) {
+        return anime;
+      }
+    });
+
+    if (filterAnimeName[0]) {
+      setSearchList(filterAnimeName);
+    } else if (filterAnimeCategory[0]) {
+      setSearchList(filterAnimeCategory);
+    }
+  };
+
   return (
     <AnimeContext.Provider
       value={{
@@ -109,10 +126,13 @@ const AnimeProvider = ({ children }: Children) => {
         addAnimeList,
         getMyList,
         deleteMyList,
+        searchAnime,
+        setSearchList,
         animes,
         shounenAnimes,
         selectedAnime,
         myList,
+        searchList,
       }}
     >
       {children}

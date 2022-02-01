@@ -56,6 +56,7 @@ export const SignIn = ({ isOpen, onClose }: ModalCartProps) => {
   const handleSignIn = ({ email, password }: SignInData) => {
     signIn({ password: password, email: email })
       .then((res) => onModalSuccessOpen())
+      .then(() => window.location.reload())
       .catch((err) => onModalErrorOpen());
     reset();
   };

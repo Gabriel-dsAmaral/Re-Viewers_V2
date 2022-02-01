@@ -8,7 +8,7 @@ export const Routes = () => {
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/homeTeste" component={HomeTeste} />
-      <Route exact path="/animepage" component={AnimePage} />
+      <Route exact path="/animepage/:id" component={AnimePage} />
     </Switch>
   );
 };

@@ -1,31 +1,30 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  Img,
-  Text,
-  useBreakpointValue,
-  VStack,
-} from "@chakra-ui/react";
-import { Button } from "../../components/Button";
-import { CardLinks } from "../../components/CardLinks";
-import { Header } from "../../components/Header";
+import { Box, Flex, Grid, GridItem, Img } from "@chakra-ui/react";
+import { Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { useAnime } from "../../Providers/AnimesProvider";
+import { Button } from "../../components/Button";
 import { Comments } from "../../components/Comments";
+import { Header } from "../../components/Header";
 import { useEffect } from "react";
 
 export const AnimePage = () => {
-  const { selectedAnime } = useAnime();
+  const { selectedAnime, getAnimeById } = useAnime();
 
   const isWideVersion = useBreakpointValue({
     base: false,
     md: true,
   });
 
+  const getIdAnimeNumber = () => {
+    const pathName = window.location.pathname;
+    const output = pathName.slice(-2).replace("/", "");
+    return Number(output);
+  };
+
+  const animeId = getIdAnimeNumber();
+
   useEffect(() => {
-    console.log(selectedAnime);
-  }, [selectedAnime]);
+    getAnimeById(animeId);
+  }, []);
 
   return (
     <Box width="100%" minH="100vh">

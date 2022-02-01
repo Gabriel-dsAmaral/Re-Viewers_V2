@@ -12,7 +12,12 @@ export const Comment = ({ name, comment }: CommentProps) => {
       borderBottom="1px solid"
       padding="20px"
     >
-      <Flex alignItems="center">
+      <Flex
+        fontStyle="italic"
+        fontWeight="900"
+        fontSize="20px"
+        alignItems="center"
+      >
         <Image
           border="1px solid"
           borderColor="grey.dark"

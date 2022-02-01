@@ -30,7 +30,8 @@ export const EditableComment = ({
 }: EditableCommentProps) => {
   const { EditComment } = useComment();
   const [value, setValue] = useState<string>(input);
-  function EditableControls() {
+
+  const EditableControls = () => {
     const {
       isEditing,
       getSubmitButtonProps,
@@ -72,7 +73,7 @@ export const EditableComment = ({
         />
       </Flex>
     );
-  }
+  };
 
   return (
     <Box
@@ -80,7 +81,12 @@ export const EditableComment = ({
       borderBottom="1px solid"
       padding="20px"
     >
-      <Flex alignItems="center">
+      <Flex
+        fontStyle="italic"
+        fontWeight="900"
+        fontSize="20px"
+        alignItems="center"
+      >
         <Image
           border="1px solid"
           borderColor="grey.dark"
@@ -93,6 +99,7 @@ export const EditableComment = ({
         {name}
       </Flex>
       <Editable
+        maxLength="100"
         marginLeft="65px"
         textAlign="start"
         value={value}

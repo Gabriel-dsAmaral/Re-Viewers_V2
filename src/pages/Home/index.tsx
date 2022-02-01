@@ -1,27 +1,27 @@
-import { Box, Button, Flex, useBreakpointValue } from '@chakra-ui/react'
-import { CardLinks } from '../../components/CardLinks'
-import { Header } from '../../components/Header'
-import { useUser } from '../../Providers/UserProvider'
-import { useAnime } from '../../Providers/AnimesProvider'
-import { useComment } from '../../Providers/CommentsProvider'
-import { useEffect } from 'react'
-import { SliderContainer } from '../../components/SliderContainer'
-import { SectionContainer } from '../../components/SectionContainer'
-import { Animes2, Animes3 } from '../../utils'
+import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { CardLinks } from "../../components/CardLinks";
+import { Header } from "../../components/Header";
+import { useUser } from "../../Providers/UserProvider";
+import { useAnime } from "../../Providers/AnimesProvider";
+import { useComment } from "../../Providers/CommentsProvider";
+import { useEffect } from "react";
+import { SliderContainer } from "../../components/SliderContainer";
+import { SectionContainer } from "../../components/SectionContainer";
+import { Animes2, Animes3 } from "../../utils";
 
 export const Home = () => {
-  const { signOut } = useUser()
-  const { animes, getAnimes } = useAnime()
-  const { MakeComment } = useComment()
+  const { signOut } = useUser();
+  const { animes, getAnimes } = useAnime();
+  const { MakeComment } = useComment();
 
   useEffect(() => {
-    getAnimes()
-  }, [])
+    getAnimes();
+  }, []);
 
   const isWideVersion = useBreakpointValue({
     base: false,
-    md: true
-  })
+    md: true,
+  });
 
   return (
     <Box minH="100vh" w="100%" backgroundColor="grey.80">
@@ -30,13 +30,13 @@ export const Home = () => {
       <SliderContainer />
 
       <Flex
-        flexDirection={isWideVersion ? 'row' : 'column'}
+        flexDirection={isWideVersion ? "row" : "column"}
         gap="20px"
-        padding={['20px', '20px', '20px', '30px']}
+        padding={["20px", "20px", "20px", "30px"]}
       >
         <Flex
           flexDirection="column"
-          w={isWideVersion ? '70%' : '100%'}
+          w={isWideVersion ? "70%" : "100%"}
           overflow="hidden"
           minW="50vw"
         >
@@ -48,5 +48,5 @@ export const Home = () => {
         <CardLinks title="Recomendados" animes={Animes3} />
       </Flex>
     </Box>
-  )
-}
+  );
+};

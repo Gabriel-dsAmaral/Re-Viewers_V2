@@ -13,6 +13,7 @@ interface Comment {
   comment: string;
   userId: number;
   id: number;
+  name: string;
 }
 
 interface CommentProviderProps {
@@ -50,24 +51,18 @@ const useComment = () => useContext(CommentsContext);
 
 const CommentProvider = ({ children }: CommentProviderProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
-  const { accessToken, user } = useUser();
-  // const [data, setData] = useState<UserState>(() => {
-  //   const user = localStorage.getItem("@re:viewers:user")})
-  // const id = JSON.parse(localStorage.getItem("@re:viewers:user") || "");
-  // console.log(id);
+
+  const accessToken = localStorage.getItem("@re:viewers:acessToken");
 
   const MakeComment = useCallback(async (animeId: number, comment: string) => {
     const user = JSON.parse(localStorage.getItem("@re:viewers:user") || "");
-    console.log(user.id);
     const userId = user.id;
-
-    // const id = user.id;
-    // console.log(id);
+    const name = user.name;
 
     await api
       .post(
         "/comments",
-        { animeId, comment, userId },
+        { animeId, comment, userId, name },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }

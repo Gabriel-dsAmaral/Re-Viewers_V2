@@ -8,23 +8,31 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
-} from "@chakra-ui/react";
-import welcome from "../../../assets/welcome.jpg";
+  Text
+} from '@chakra-ui/react'
+import welcome from '../../../assets/welcome.jpg'
 
 interface ModalSuccessProps {
-  isOpen: boolean;
-  onClose: () => void;
-  mess: string;
+  isOpen: boolean
+  onClose: () => void
+  result: string
+  title: string
+  message: string
 }
 
-export const ModalSuccess = ({ isOpen, onClose, mess }: ModalSuccessProps) => {
+export const ModalSuccess = ({
+  isOpen,
+  onClose,
+  title,
+  message,
+  result
+}: ModalSuccessProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader color="white" bgColor="gold.sand" fontWeight="extrabold">
-          {mess}
+          {title}
         </ModalHeader>
         <ModalBody bgColor="gold.light50">
           <Center flexDir="column">
@@ -36,7 +44,7 @@ export const ModalSuccess = ({ isOpen, onClose, mess }: ModalSuccessProps) => {
               fontSize="1.3rem"
               color="grey.dark"
             >
-              Cadastro realizado com sucesso
+              {message}
             </Text>
             <Image border="2px solid" borderColor="grey.dark" src={welcome} />
             <Text
@@ -45,7 +53,7 @@ export const ModalSuccess = ({ isOpen, onClose, mess }: ModalSuccessProps) => {
               fontStyle="italic"
               fontSize="m"
             >
-              Bem vindo novo Otaku!!!
+              {result}
             </Text>
           </Center>
         </ModalBody>
@@ -54,7 +62,7 @@ export const ModalSuccess = ({ isOpen, onClose, mess }: ModalSuccessProps) => {
           <Button
             bgColor="grey.dark"
             color="white"
-            _hover={{ background: "grey.greyStone" }}
+            _hover={{ background: 'grey.greyStone' }}
             onClick={onClose}
           >
             Fechar
@@ -62,5 +70,5 @@ export const ModalSuccess = ({ isOpen, onClose, mess }: ModalSuccessProps) => {
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
-};
+  )
+}

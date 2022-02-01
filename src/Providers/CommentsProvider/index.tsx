@@ -5,14 +5,16 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { useUser } from "../UserProvider";
+
 import { api } from "../../services/api";
+import { useUser } from "../UserProvider";
 
 interface Comment {
   animeId: number;
   comment: string;
   userId: number;
   id: number;
+  name: string;
 }
 
 interface CommentProviderProps {
@@ -49,25 +51,19 @@ const CommentsContext = createContext<CommentsContextData>(
 const useComment = () => useContext(CommentsContext);
 
 const CommentProvider = ({ children }: CommentProviderProps) => {
-  const [comments, setComments] = useState<Comment[]>([]);
   const { accessToken, user } = useUser();
-  // const [data, setData] = useState<UserState>(() => {
-  //   const user = localStorage.getItem("@re:viewers:user")})
-  // const id = JSON.parse(localStorage.getItem("@re:viewers:user") || "");
-  // console.log(id);
+
+  const [comments, setComments] = useState<Comment[]>([]);
 
   const MakeComment = useCallback(async (animeId: number, comment: string) => {
-    const user = JSON.parse(localStorage.getItem("@re:viewers:user") || "");
-    console.log(user.id);
-    const userId = user.id;
+    const { name, id } = user;
 
-    // const id = user.id;
-    // console.log(id);
+    const userId = id;
 
     await api
       .post(
         "/comments",
-        { animeId, comment, userId },
+        { animeId, comment, userId, name },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }

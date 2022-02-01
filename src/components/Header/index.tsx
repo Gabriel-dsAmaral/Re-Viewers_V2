@@ -183,6 +183,7 @@ export const Header = () => {
             ) : (
               <>
                 <Button
+                  width="15px"
                   mixBlendMode="difference"
                   bg="transparent"
                   color="white"
@@ -191,9 +192,10 @@ export const Header = () => {
                   }}
                   onClick={onModalSignupOpen}
                 >
-                  Sign Up
+                  SUp
                 </Button>
                 <Button
+                  width="15px"
                   mixBlendMode="difference"
                   bg="transparent"
                   color="white"
@@ -202,7 +204,7 @@ export const Header = () => {
                   }}
                   onClick={onModalSignInOpen}
                 >
-                  Sign In
+                  SIn
                 </Button>
               </>
             )}

@@ -8,14 +8,14 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text
-} from '@chakra-ui/react'
-import welcome from '../../../assets/welcome.jpg'
+  Text,
+} from "@chakra-ui/react";
+import welcome from "../../../assets/welcome.jpg";
 
 interface ModalSuccessProps {
-  isOpen: boolean
-  onClose: () => void
-  mess: string
+  isOpen: boolean;
+  onClose: () => void;
+  mess: string;
 }
 
 export const ModalSuccess = ({ isOpen, onClose, mess }: ModalSuccessProps) => {
@@ -54,7 +54,7 @@ export const ModalSuccess = ({ isOpen, onClose, mess }: ModalSuccessProps) => {
           <Button
             bgColor="grey.dark"
             color="white"
-            _hover={{ background: 'grey.greyStone' }}
+            _hover={{ background: "grey.greyStone" }}
             onClick={onClose}
           >
             Fechar
@@ -62,5 +62,5 @@ export const ModalSuccess = ({ isOpen, onClose, mess }: ModalSuccessProps) => {
         </ModalFooter>
       </ModalContent>
     </Modal>
-  )
-}
+  );
+};

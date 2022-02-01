@@ -1,10 +1,20 @@
-import { Box, Center, IconButton, Text, Textarea } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  IconButton,
+  Image,
+  Text,
+  Textarea,
+} from "@chakra-ui/react";
 import { useComment } from "../../Providers/CommentsProvider";
-import { FaCheck, FaTrashAlt } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { useUser } from "../../Providers/UserProvider";
 import { useEffect, useState } from "react";
-import { EditableComment } from "./editable";
+import { EditableComment } from "./EditableComment";
+import { CallingCard } from "./Calling";
+import { Comment } from "./Comment";
 
 export const Comments = () => {
   const [input, setInput] = useState("");
@@ -29,8 +39,10 @@ export const Comments = () => {
   }, [selectedAnime]);
 
   return (
-    <Box>
-      <Text>To omoimasu (comentarios):</Text>
+    <Box ml={["0px", "0px", "300px", "300px"]}>
+      <Text fontWeight="SemiBold" fontSize="24px" color="primary">
+        To omoimasu (comentarios):
+      </Text>
       {!!accessToken ? (
         <Center>
           <Textarea
@@ -54,35 +66,28 @@ export const Comments = () => {
           />
         </Center>
       ) : (
-        <Text>Registresse, faça login e junte-se a nossa comunidade!</Text>
+        <CallingCard />
       )}
 
       {!!accessToken
         ? comments.map((item, index) => (
-            <Box key={index} border="2px solid blue" marginBottom="20px ">
+            <Box key={index}>
               {Number(user.id) !== item.userId ? (
-                <Text>{item.comment}</Text>
+                <Comment comment={item.comment} name={item.name} />
               ) : (
-                <Box>
-                  <EditableComment id={item.id} input={item.comment} />
-                  <IconButton
-                    bg="white"
-                    icon={<FaTrashAlt size={30} />}
-                    transition="scale .2s linear "
-                    _hover={{
-                      cursor: "pointer",
-                      transform: "scale(1.05)",
-                    }}
-                    aria-label="supprimer"
-                    borderRadius="10px"
-                    onClick={() => handleDelete(item.id)}
-                  />
-                </Box>
+                <EditableComment
+                  key={index}
+                  id={item.id}
+                  input={item.comment}
+                  name={item.name}
+                  img="https://i.pinimg.com/280x280_RS/1a/2d/38/1a2d38f8916060f75fe4af01871bf8f0.jpg"
+                  callback={handleDelete}
+                />
               )}
             </Box>
           ))
         : comments.map((item, index) => (
-            <Text key={index}>{item.comment}</Text>
+            <Comment key={index} comment={item.comment} name={item.name} />
           ))}
     </Box>
   );

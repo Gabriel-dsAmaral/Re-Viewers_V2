@@ -1,7 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useAnime } from "../../Providers/AnimesProvider";
 
 interface AnimesData {
   id: number;
@@ -27,10 +26,9 @@ export const Animecard = ({ anime }: AnimeCardProps) => {
   const [show, setShow] = useState<boolean>(false);
 
   const history = useHistory();
-  const { getAnimeById } = useAnime();
+
   const handleAnimePage = (animeID: number) => {
-    getAnimeById(animeID);
-    history.push("/animePage");
+    history.push(`/animePage/${animeID}`);
   };
 
   return (

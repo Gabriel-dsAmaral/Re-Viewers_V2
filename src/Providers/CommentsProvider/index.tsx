@@ -56,14 +56,10 @@ const CommentProvider = ({ children }: CommentProviderProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
 
   const MakeComment = useCallback(async (animeId: number, comment: string) => {
-    const { name, id } = user;
-
-    const userId = id;
-
     await api
       .post(
         "/comments",
-        { animeId, comment, userId, name },
+        { animeId, comment, userId: user?.id, name: user?.name },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }

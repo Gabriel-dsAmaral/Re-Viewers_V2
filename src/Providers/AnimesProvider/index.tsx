@@ -26,6 +26,7 @@ interface AnimeProviderData {
   shounenAnimes: AnimesData[];
   selectedAnime: AnimesData;
   searchList: AnimesData[];
+  searched: string;
 
   setSearchList: (prevState: AnimesData[]) => void;
   getAnimeById: (id: number) => void;
@@ -34,6 +35,7 @@ interface AnimeProviderData {
   deleteMyList: (userId: number) => void;
   addAnimeList: (data: AnimesData) => void;
   searchAnime: (search: string) => void;
+  setSearched: (search: string) => void;
 }
 
 const AnimeContext = createContext<AnimeProviderData>({} as AnimeProviderData);
@@ -48,6 +50,7 @@ const AnimeProvider = ({ children }: Children) => {
   );
   const [myList, setMyList] = useState<AnimesData[]>([]);
   const [searchList, setSearchList] = useState<AnimesData[]>([]);
+  const [searched, setSearched] = useState("");
 
   const getAnimes = async () => {
     const response = await api.get("/animes");
@@ -97,6 +100,7 @@ const AnimeProvider = ({ children }: Children) => {
   };
 
   const searchAnime = (search: string) => {
+    setSearched(search);
     const searched = search.toLowerCase();
     const filterAnimeName = animes.filter((anime) => {
       return anime.title.toLowerCase().includes(searched);
@@ -128,6 +132,8 @@ const AnimeProvider = ({ children }: Children) => {
         deleteMyList,
         searchAnime,
         setSearchList,
+        setSearched,
+        searched,
         animes,
         shounenAnimes,
         selectedAnime,

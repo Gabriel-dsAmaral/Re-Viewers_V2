@@ -15,7 +15,7 @@ interface UserProviderProps {
 
 interface User {
   email: string;
-  id: string;
+  id: number;
   name: string;
 }
 

@@ -5,6 +5,7 @@ import { Button } from "../../components/Button";
 import { Comments } from "../../components/Comments";
 import { Header } from "../../components/Header";
 import { useEffect } from "react";
+import { FixedAnimeCard } from "../../components/FixedAnimeModal";
 
 export const AnimePage = () => {
   const { selectedAnime, getAnimeById } = useAnime();
@@ -45,33 +46,7 @@ export const AnimePage = () => {
             border="2px solid"
             marginTop="-150px"
           >
-            {/* IMAGEM E BOTÕES */}
-            <VStack border="2px solid" direction="column" top="100px">
-              <Img
-                h="300px"
-                w="230px"
-                borderRadius="3px"
-                src={selectedAnime.image_url}
-              />
-
-              {/* APAGAR-BOTÕES NO MOBILE */}
-              {isWideVersion && (
-                <VStack w="230px">
-                  <Button w="inherit" model="1">
-                    Assitindo
-                  </Button>
-                  <Button w="inherit" model="2">
-                    Quero Assistir
-                  </Button>
-                  <Button w="inherit" model="3">
-                    Terminei...):
-                  </Button>
-                  <Button w="inherit" model="4">
-                    Avaliar
-                  </Button>
-                </VStack>
-              )}
-            </VStack>
+            <FixedAnimeCard thisAnime={selectedAnime} />
             <Text
               fontWeight="600"
               fontSize="30px"

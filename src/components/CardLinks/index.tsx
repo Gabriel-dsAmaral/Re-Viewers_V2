@@ -44,7 +44,7 @@ export const CardLinks = ({ title, animes }: CardLinksProps) => {
         {title}
       </Text>
       <Flex
-        w="100%"
+        w="90%"
         wrap={["nowrap", "nowrap", "wrap", "wrap"]}
         gap={["20px", "20px", "20px", "30px"]}
         padding={["15px", "15px", "15px", "20px"]}

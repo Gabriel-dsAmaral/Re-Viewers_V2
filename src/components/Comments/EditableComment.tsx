@@ -104,7 +104,7 @@ export const EditableComment = ({
         textAlign="start"
         value={value}
         isPreviewFocusable={false}
-        font-fontWeight="bold"
+        fontWeight="bold"
         onChangeCapture={(e: ChangeEvent<HTMLInputElement>) =>
           setValue(e.target.value)
         }

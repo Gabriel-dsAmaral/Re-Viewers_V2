@@ -60,14 +60,13 @@ const AnimeProvider = ({ children }: Children) => {
     const response = await api.get(`/animes?id=${id}`);
 
     const data = response.data;
-    console.log(data);
+
     setSelectedAnime(data[0]);
   };
 
   const addAnimeList = async (data: AnimesData) => {
     const postData = { ...data, userId: user.id };
 
-    console.log(postData);
     const response = await api.post("/mylist", postData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

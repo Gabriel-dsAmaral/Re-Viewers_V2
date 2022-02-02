@@ -1,29 +1,25 @@
-import { Box, Flex, Grid, GridItem, Img } from "@chakra-ui/react";
 import { Text, useBreakpointValue, VStack } from "@chakra-ui/react";
+import { Box, Flex, Img } from "@chakra-ui/react";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { Button } from "../../components/Button";
 import { Comments } from "../../components/Comments";
 import { Header } from "../../components/Header";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export const AnimePage = () => {
   const { selectedAnime, getAnimeById } = useAnime();
 
+  const { id } = useParams<{ id: string }>();
+
   const isWideVersion = useBreakpointValue({
     base: false,
-    md: true,
+    lg: true,
   });
 
-  const getIdAnimeNumber = () => {
-    const pathName = window.location.pathname;
-    const output = pathName.slice(-2).replace("/", "");
-    return Number(output);
-  };
-
-  const animeId = getIdAnimeNumber();
-
   useEffect(() => {
-    getAnimeById(animeId);
+    getAnimeById(Number(id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -41,12 +37,19 @@ export const AnimePage = () => {
           <Flex
             // marginLeft={["0px", "0px", "0px", "270px"]}
             flexDirection="column"
-            alignItems="center"
-            border="2px solid"
-            marginTop="-150px"
+            alignItems={["center", "center", "center", "start"]}
+            // border="2px solid"
+            marginTop={["-150px", "-150px", "-150px", "0px"]}
+            marginLeft={["0px", "0px", "0px", "280px"]}
           >
             {/* IMAGEM E BOTÕES */}
-            <VStack border="2px solid" direction="column" top="100px">
+            <VStack
+              // border="2px solid"
+              direction="column"
+              top="120px"
+              left="20px"
+              position={["static", "static", "static", "fixed"]}
+            >
               <Img
                 h="300px"
                 w="230px"
@@ -76,23 +79,25 @@ export const AnimePage = () => {
               fontWeight="600"
               fontSize="30px"
               color="grey.dark"
-              border="2px solid red"
+              // border="2px solid red"
               marginY="10px"
+              textAlign="center"
             >
               {selectedAnime.title}
             </Text>
             <Flex
-              flexFlow="row wrap"
+              flexFlow={["row wrap", "row wrap", "row wrap", "row-reverse"]}
               justifyContent="space-around"
-              alignItems="center"
-              width="80%"
-              border="2px solid red"
+              alignItems="baseline"
+              width={["80%", "80%", "80%", "auto"]}
+              // border="2px solid red"
             >
               <Box
                 p="1"
-                width="100%"
+                width={["100%", "100%", "100%", "180px"]}
                 display="inline-flex"
                 justifyContent="center"
+                alignItems="end"
               >
                 <Text
                   border="solid 2px"
@@ -116,7 +121,7 @@ export const AnimePage = () => {
                 display="inline-flex"
                 justifyContent="space-around"
                 flexWrap="wrap"
-                border="2px solid"
+                // border="2px solid"
               >
                 {selectedAnime.category.map((category, key) => {
                   return (
@@ -150,29 +155,15 @@ export const AnimePage = () => {
             </Text>
             <Text
               marginTop="10px"
-              border="2px solid purple"
+              // border="2px solid purple"
               textAlign="justify"
               paddingX="20px"
+              marginLeft={["0px", "0px", "0px", "260px"]}
+              marginRight={["0px", "0px", "0px", "320px"]}
             >
               {selectedAnime.synopsis}
             </Text>
 
-            {!isWideVersion && (
-              <VStack w="230px" alignSelf="center" marginY="20px">
-                <Button w="inherit" model="1">
-                  Assitindo
-                </Button>
-                <Button w="inherit" model="2">
-                  Quero Assistir
-                </Button>
-                <Button w="inherit" model="3">
-                  Terminei...):
-                </Button>
-                <Button w="inherit" model="4">
-                  Avaliar
-                </Button>
-              </VStack>
-            )}
             <VStack
               border="2px solid"
               borderColor="secondary"
@@ -180,23 +171,32 @@ export const AnimePage = () => {
               paddingY="20px"
               borderRadius="10px"
               bgColor="#F6ECE1"
-              maxWidth="320px"
-              alignSelf="center"
-              width="100%"
+              maxWidth={["100%", "100%", "100%", "280px"]}
+              minH="300px"
+              alignSelf="end"
+              marginX="20px"
+              marginTop={["20px", "20px", "20px", "0px"]}
+              transform={["0px", "0px", "0px", "translateY(-220px)"]}
             >
               <Text textAlign="center" fontStyle="bold" fontSize="25px">
                 Relacionados
               </Text>
-              <Grid
-                w="250px"
-                templateColumns="repeat(2, 1fr)"
-                padding="10px,10px,10px,10px"
+              <Flex
+                flexFlow="row wrap"
+                justifyContent={[
+                  "center",
+                  "space-around",
+                  "space-around",
+                  "center",
+                ]}
+                alignItems={["center", "center", "center", "center"]}
                 gap="20px"
                 mt="30px"
+                paddingInline="10px"
               >
                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
                   (item, key) => (
-                    <GridItem
+                    <Box
                       key={key}
                       border="2px solid"
                       borderColor="secondary"
@@ -206,17 +206,42 @@ export const AnimePage = () => {
                       borderRadius="10px"
                       padding="5px"
                       _hover={{ cursor: "pointer" }}
+                      minW="100px"
                     >
                       Categoria
-                    </GridItem>
+                    </Box>
                   )
                 )}
-              </Grid>
+              </Flex>
             </VStack>
+            <Flex
+              w="100%"
+              display={["flex", "flex", "flex", "none"]}
+              alignSelf="center"
+              alignItems="center"
+              justifyContent="space-around"
+              flexFlow="row wrap"
+              // border="2px solid"
+              marginY="20px"
+              paddingX="10px"
+              gap="20px"
+            >
+              <Button minW="150px" h="40px" model="1">
+                Assitindo
+              </Button>
+              <Button minW="150px" h="40px" model="2">
+                Quero Assistir
+              </Button>
+              <Button minW="150px" h="40px" model="3">
+                Terminei...):
+              </Button>
+              <Button minW="150px" h="40px" model="4">
+                Avaliar
+              </Button>
+            </Flex>
           </Flex>
         </>
       )}
-
       <Comments />
     </Box>
   );

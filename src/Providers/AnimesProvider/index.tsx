@@ -65,7 +65,20 @@ const AnimeProvider = ({ children }: Children) => {
   };
 
   const addAnimeList = async (data: AnimesData) => {
-    const postData = { ...data, userId: user.id };
+    const postData = {
+      title: data.title,
+      category: data.category,
+      rate: data.rate,
+      banner_url: data.banner_url,
+      image_url: data.image_url,
+      original: data.original,
+      status: data.status,
+      launch_date: data.launch_date,
+      studio: data.studio,
+      synopsis: data.synopsis,
+      userId: user.id,
+      animeId: data.id,
+    };
 
     const response = await api.post("/mylist", postData, {
       headers: {

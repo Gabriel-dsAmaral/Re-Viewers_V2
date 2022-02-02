@@ -6,7 +6,7 @@ import { Comments } from "../../components/Comments";
 import { Header } from "../../components/Header";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FixedAnimeCard } from "../../components/FixedAnimeModal";
+// import { FixedAnimeCard } from "../../components/FixedAnimeModal";
 
 export const AnimePage = () => {
   const { selectedAnime, getAnimeById } = useAnime();

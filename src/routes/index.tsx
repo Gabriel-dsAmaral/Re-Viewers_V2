@@ -8,9 +8,10 @@ export const Routes = () => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/homeTeste" component={HomeTeste} />
-      <Route exact path="/animepage/:id" component={AnimePage} />
-      <Route exact path="/search/:id" component={Search} />
+      <Route path="/home" component={Home} />
+      <Route path="/homeTeste" component={HomeTeste} />
+      <Route path="/animepage/:id" component={AnimePage} />
+      <Route path="/search/:id" component={Search} />
     </Switch>
   );
 };

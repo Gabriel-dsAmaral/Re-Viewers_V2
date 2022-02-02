@@ -6,22 +6,82 @@ import { Comments } from "../../components/Comments";
 import { Header } from "../../components/Header";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-// import { FixedAnimeCard } from "../../components/FixedAnimeModal";
+import { api } from "../../services/api";
+import { useUser } from "../../Providers/UserProvider";
 
 export const AnimePage = () => {
-  const { selectedAnime, getAnimeById } = useAnime();
-
   const { id } = useParams<{ id: string }>();
 
-  const isWideVersion = useBreakpointValue({
-    base: false,
-    lg: true,
-  });
+  const { selectedAnime, getAnimeById } = useAnime();
+
+  const { user, accessToken } = useUser();
+
+  const tokenBearer = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  const addToMyList = async (query: string) => {
+    let animeData = {
+      animeId: selectedAnime.id,
+      title: selectedAnime.title,
+      category: selectedAnime.category,
+      banner_url: selectedAnime.category,
+      image_url: selectedAnime.image_url,
+      launch_date: selectedAnime.launch_date,
+      original: selectedAnime.original,
+      rate: selectedAnime.rate,
+      status: selectedAnime.status,
+      studio: selectedAnime.status,
+      synopsis: selectedAnime.synopsis,
+      userId: user.id,
+      myListStatus: query,
+    };
+
+    const response = await api.post("mylist", animeData, tokenBearer);
+    console.log("add", response.data);
+  };
+
+  const patchMyList = async (AnimeId: Number, query: string) => {
+    const response = await api.patch(
+      `mylist/${AnimeId}`,
+      { myListStatus: query },
+      tokenBearer
+    );
+    console.log("patch", response.data);
+  };
+
+  const handlePatchMyList = async (query: string) => {
+    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
+    const data = response.data;
+
+    if (
+      !data.some(
+        (item: { animeId: Number }) => item.animeId === selectedAnime.id
+      )
+    ) {
+      addToMyList(query);
+      console.log("adicionei");
+    } else {
+      let IsInMyList = data.filter(
+        (item: { animeId: Number }) => item.animeId === selectedAnime.id
+      );
+      let IdInFiltered = IsInMyList[0].id;
+      patchMyList(IdInFiltered, query);
+      console.log("atualizei");
+    }
+  };
 
   useEffect(() => {
     getAnimeById(Number(id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    lg: true,
+  });
 
   return (
     <Box width="100%" minH="100vh">
@@ -61,13 +121,25 @@ export const AnimePage = () => {
               {/* APAGAR-BOTÕES NO MOBILE */}
               {isWideVersion && (
                 <VStack w="230px">
-                  <Button w="inherit" model="1">
+                  <Button
+                    w="inherit"
+                    model="1"
+                    onClick={() => handlePatchMyList("Assistindo")}
+                  >
                     Assitindo
                   </Button>
-                  <Button w="inherit" model="2">
+                  <Button
+                    w="inherit"
+                    model="2"
+                    onClick={() => handlePatchMyList("Quero assitir")}
+                  >
                     Quero Assistir
                   </Button>
-                  <Button w="inherit" model="3">
+                  <Button
+                    w="inherit"
+                    model="3"
+                    onClick={() => handlePatchMyList("Terminei")}
+                  >
                     Terminei...):
                   </Button>
                   <Button w="inherit" model="4">
@@ -145,24 +217,16 @@ export const AnimePage = () => {
               </Box>
             </Flex>
           </Flex>
-          <Flex flexDirection="column">
+          <Flex flexDirection={["column", "column", "column", "row"]}>
             <Text
               marginTop="10px"
-              textAlign="center"
-              fontSize="18px"
-              color="#c5cbe7"
-            >
-              Sobre Anime :
-            </Text>
-            <Text
-              marginTop="10px"
-              // border="2px solid purple"
               textAlign="justify"
               paddingX="20px"
               marginLeft={["0px", "0px", "0px", "260px"]}
-              marginRight={["0px", "0px", "0px", "320px"]}
+              // marginRight={["0px", "0px", "0px", "320px"]}
+              // border="2px solid purple"
             >
-              {selectedAnime.synopsis}
+              Sobre Anime: {selectedAnime.synopsis}
             </Text>
 
             <VStack
@@ -173,13 +237,18 @@ export const AnimePage = () => {
               borderRadius="10px"
               bgColor="#F6ECE1"
               maxWidth={["100%", "100%", "100%", "280px"]}
-              minH="300px"
+              minW="280px"
               alignSelf="end"
               marginX="20px"
-              marginTop={["20px", "20px", "20px", "0px"]}
-              transform={["0px", "0px", "0px", "translateY(-220px)"]}
+              marginTop="20px"
+              // transform={["0px", "0px", "0px", "translateY(-220px)"]}
             >
-              <Text textAlign="center" fontStyle="bold" fontSize="25px">
+              <Text
+                textAlign="center"
+                fontStyle="bold"
+                fontSize="25px"
+                color="#8A5018"
+              >
                 Relacionados
               </Text>
               <Flex
@@ -195,24 +264,22 @@ export const AnimePage = () => {
                 mt="30px"
                 paddingInline="10px"
               >
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
-                  (item, key) => (
-                    <Box
-                      key={key}
-                      border="2px solid"
-                      borderColor="secondary"
-                      bgColor="#F6ECE1"
-                      color="#8A5018"
-                      textAlign="center"
-                      borderRadius="10px"
-                      padding="5px"
-                      _hover={{ cursor: "pointer" }}
-                      minW="100px"
-                    >
-                      Categoria
-                    </Box>
-                  )
-                )}
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item, key) => (
+                  <Box
+                    key={key}
+                    border="2px solid"
+                    borderColor="secondary"
+                    bgColor="#F6ECE1"
+                    color="#8A5018"
+                    textAlign="center"
+                    borderRadius="10px"
+                    padding="5px"
+                    _hover={{ cursor: "pointer" }}
+                    minW="100px"
+                  >
+                    Categoria
+                  </Box>
+                ))}
               </Flex>
             </VStack>
             <Flex

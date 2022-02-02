@@ -28,8 +28,8 @@ interface Anime {
 export const FixedAnimeCard = ({ thisAnime }: Anime) => {
   const { user, accessToken } = useUser();
   const { selectedAnime, addAnimeList } = useAnime();
-  const userId = user.id;
   const animeId = thisAnime.id;
+  const userId = user.id;
 
   const patchMyList = async (userId: number, query: string) => {
     const response = await api.patch(

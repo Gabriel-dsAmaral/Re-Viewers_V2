@@ -37,7 +37,7 @@ export const Header = () => {
     onClose: onModalSignInClose,
   } = useDisclosure();
 
-  const { searchList, setSearchList } = useAnime();
+  const { searchList, setSearchList, setSearched, searched } = useAnime();
 
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
 
@@ -49,8 +49,9 @@ export const Header = () => {
     console.log(searchList);
     if (searchList[0]) {
       setShowSearchBox(!showSearchBox);
-      history.push("/search");
+      history.push(`/search/${searched}`);
       setSearchList([]);
+      setSearched("");
     } else {
       setShowSearchBox(!showSearchBox);
     }

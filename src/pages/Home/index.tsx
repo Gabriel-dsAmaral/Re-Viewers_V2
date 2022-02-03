@@ -1,25 +1,26 @@
-import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
-import { CardLinks } from "../../components/CardLinks";
-import { Header } from "../../components/Header";
-import { useAnime } from "../../Providers/AnimesProvider";
-import { useEffect } from "react";
-import { SliderContainer } from "../../components/SliderContainer";
-import { SectionContainer } from "../../components/SectionContainer";
-import { Footer } from "../../components/Footer";
-import { Animes, Animes2, Animes3 } from "../../Utils";
+import { Box, Flex, useBreakpointValue } from '@chakra-ui/react'
+import { CardLinks } from '../../components/CardLinks'
+import { Header } from '../../components/Header'
+import { useAnime } from '../../Providers/AnimesProvider'
+import { useEffect } from 'react'
+import { SliderContainer } from '../../components/SliderContainer'
+import { SectionContainer } from '../../components/SectionContainer'
+import { Footer } from '../../components/Footer'
+import { Animes, Animes2, Animes3 } from '../../Utils'
 
 export const Home = () => {
-  const { setSearchList, setSearched } = useAnime();
+  const { setSearchList, setSearched, getAnimes } = useAnime()
 
   const isWideVersion = useBreakpointValue({
     base: false,
-    md: true,
-  });
+    md: true
+  })
 
   useEffect(() => {
-    setSearchList([]);
-    setSearched("");
-  }, []);
+    getAnimes()
+    setSearchList([])
+    setSearched('')
+  }, [])
 
   return (
     <Box minH="100vh" w="100%" backgroundColor="grey.80">
@@ -28,13 +29,13 @@ export const Home = () => {
       <SliderContainer />
 
       <Flex
-        flexDirection={isWideVersion ? "row" : "column"}
+        flexDirection={isWideVersion ? 'row' : 'column'}
         gap="20px"
-        padding={["20px", "20px", "20px", "30px"]}
+        padding={['20px', '20px', '20px', '30px']}
       >
         <Flex
           flexDirection="column"
-          w={isWideVersion ? "70%" : "100%"}
+          w={isWideVersion ? '70%' : '100%'}
           overflow="hidden"
           minW="50vw"
         >
@@ -47,5 +48,5 @@ export const Home = () => {
       </Flex>
       <Footer />
     </Box>
-  );
-};
+  )
+}

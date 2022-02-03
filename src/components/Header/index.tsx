@@ -37,7 +37,7 @@ export const Header = () => {
     onClose: onModalSignInClose,
   } = useDisclosure();
 
-  const { searchList, searched } = useAnime();
+  const { searched } = useAnime();
 
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
 
@@ -45,12 +45,20 @@ export const Header = () => {
 
   const history = useHistory();
 
-  const searchBox = () => {
-    if (searchList[0]) {
+  const toggleSearch = () => {
+    if (searched === "" && window.screen.width >= 768) {
+      setShowSearchBox(false);
+    } else if (searched === "") {
       setShowSearchBox(!showSearchBox);
-      history.push(`/search/${searched}`);
     } else {
-      setShowSearchBox(!showSearchBox);
+      setShowSearchBox(false);
+      searchFunction();
+    }
+  };
+
+  const searchFunction = () => {
+    if (searched !== "") {
+      history.push(`/search/${searched}`);
     }
   };
 
@@ -80,7 +88,7 @@ export const Header = () => {
       zIndex="1"
     >
       {showSearchBox ? (
-        <InputSearch searchBox={searchBox} />
+        <InputSearch searchBox={toggleSearch} />
       ) : (
         <>
           <Box>LOGO</Box>
@@ -91,7 +99,7 @@ export const Header = () => {
             gap={["20px", "60px"]}
           >
             {isWideVersion ? (
-              <InputSearch searchBox={searchBox} />
+              <InputSearch searchBox={toggleSearch} />
             ) : (
               <IconButton
                 icon={<BiSearchAlt size={30} />}
@@ -105,7 +113,7 @@ export const Header = () => {
                 }}
                 aria-label="supprimer"
                 borderRadius="10px"
-                onClick={() => searchBox()}
+                onClick={() => toggleSearch()}
               />
             )}
 

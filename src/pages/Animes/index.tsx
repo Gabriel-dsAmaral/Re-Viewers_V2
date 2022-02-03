@@ -32,6 +32,7 @@ export const AnimePage = () => {
           <Box
             background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${selectedAnime.banner_url})`}
             // background={`linear-gradient(rgba(211, 236, 226, 1), rgba(246, 236, 226, 0)),url(${selectedAnime.banner_url})`}
+            backgroundSize="cover"
             height="330px"
             width="100%"
           />
@@ -79,7 +80,6 @@ export const AnimePage = () => {
             <Text
               fontWeight="600"
               fontSize="30px"
-              color="grey.dark"
               // border="2px solid red"
               marginY="10px"
               textAlign="center"
@@ -112,6 +112,7 @@ export const AnimePage = () => {
                   lineHeight="40px"
                   width="120px"
                   mb="10px"
+                  textShadow="1px 1px #d6883f"
                 >
                   Score: 6.89
                 </Text>
@@ -122,6 +123,8 @@ export const AnimePage = () => {
                 display="inline-flex"
                 justifyContent="space-around"
                 flexWrap="wrap"
+                fontWeight="semibold"
+                textShadow="0.5px 0.5px grey"
                 // border="2px solid"
               >
                 {selectedAnime.category.map((category, key) => {
@@ -137,6 +140,7 @@ export const AnimePage = () => {
                       textAlign="center"
                       marginTop="10px"
                       paddingY="3px"
+                      boxShadow="base"
                     >
                       <p>{category}</p>
                     </Box>
@@ -149,10 +153,12 @@ export const AnimePage = () => {
             <Text
               marginTop="10px"
               textAlign="center"
-              fontSize="18px"
-              color="#c5cbe7"
+              fontSize="20px"
+              color="gold.sand"
+              fontWeight="bold"
+              textShadow="1px 1px black"
             >
-              Sobre Anime :
+              Sinopse :
             </Text>
             <Text
               marginTop="10px"
@@ -160,7 +166,7 @@ export const AnimePage = () => {
               textAlign="justify"
               paddingX="20px"
               marginLeft={['0px', '0px', '0px', '260px']}
-              marginRight={['0px', '0px', '0px', '320px']}
+              marginRight={['0px', '0px', '0px']}
             >
               {selectedAnime.synopsis}
             </Text>
@@ -171,15 +177,21 @@ export const AnimePage = () => {
               alignItems="center"
               paddingY="20px"
               borderRadius="10px"
-              bgColor="#F6ECE1"
+              bgColor="gold.light50"
               maxWidth={['100%', '100%', '100%', '280px']}
               minH="300px"
               alignSelf="end"
               marginX="20px"
               marginTop={['20px', '20px', '20px', '0px']}
-              transform={['0px', '0px', '0px', 'translateY(-220px)']}
+              transform={['0px', '0px', '0px', 'translateY()']}
             >
-              <Text textAlign="center" fontStyle="bold" fontSize="25px">
+              <Text
+                textAlign="center"
+                fontWeight="bold"
+                fontSize="25px"
+                color="primary"
+                textShadow="0.5px 0.5px black"
+              >
                 Relacionados
               </Text>
               <Flex

@@ -1,10 +1,16 @@
-import { CardLinks } from "../../components/CardLinks";
+import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Searched } from "../../components/CardLinks/Searched";
 import { Header } from "../../components/Header";
-import { SectionContainer } from "../../components/SectionContainer";
+import { SliderContainer } from "../../components/SliderContainer";
 import { useAnime } from "../../Providers/AnimesProvider";
 
 export const Search = () => {
   const { searchList, searched, animes } = useAnime();
+
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    md: true,
+  });
 
   let randomAnimes = [];
 
@@ -20,10 +26,19 @@ export const Search = () => {
   });
 
   return (
-    <div>
+    <Box minh="100vh" w="100%">
       <Header />
-      <SectionContainer title={searched} animeList={searchList} />
-      <CardLinks title="Relacionados" animes={randomAnimes} />
-    </div>
+      <SliderContainer />
+      <Flex
+        flexDirection={isWideVersion ? "row" : "column"}
+        flexWrap="wrap"
+        gap="20px"
+        padding={["20px", "20px", "20px", "30px"]}
+        justifyContent="space-evenly"
+      >
+        <Searched title={searched} animes={searchList} />
+        <Searched title="Relacionados" animes={randomAnimes} />
+      </Flex>
+    </Box>
   );
 };

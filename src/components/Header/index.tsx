@@ -6,8 +6,8 @@ import {
   useColorMode,
   useDisclosure,
   Button,
-  Img
-} from '@chakra-ui/react'
+  Img,
+} from "@chakra-ui/react";
 
 import {
   BiUserCircle,
@@ -17,84 +17,84 @@ import {
   BiSun,
   BiHome,
   BiUserPlus,
-  BiLogIn
-} from 'react-icons/bi'
+  BiLogIn,
+} from "react-icons/bi";
 
-import { InputSearch } from '../Input/InputSearch'
-import { Signup } from '../Modals/Signup'
-import { SignIn } from '../Modals/SignIn'
-import { useState } from 'react'
-import { useUser } from '../../Providers/UserProvider'
-import { useAnime } from '../../Providers/AnimesProvider'
-import { useHistory } from 'react-router-dom'
-import Logo from '../../assets/logo.png'
-import { ModalConfirm } from '../Modals/ModalConfirm'
+import { InputSearch } from "../Input/InputSearch";
+import { Signup } from "../Modals/Signup";
+import { SignIn } from "../Modals/SignIn";
+import { useState } from "react";
+import { useUser } from "../../Providers/UserProvider";
+import { useAnime } from "../../Providers/AnimesProvider";
+import { useHistory } from "react-router-dom";
+import Logo from "../../assets/logo.png";
+import { ModalConfirm } from "../Modals/ModalConfirm";
 
 export const Header = () => {
   const {
     isOpen: isModalSignupOpen,
     onOpen: onModalSignupOpen,
-    onClose: onModalSignupClose
-  } = useDisclosure()
+    onClose: onModalSignupClose,
+  } = useDisclosure();
 
   const {
     isOpen: isModalSignInOpen,
     onOpen: onModalSignInOpen,
-    onClose: onModalSignInClose
-  } = useDisclosure()
+    onClose: onModalSignInClose,
+  } = useDisclosure();
 
   const {
     isOpen: isModalConfirmOpen,
     onOpen: onModalConfirmOpen,
-    onClose: onModalConfirmClose
-  } = useDisclosure()
+    onClose: onModalConfirmClose,
+  } = useDisclosure();
 
-  const { searched } = useAnime()
+  const { searched } = useAnime();
 
-  const [isLightTheme, setIsLightTheme] = useState<boolean>(true)
+  const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
 
-  const [showSearchBox, setShowSearchBox] = useState(false)
+  const [showSearchBox, setShowSearchBox] = useState(false);
 
-  const { toggleColorMode } = useColorMode()
+  const { toggleColorMode } = useColorMode();
 
-  const { accessToken, signOut } = useUser()
+  const { accessToken, signOut } = useUser();
 
-  const history = useHistory()
+  const history = useHistory();
 
   const toggleSearch = () => {
-    if (searched === '' && window.screen.width >= 768) {
-      setShowSearchBox(false)
-    } else if (searched === '') {
-      setShowSearchBox(!showSearchBox)
+    if (searched === "" && window.screen.width >= 768) {
+      setShowSearchBox(false);
+    } else if (searched === "") {
+      setShowSearchBox(!showSearchBox);
     } else {
-      setShowSearchBox(false)
-      searchFunction()
+      setShowSearchBox(false);
+      searchFunction();
     }
-  }
+  };
 
   const searchFunction = () => {
-    if (searched !== '') {
-      history.push(`/search/${searched}`)
+    if (searched !== "") {
+      history.push(`/search/${searched}`);
     }
-  }
+  };
 
   const toggleTheme = () => {
-    setIsLightTheme(!isLightTheme)
-    toggleColorMode()
-  }
+    setIsLightTheme(!isLightTheme);
+    toggleColorMode();
+  };
 
   const isWideVersion = useBreakpointValue({
     base: false,
-    md: true
-  })
+    md: true,
+  });
 
   const goHome = () => {
-    history.push('/')
-  }
+    history.push("/");
+  };
 
   const goUser = () => {
-    history.push('/user')
-  }
+    history.push("/user");
+  };
 
   return (
     <Flex
@@ -102,7 +102,7 @@ export const Header = () => {
       justifyContent="space-between"
       alignItems="center"
       height="60px"
-      paddingX={['10px', '40px']}
+      paddingX={["10px", "40px"]}
       position="absolute"
       top="0"
       zIndex="1"
@@ -111,12 +111,19 @@ export const Header = () => {
         <InputSearch searchBox={toggleSearch} />
       ) : (
         <>
-          <Img src={Logo} alt="Re:viewers" w="50px" h="50px" onClick={goHome} />
+          <Img
+            src={Logo}
+            alt="Re:viewers"
+            w="50px"
+            h="50px"
+            onClick={goHome}
+            cursor="pointer"
+          />
 
           <Flex
             justifyContent="space-between"
             alignItems="center"
-            gap={['15px', '100px']}
+            gap={["15px", "100px"]}
           >
             {isWideVersion ? (
               <InputSearch searchBox={toggleSearch} />
@@ -128,8 +135,8 @@ export const Header = () => {
                 color="white"
                 transition="scale .2s linear "
                 _hover={{
-                  cursor: 'pointer',
-                  transform: 'scale(1.05)'
+                  cursor: "pointer",
+                  transform: "scale(1.05)",
                 }}
                 aria-label="supprimer"
                 borderRadius="10px"
@@ -154,8 +161,8 @@ export const Header = () => {
               color="white"
               transition="scale .2s linear "
               _hover={{
-                cursor: 'pointer',
-                transform: 'scale(1.05)'
+                cursor: "pointer",
+                transform: "scale(1.05)",
               }}
               aria-label="supprimer"
               borderRadius="10px"
@@ -168,8 +175,8 @@ export const Header = () => {
               color="white"
               transition="scale .2s linear "
               _hover={{
-                cursor: 'pointer',
-                transform: 'scale(1.05)'
+                cursor: "pointer",
+                transform: "scale(1.05)",
               }}
               aria-label="supprimer"
               borderRadius="10px"
@@ -185,8 +192,8 @@ export const Header = () => {
                   color="white"
                   transition="scale .2s linear "
                   _hover={{
-                    cursor: 'pointer',
-                    transform: 'scale(1.05)'
+                    cursor: "pointer",
+                    transform: "scale(1.05)",
                   }}
                   aria-label="supprimer"
                   borderRadius="10px"
@@ -200,8 +207,8 @@ export const Header = () => {
                   color="white"
                   transition="scale .2s linear "
                   _hover={{
-                    cursor: 'pointer',
-                    transform: 'scale(1.05)'
+                    cursor: "pointer",
+                    transform: "scale(1.05)",
                   }}
                   aria-label="supprimer"
                   borderRadius="10px"
@@ -217,8 +224,8 @@ export const Header = () => {
                   color="white"
                   transition="scale .2s linear "
                   _hover={{
-                    cursor: 'pointer',
-                    transform: 'scale(1.05)'
+                    cursor: "pointer",
+                    transform: "scale(1.05)",
                   }}
                   aria-label="supprimer"
                   borderRadius="10px"
@@ -232,8 +239,8 @@ export const Header = () => {
                   color="white"
                   transition="scale .2s linear "
                   _hover={{
-                    cursor: 'pointer',
-                    transform: 'scale(1.05)'
+                    cursor: "pointer",
+                    transform: "scale(1.05)",
                   }}
                   aria-label="supprimer"
                   borderRadius="10px"
@@ -245,5 +252,5 @@ export const Header = () => {
         </>
       )}
     </Flex>
-  )
-}
+  );
+};

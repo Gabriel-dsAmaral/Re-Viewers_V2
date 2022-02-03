@@ -1,4 +1,4 @@
-import { Box, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, Text, useBreakpointValue } from "@chakra-ui/react";
 import { useComment } from "../../Providers/CommentsProvider";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { useUser } from "../../Providers/UserProvider";
@@ -33,36 +33,37 @@ export const Comments = () => {
       ) : (
         <CallingCard />
       )}
-
-      {!!accessToken
-        ? comments.map((item, index) => (
-            <Box key={index}>
-              {Number(user.id) !== item.userId ? (
-                <Comment
-                  img={item.userImg}
-                  comment={item.comment}
-                  name={item.name}
-                />
-              ) : (
-                <EditableComment
-                  key={index}
-                  id={item.id}
-                  input={item.comment}
-                  name={item.name}
-                  img={item.userImg}
-                  callback={handleDelete}
-                />
-              )}
-            </Box>
-          ))
-        : comments.map((item, index) => (
-            <Comment
-              img={item.userImg}
-              key={index}
-              comment={item.comment}
-              name={item.name}
-            />
-          ))}
+      <Flex flexDirection="column-reverse">
+        {!!accessToken
+          ? comments.map((item, index) => (
+              <Box key={index}>
+                {Number(user.id) !== item.userId ? (
+                  <Comment
+                    img={item.userImg}
+                    comment={item.comment}
+                    name={item.name}
+                  />
+                ) : (
+                  <EditableComment
+                    key={index}
+                    id={item.id}
+                    input={item.comment}
+                    name={item.name}
+                    img={item.userImg}
+                    callback={handleDelete}
+                  />
+                )}
+              </Box>
+            ))
+          : comments.map((item, index) => (
+              <Comment
+                img={item.userImg}
+                key={index}
+                comment={item.comment}
+                name={item.name}
+              />
+            ))}
+      </Flex>
     </Box>
   );
 };

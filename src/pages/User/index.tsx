@@ -1,12 +1,27 @@
 import { Header } from "../../components/Header";
-import { Box, Center, Flex, IconButton, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  IconButton,
+  Image,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { FaEdit } from "react-icons/fa";
 import { Animes, Animes2, Animes3 } from "../../utils";
 import { CardLinksUser } from "../../components/CardLinksUser/index";
 import { useUser } from "../../Providers/UserProvider";
+import { UserEdits } from "../../components/Modals/UserEdits";
 
 export const User = () => {
-  const { ChangeAvatar } = useUser();
+  const { ChangeAvatar, user } = useUser();
+
+  const {
+    isOpen: isModalOpen,
+    onOpen: onModalOpen,
+    onClose: onModalClose,
+  } = useDisclosure();
 
   return (
     <>
@@ -38,7 +53,7 @@ export const User = () => {
                 h="200px"
                 w="200px"
                 borderRadius="3px"
-                src="http://pm1.narvii.com/6861/44017694789ca7409a0a9a30a8c0be4a7e2bd9f8r1-800-713v2_00.jpg"
+                src={user.userImg}
               />
             </Center>
           </Box>
@@ -52,7 +67,7 @@ export const User = () => {
               fontSize="36px"
               margin={"0px 15px 0px 25px"}
             >
-              Rodolfo
+              {user.name}
             </Text>
             <Center
               _hover={{ cursor: "pointer" }}
@@ -81,16 +96,13 @@ export const User = () => {
                 size="lg"
                 bgColor="#DD4A2E"
                 icon={<FaEdit />}
-                onClick={() =>
-                  ChangeAvatar({
-                    userImg:
-                      "https://i.ytimg.com/vi/1C9DdJogwFc/maxresdefault.jpg",
-                  })
-                }
+                onClick={onModalOpen}
               />
             </Center>
           </Flex>
         </Flex>
+
+        <UserEdits isOpen={isModalOpen} onClose={onModalClose} />
 
         <Box w="90%" mt="20px">
           <CardLinksUser animes={Animes} title="Assistindo" />

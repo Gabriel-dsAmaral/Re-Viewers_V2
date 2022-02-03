@@ -1,33 +1,17 @@
-<<<<<<< HEAD
-import { Box, Button, Flex, useBreakpointValue } from '@chakra-ui/react'
-import { CardLinks } from '../../components/CardLinks'
-import { Header } from '../../components/Header'
-import { useUser } from '../../Providers/UserProvider'
-import { useAnime } from '../../Providers/AnimesProvider'
-import { useComment } from '../../Providers/CommentsProvider'
-import { useEffect } from 'react'
-import { SliderContainer } from '../../components/SliderContainer'
-import { SectionContainer } from '../../components/SectionContainer'
-import { Animes2, Animes3 } from '../../utils'
-import { Footer } from '../../components/Footer'
-=======
-import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
-import { useUser } from "../../Providers/UserProvider";
+
 import { useAnime } from "../../Providers/AnimesProvider";
-import { useComment } from "../../Providers/CommentsProvider";
+
 import { useEffect } from "react";
 import { SliderContainer } from "../../components/SliderContainer";
 import { SectionContainer } from "../../components/SectionContainer";
 import { Animes2, Animes3 } from "../../utils";
 import { Footer } from "../../components/Footer";
->>>>>>> 4711ac400b6a6f3e1bf7c3701b52a5631b3cd84c
 
 export const Home = () => {
-  const { signOut } = useUser();
-  const { animes, getAnimes, setSearchList, setSearched } = useAnime();
-  const { MakeComment } = useComment();
+  const { getAnimes, setSearchList, setSearched } = useAnime();
 
   useEffect(() => {
     getAnimes();

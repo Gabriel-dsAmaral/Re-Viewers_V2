@@ -8,22 +8,22 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text
-} from '@chakra-ui/react'
-import aqua from '../../../assets/aqua.png'
+  Text,
+} from "@chakra-ui/react";
+import aqua from "../../../assets/aqua.gif";
 
 interface ModalErrorProps {
-  isOpen: boolean
-  onClose: () => void
-  title: string
-  message: string
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  message: string;
 }
 
 export const ModalError = ({
   isOpen,
   onClose,
   title,
-  message
+  message,
 }: ModalErrorProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -55,5 +55,5 @@ export const ModalError = ({
         </ModalFooter>
       </ModalContent>
     </Modal>
-  )
-}
+  );
+};

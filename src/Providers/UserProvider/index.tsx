@@ -5,7 +5,6 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { StringMappingType } from "typescript";
 
 import { api } from "../../services/api";
 
@@ -36,6 +35,19 @@ interface EditUserCredentials {
   name: string;
 }
 
+interface ChangeAvatarCredentials {
+  userImg: string;
+}
+
+interface CommentInfo {
+  animeId: number;
+  comment: string;
+  id: number;
+  name: string;
+  userId: number;
+  userImg: string;
+}
+
 interface UserContextData {
   user: User;
   accessToken: string;
@@ -43,6 +55,7 @@ interface UserContextData {
   signIn: (credentials: SighInCredentials) => Promise<void>;
   sigNup: (credentials: SigNupCredentials) => Promise<void>;
   EditUser: (credentials: EditUserCredentials) => Promise<void>;
+  ChangeAvatar: (credentials: ChangeAvatarCredentials) => Promise<void>;
 }
 
 interface UserState {
@@ -107,6 +120,38 @@ const UserProvider = ({ children }: UserProviderProps) => {
       }
     );
   }, []);
+
+  const ChangeAvatar = useCallback(
+    async ({ userImg }: ChangeAvatarCredentials) => {
+      const userId = data.user.id;
+      const accessToken = data.accessToken;
+      const response = await api.get(`/users/${userId}/comments`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      await api
+        .patch(
+          `/users/${userId}`,
+          { userImg: userImg },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        )
+        .then(
+          response.data.forEach((item: CommentInfo) => {
+            api.patch(
+              `/comments/${item.id}`,
+              { userImg: userImg },
+              {
+                headers: { Authorization: `Bearer ${accessToken}` },
+              }
+            );
+          })
+        );
+    },
+    []
+  );
+
   return (
     <UserContext.Provider
       value={{
@@ -116,6 +161,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
         signIn,
         signOut,
         EditUser,
+        ChangeAvatar,
       }}
     >
       {children}

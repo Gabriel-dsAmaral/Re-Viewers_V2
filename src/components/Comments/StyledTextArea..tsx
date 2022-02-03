@@ -16,7 +16,10 @@ export const StyledTextArea = ({ img, name }: StyledTextAreaProps) => {
   const { id } = useParams<{ id: string }>();
 
   const handleMake = () => {
-    if (input.length > 1) MakeComment(+id, input).then(() => LoadComments(+id));
+    if (input.length > 1)
+      MakeComment(+id, input)
+        .then(() => LoadComments(+id))
+        .then(() => setInput(""));
   };
 
   return (
@@ -40,15 +43,16 @@ export const StyledTextArea = ({ img, name }: StyledTextAreaProps) => {
           h="58px"
           marginRight="10px"
           borderRadius="8px"
-          src="https://i.pinimg.com/280x280_RS/1a/2d/38/1a2d38f8916060f75fe4af01871bf8f0.jpg"
+          src={img}
         />
-        Jibun no namae: {name}
+        Watashi no namae wa: {name}
       </Flex>
       <Flex flexDirection="row" justifyContent="end" alignItems="end">
         <Textarea
           maxLength={100}
           textAlign="start"
           font-weigth="bold"
+          value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Lança a braba!"
           marginTop="15px"

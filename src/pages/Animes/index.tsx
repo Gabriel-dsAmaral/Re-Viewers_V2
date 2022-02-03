@@ -1,28 +1,28 @@
-import { Text, useBreakpointValue, VStack } from "@chakra-ui/react";
-import { Box, Flex, Img } from "@chakra-ui/react";
-import { useAnime } from "../../Providers/AnimesProvider";
-import { Button } from "../../components/Button";
-import { Comments } from "../../components/Comments";
-import { Header } from "../../components/Header";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Text, useBreakpointValue, VStack } from '@chakra-ui/react'
+import { Box, Flex, Img } from '@chakra-ui/react'
+import { useAnime } from '../../Providers/AnimesProvider'
+import { Button } from '../../components/Button'
+import { Comments } from '../../components/Comments'
+import { Header } from '../../components/Header'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 // import { FixedAnimeCard } from "../../components/FixedAnimeModal";
 
 export const AnimePage = () => {
-  const { selectedAnime, getAnimeById, setSearched } = useAnime();
+  const { selectedAnime, getAnimeById, setSearched } = useAnime()
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>()
 
   const isWideVersion = useBreakpointValue({
     base: false,
-    lg: true,
-  });
+    lg: true
+  })
 
   useEffect(() => {
-    getAnimeById(Number(id));
-    setSearched("");
+    getAnimeById(Number(id))
+    setSearched('')
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   return (
     <Box width="100%" minH="100vh">
@@ -33,16 +33,18 @@ export const AnimePage = () => {
           <Box
             background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${selectedAnime.banner_url})`}
             // background={`linear-gradient(rgba(211, 236, 226, 1), rgba(246, 236, 226, 0)),url(${selectedAnime.banner_url})`}
+            backgroundSize="cover"
+            backgroundPosition="center"
             height="330px"
             width="100%"
           />
           <Flex
             // marginLeft={["0px", "0px", "0px", "270px"]}
             flexDirection="column"
-            alignItems={["center", "center", "center", "start"]}
+            alignItems={['center', 'center', 'center', 'start']}
             // border="2px solid"
-            marginTop={["-150px", "-150px", "-150px", "0px"]}
-            marginLeft={["0px", "0px", "0px", "280px"]}
+            marginTop={['-150px', '-150px', '-150px', '0px']}
+            marginLeft={['0px', '0px', '0px', '280px']}
           >
             {/* IMAGEM E BOTÕES */}
             <VStack
@@ -50,7 +52,7 @@ export const AnimePage = () => {
               direction="column"
               top="120px"
               left="20px"
-              position={["static", "static", "static", "fixed"]}
+              position={['static', 'static', 'static', 'fixed']}
             >
               <Img
                 h="300px"
@@ -80,7 +82,6 @@ export const AnimePage = () => {
             <Text
               fontWeight="600"
               fontSize="30px"
-              color="grey.dark"
               // border="2px solid red"
               marginY="10px"
               textAlign="center"
@@ -88,15 +89,15 @@ export const AnimePage = () => {
               {selectedAnime.title}
             </Text>
             <Flex
-              flexFlow={["row wrap", "row wrap", "row wrap", "row-reverse"]}
+              flexFlow={['row wrap', 'row wrap', 'row wrap', 'row-reverse']}
               justifyContent="space-around"
               alignItems="baseline"
-              width={["80%", "80%", "80%", "auto"]}
+              width={['80%', '80%', '80%', 'auto']}
               // border="2px solid red"
             >
               <Box
                 p="1"
-                width={["100%", "100%", "100%", "180px"]}
+                width={['100%', '100%', '100%', '180px']}
                 display="inline-flex"
                 justifyContent="center"
                 alignItems="end"
@@ -113,6 +114,7 @@ export const AnimePage = () => {
                   lineHeight="40px"
                   width="120px"
                   mb="10px"
+                  textShadow="1px 1px #d6883f"
                 >
                   Score: 6.89
                 </Text>
@@ -123,6 +125,8 @@ export const AnimePage = () => {
                 display="inline-flex"
                 justifyContent="space-around"
                 flexWrap="wrap"
+                fontWeight="semibold"
+                textShadow="0.5px 0.5px grey"
                 // border="2px solid"
               >
                 {selectedAnime.category.map((category, key) => {
@@ -138,10 +142,11 @@ export const AnimePage = () => {
                       textAlign="center"
                       marginTop="10px"
                       paddingY="3px"
+                      boxShadow="base"
                     >
                       <p>{category}</p>
                     </Box>
-                  );
+                  )
                 })}
               </Box>
             </Flex>
@@ -150,18 +155,20 @@ export const AnimePage = () => {
             <Text
               marginTop="10px"
               textAlign="center"
-              fontSize="18px"
-              color="#c5cbe7"
+              fontSize="20px"
+              color="gold.sand"
+              fontWeight="bold"
+              textShadow="1px 1px black"
             >
-              Sobre Anime :
+              Sinopse :
             </Text>
             <Text
               marginTop="10px"
               // border="2px solid purple"
               textAlign="justify"
               paddingX="20px"
-              marginLeft={["0px", "0px", "0px", "260px"]}
-              marginRight={["0px", "0px", "0px", "320px"]}
+              marginLeft={['0px', '0px', '0px', '260px']}
+              marginRight={['0px', '0px', '0px', '320px']}
             >
               {selectedAnime.synopsis}
             </Text>
@@ -172,26 +179,32 @@ export const AnimePage = () => {
               alignItems="center"
               paddingY="20px"
               borderRadius="10px"
-              bgColor="#F6ECE1"
-              maxWidth={["100%", "100%", "100%", "280px"]}
+              bgColor="gold.light50"
+              maxWidth={['100%', '100%', '100%', '280px']}
               minH="300px"
               alignSelf="end"
               marginX="20px"
-              marginTop={["20px", "20px", "20px", "0px"]}
-              transform={["0px", "0px", "0px", "translateY(-220px)"]}
+              marginTop={['20px', '20px', '20px', '0px']}
+              transform={['0px', '0px', '0px', 'translateY(-220px)']}
             >
-              <Text textAlign="center" fontStyle="bold" fontSize="25px">
+              <Text
+                textAlign="center"
+                fontWeight="bold"
+                fontSize="25px"
+                color="primary"
+                textShadow="0.5px 0.5px black"
+              >
                 Relacionados
               </Text>
               <Flex
                 flexFlow="row wrap"
                 justifyContent={[
-                  "center",
-                  "space-around",
-                  "space-around",
-                  "center",
+                  'center',
+                  'space-around',
+                  'space-around',
+                  'center'
                 ]}
-                alignItems={["center", "center", "center", "center"]}
+                alignItems={['center', 'center', 'center', 'center']}
                 gap="20px"
                 mt="30px"
                 paddingInline="10px"
@@ -207,7 +220,7 @@ export const AnimePage = () => {
                       textAlign="center"
                       borderRadius="10px"
                       padding="5px"
-                      _hover={{ cursor: "pointer" }}
+                      _hover={{ cursor: 'pointer' }}
                       minW="100px"
                     >
                       Categoria
@@ -218,7 +231,7 @@ export const AnimePage = () => {
             </VStack>
             <Flex
               w="100%"
-              display={["flex", "flex", "flex", "none"]}
+              display={['flex', 'flex', 'flex', 'none']}
               alignSelf="center"
               alignItems="center"
               justifyContent="space-around"
@@ -246,5 +259,5 @@ export const AnimePage = () => {
       )}
       <Comments />
     </Box>
-  );
-};
+  )
+}

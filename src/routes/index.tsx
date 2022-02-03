@@ -1,4 +1,5 @@
 import { Route, Switch } from "react-router-dom";
+import { AboutUs } from "../pages/AboutUs";
 import { AnimePage } from "../pages/Animes";
 import { Home } from "../pages/Home";
 import { HomeTeste } from "../pages/HomeTeste";
@@ -13,6 +14,7 @@ export const Routes = () => {
       <Route exact path="/animepage/:id" component={AnimePage} />
       <Route exact path="/search/:id" component={Search} />
       <Route exact path="/user" component={User} />
+      <Route exact path="/aboutUs" component={AboutUs} />
     </Switch>
   );
 };

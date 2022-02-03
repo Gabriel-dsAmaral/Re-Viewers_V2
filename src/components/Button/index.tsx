@@ -24,7 +24,7 @@ const ButtonBase: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
           ? 'gold.sand'
           : model === '3'
           ? 'grey.dark'
-          : 'gold.light50'
+          : '#e9caa9'
       }
       border="2px"
       borderStyle="solid"
@@ -53,7 +53,7 @@ const ButtonBase: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
           ? 'white'
           : model === '3'
           ? 'white'
-          : 'grey.grey'
+          : 'grey.greyStone'
       }
       {...rest}
     >

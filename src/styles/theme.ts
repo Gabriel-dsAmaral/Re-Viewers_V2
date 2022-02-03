@@ -37,4 +37,14 @@ export const theme = extendTheme({
       sand80: "rgba(212, 161, 111, 80%)",
     },
   },
+  styles: {
+    global: {
+      body: {
+        "::-webkit-scrollbar": {
+          width: " 0px",
+          background: "transparent",
+        },
+      },
+    },
+  },
 });

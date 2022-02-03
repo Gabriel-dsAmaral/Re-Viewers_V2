@@ -57,6 +57,27 @@ export const SectionContainer = ({
       overflowY="auto"
       width="100%"
       gap="20px"
+      css={{
+        " ::-webkit-scrollbar": {
+          width: "10px",
+        },
+
+        " ::-webkit-scrollbar-track-piece": {
+          background: "white",
+        },
+
+        " ::-webkit-scrollbar-thumb": {
+          background: "#CBCBCB",
+          outline: "2px solid #FFF",
+          border: "1px solid #B7B7B7",
+          borderRadius: "8px",
+          mt: "5px",
+        },
+
+        " ::-webkit-scrollbar-thumb:hover": {
+          background: " #909090",
+        },
+      }}
     >
       {animeList.map(anime => (
         <Animecard anime={anime} key={animeList.indexOf(anime)} />

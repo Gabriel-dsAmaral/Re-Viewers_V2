@@ -37,6 +37,27 @@ export const Home = () => {
           w={isWideVersion ? "70%" : "100%"}
           overflow="hidden"
           minW="50vw"
+          css={{
+            " ::-webkit-scrollbar": {
+              width: "10px",
+            },
+
+            " ::-webkit-scrollbar-track-piece": {
+              background: "#E1B176",
+            },
+
+            " ::-webkit-scrollbar-thumb": {
+              background: "#CBCBCB",
+              outline: "2px solid #FFF",
+              border: "1px solid #B7B7B7",
+              borderRadius: "8px",
+              mt: "5px",
+            },
+
+            " ::-webkit-scrollbar-thumb:hover": {
+              background: " #909090",
+            },
+          }}
         >
           <SectionContainer title="5 Melhores" animeList={Animes} />
 

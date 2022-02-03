@@ -106,6 +106,27 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
               justifyContent="flex-start"
               overflow="overlay"
               maxH="480px"
+              css={{
+                " ::-webkit-scrollbar": {
+                  width: "10px",
+                },
+
+                " ::-webkit-scrollbar-track-piece": {
+                  background: "#E1B176",
+                },
+
+                " ::-webkit-scrollbar-thumb": {
+                  background: "#CBCBCB",
+                  outline: "2px solid #FFF",
+                  border: "1px solid #B7B7B7",
+                  borderRadius: "8px",
+                  mt: "5px",
+                },
+
+                " ::-webkit-scrollbar-thumb:hover": {
+                  background: " #909090",
+                },
+              }}
             >
               {avatars.map((img, index) => (
                 <Image

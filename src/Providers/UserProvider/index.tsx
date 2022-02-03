@@ -17,6 +17,7 @@ interface User {
   email: string;
   id: number;
   name: string;
+  userImg: string;
 }
 
 interface SighInCredentials {
@@ -28,10 +29,11 @@ interface SigNupCredentials {
   email: string;
   password: string;
   name: string;
+  userImg: string;
 }
 
 interface EditUserCredentials {
-  email: string;
+  name: string;
 }
 
 interface UserContextData {
@@ -81,20 +83,25 @@ const UserProvider = ({ children }: UserProviderProps) => {
   }, []);
 
   const sigNup = useCallback(
-    async ({ name, email, password }: SigNupCredentials) => {
+    async ({ name, email, password, userImg }: SigNupCredentials) => {
       await api
-        .post("/register", { name, email, password })
+        .post("/register", {
+          name,
+          email,
+          password,
+          userImg,
+        })
         .catch((err) => console.log(err));
     },
     []
   );
 
-  const EditUser = useCallback(async ({ email }: EditUserCredentials) => {
+  const EditUser = useCallback(async ({ name }: EditUserCredentials) => {
     const userId = data.user.id;
     const accessToken = data.accessToken;
     await api.patch(
       `/users/${userId}`,
-      { email },
+      { name },
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }

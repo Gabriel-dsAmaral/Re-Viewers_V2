@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Box, Button, Flex, useBreakpointValue } from '@chakra-ui/react'
 import { CardLinks } from '../../components/CardLinks'
 import { Header } from '../../components/Header'
@@ -9,22 +10,35 @@ import { SliderContainer } from '../../components/SliderContainer'
 import { SectionContainer } from '../../components/SectionContainer'
 import { Animes2, Animes3 } from '../../utils'
 import { Footer } from '../../components/Footer'
+=======
+import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { CardLinks } from "../../components/CardLinks";
+import { Header } from "../../components/Header";
+import { useUser } from "../../Providers/UserProvider";
+import { useAnime } from "../../Providers/AnimesProvider";
+import { useComment } from "../../Providers/CommentsProvider";
+import { useEffect } from "react";
+import { SliderContainer } from "../../components/SliderContainer";
+import { SectionContainer } from "../../components/SectionContainer";
+import { Animes2, Animes3 } from "../../utils";
+import { Footer } from "../../components/Footer";
+>>>>>>> 4711ac400b6a6f3e1bf7c3701b52a5631b3cd84c
 
 export const Home = () => {
-  const { signOut } = useUser()
-  const { animes, getAnimes, setSearchList, setSearched } = useAnime()
-  const { MakeComment } = useComment()
+  const { signOut } = useUser();
+  const { animes, getAnimes, setSearchList, setSearched } = useAnime();
+  const { MakeComment } = useComment();
 
   useEffect(() => {
-    getAnimes()
-    setSearchList([])
-    setSearched('')
-  }, [])
+    getAnimes();
+    setSearchList([]);
+    setSearched("");
+  }, []);
 
   const isWideVersion = useBreakpointValue({
     base: false,
-    md: true
-  })
+    md: true,
+  });
 
   return (
     <Box minH="100vh" w="100%" backgroundColor="grey.80">
@@ -33,13 +47,13 @@ export const Home = () => {
       <SliderContainer />
 
       <Flex
-        flexDirection={isWideVersion ? 'row' : 'column'}
+        flexDirection={isWideVersion ? "row" : "column"}
         gap="20px"
-        padding={['20px', '20px', '20px', '30px']}
+        padding={["20px", "20px", "20px", "30px"]}
       >
         <Flex
           flexDirection="column"
-          w={isWideVersion ? '70%' : '100%'}
+          w={isWideVersion ? "70%" : "100%"}
           overflow="hidden"
           minW="50vw"
         >
@@ -52,5 +66,5 @@ export const Home = () => {
       </Flex>
       <Footer />
     </Box>
-  )
-}
+  );
+};

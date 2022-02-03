@@ -1,7 +1,6 @@
 import { Route, Switch } from 'react-router-dom'
 import { AboutUs } from '../pages/AboutUs'
 import { AnimePage } from '../pages/Animes'
-import { Devs } from '../pages/Devs'
 import { Home } from '../pages/Home'
 import { HomeTeste } from '../pages/HomeTeste'
 import { Search } from '../pages/Search'

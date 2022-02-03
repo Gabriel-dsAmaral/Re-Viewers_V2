@@ -1,15 +1,15 @@
-import { useBreakpointValue, Box, Flex } from '@chakra-ui/react'
-import { SectionContainer } from '../../components/SectionContainer'
-import { SliderContainer } from '../../components/SliderContainer'
-import { Header } from '../../components/Header'
-import { Animes } from '../../utils'
-import { AnimeCardMobile } from '../../components/AnimeCardMobile'
+import { useBreakpointValue, Box, Flex } from "@chakra-ui/react";
+import { SectionContainer } from "../../components/SectionContainer";
+import { SliderContainer } from "../../components/SliderContainer";
+import { Header } from "../../components/Header";
+import { Animes } from "../../utils";
+import { AnimeCardMobile } from "../../components/AnimeCardMobile";
 
 export const HomeTeste = () => {
   const isWideVersion = useBreakpointValue({
     base: false,
-    md: true
-  })
+    md: true,
+  });
 
   return (
     <Box minH="100vh" w="100%" backgroundColor="grey.80">
@@ -18,9 +18,9 @@ export const HomeTeste = () => {
       <SliderContainer />
 
       <Flex
-        flexDirection={isWideVersion ? 'row' : 'column'}
+        flexDirection={isWideVersion ? "row" : "column"}
         gap="20px"
-        padding={['20px', '20px', '20px', '30px']}
+        padding={["20px", "20px", "20px", "30px"]}
       >
         <Flex flexDirection="column" w="100%" overflow="hidden">
           <SectionContainer title="7 most voted" animeList={Animes} />
@@ -31,5 +31,5 @@ export const HomeTeste = () => {
         </Flex>
       </Flex>
     </Box>
-  )
-}
+  );
+};

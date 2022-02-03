@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { SliderContainer } from '../../components/SliderContainer'
 import { SectionContainer } from '../../components/SectionContainer'
 import { Animes2, Animes3 } from '../../utils'
+import { Footer } from '../../components/Footer'
 
 export const Home = () => {
   const { signOut } = useUser()
@@ -49,6 +50,7 @@ export const Home = () => {
 
         <CardLinks title="Recomendados" animes={Animes3} />
       </Flex>
+      <Footer />
     </Box>
   )
 }

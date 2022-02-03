@@ -11,11 +11,13 @@ import { Animes2, Animes3 } from "../../utils";
 
 export const Home = () => {
   const { signOut } = useUser();
-  const { animes, getAnimes } = useAnime();
+  const { animes, getAnimes, setSearchList, setSearched } = useAnime();
   const { MakeComment } = useComment();
 
   useEffect(() => {
     getAnimes();
+    setSearchList([]);
+    setSearched("");
   }, []);
 
   const isWideVersion = useBreakpointValue({

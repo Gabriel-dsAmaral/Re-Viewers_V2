@@ -6,6 +6,7 @@ import {
   useColorMode,
   useDisclosure,
   Button,
+  Img,
 } from "@chakra-ui/react";
 
 import {
@@ -14,6 +15,9 @@ import {
   BiSearchAlt,
   BiMoon,
   BiSun,
+  BiHome,
+  BiUserPlus,
+  BiLogIn,
 } from "react-icons/bi";
 
 import { InputSearch } from "../Input/InputSearch";
@@ -23,6 +27,7 @@ import { useState } from "react";
 import { useUser } from "../../Providers/UserProvider";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { useHistory } from "react-router-dom";
+import Logo from "../../assets/logo.png";
 
 export const Header = () => {
   const {
@@ -43,6 +48,10 @@ export const Header = () => {
 
   const [showSearchBox, setShowSearchBox] = useState(false);
 
+  const { toggleColorMode } = useColorMode();
+
+  const { accessToken, signOut } = useUser();
+
   const history = useHistory();
 
   const toggleSearch = () => {
@@ -62,10 +71,6 @@ export const Header = () => {
     }
   };
 
-  const { toggleColorMode } = useColorMode();
-
-  const { accessToken, signOut } = useUser();
-
   const toggleTheme = () => {
     setIsLightTheme(!isLightTheme);
     toggleColorMode();
@@ -75,6 +80,14 @@ export const Header = () => {
     base: false,
     md: true,
   });
+
+  const goHome = () => {
+    history.push("/");
+  };
+
+  const goUser = () => {
+    history.push("/user");
+  };
 
   return (
     <Flex
@@ -91,12 +104,12 @@ export const Header = () => {
         <InputSearch searchBox={toggleSearch} />
       ) : (
         <>
-          <Box>LOGO</Box>
+          <Img src={Logo} alt="Re:viewers" w="50px" h="50px" onClick={goHome} />
 
           <Flex
             justifyContent="space-between"
             alignItems="center"
-            gap={["20px", "60px"]}
+            gap={["15px", "100px"]}
           >
             {isWideVersion ? (
               <InputSearch searchBox={toggleSearch} />
@@ -134,6 +147,20 @@ export const Header = () => {
               borderRadius="10px"
               onClick={toggleTheme}
             />
+            <IconButton
+              icon={<BiHome size={30} />}
+              mixBlendMode="difference"
+              bg="transparent"
+              color="white"
+              transition="scale .2s linear "
+              _hover={{
+                cursor: "pointer",
+                transform: "scale(1.05)",
+              }}
+              aria-label="supprimer"
+              borderRadius="10px"
+              onClick={goHome}
+            />
 
             {!!accessToken ? (
               <>
@@ -149,7 +176,7 @@ export const Header = () => {
                   }}
                   aria-label="supprimer"
                   borderRadius="10px"
-                  onClick={onModalSignInOpen}
+                  onClick={goUser}
                 />
 
                 <IconButton
@@ -169,30 +196,35 @@ export const Header = () => {
               </>
             ) : (
               <>
-                <Button
-                  width="15px"
+                <IconButton
+                  icon={<BiUserPlus size={30} />}
                   mixBlendMode="difference"
                   bg="transparent"
                   color="white"
+                  transition="scale .2s linear "
                   _hover={{
-                    background: "gray",
+                    cursor: "pointer",
+                    transform: "scale(1.05)",
                   }}
+                  aria-label="supprimer"
+                  borderRadius="10px"
                   onClick={onModalSignupOpen}
-                >
-                  SUp
-                </Button>
-                <Button
-                  width="15px"
+                />
+
+                <IconButton
+                  icon={<BiLogIn size={30} />}
                   mixBlendMode="difference"
                   bg="transparent"
                   color="white"
+                  transition="scale .2s linear "
                   _hover={{
-                    background: "gray",
+                    cursor: "pointer",
+                    transform: "scale(1.05)",
                   }}
+                  aria-label="supprimer"
+                  borderRadius="10px"
                   onClick={onModalSignInOpen}
-                >
-                  SIn
-                </Button>
+                />
               </>
             )}
           </Flex>

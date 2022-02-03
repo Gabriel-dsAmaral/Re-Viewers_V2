@@ -6,31 +6,36 @@ interface Children {
   children: ReactNode;
 }
 interface AnimesData {
+  id: number;
   title: string;
-  banner_url: string;
-  id?: number | undefined;
-  image_url: string;
-  launch_data: string;
-  original: string;
-  synopsis: string;
+  category: Array<string>;
   rate?: Array<string>;
-  category?: Array<string>;
-  studio: string;
+  banner_url: string;
+  image_url: string;
+  original: string;
   status: string;
-  data?: object;
+  launch_date: string;
+  studio: string;
+  synopsis: string;
   userId?: number;
+  data?: object;
 }
 interface AnimeProviderData {
   animes: AnimesData[];
   myList: AnimesData[] | object;
   shounenAnimes: AnimesData[];
-  selectedAnime: AnimesData[];
+  selectedAnime: AnimesData;
+  searchList: AnimesData[];
+  searched: string;
 
+  setSearchList: (prevState: AnimesData[]) => void;
   getAnimeById: (id: number) => void;
   getAnimes: () => void;
   getMyList: (userId: number) => void;
   deleteMyList: (userId: number) => void;
   addAnimeList: (data: AnimesData) => void;
+  searchAnime: (search: string) => void;
+  setSearched: (search: string) => void;
 }
 
 const AnimeContext = createContext<AnimeProviderData>({} as AnimeProviderData);
@@ -40,22 +45,17 @@ const AnimeProvider = ({ children }: Children) => {
 
   const [animes, setAnimes] = useState<AnimesData[]>([]);
   const [shounenAnimes, setShounenAnimes] = useState<AnimesData[]>([]);
-  const [selectedAnime, setSelectedAnime] = useState<AnimesData[]>([]);
+  const [selectedAnime, setSelectedAnime] = useState<AnimesData>(
+    {} as AnimesData
+  );
   const [myList, setMyList] = useState<AnimesData[]>([]);
+  const [searchList, setSearchList] = useState<AnimesData[]>([]);
+  const [searched, setSearched] = useState("");
 
   const getAnimes = async () => {
     const response = await api.get("/animes");
 
     const data = response.data;
-    const shounen = data.filter(({ category }: AnimesData) => {
-      return category?.includes("Shounen");
-    });
-
-    setShounenAnimes(
-      shounen.sort((current: AnimesData, next: AnimesData) => {
-        return current.title.localeCompare(next.title);
-      })
-    );
     setAnimes(data);
   };
 
@@ -64,13 +64,25 @@ const AnimeProvider = ({ children }: Children) => {
 
     const data = response.data;
 
-    setSelectedAnime(data);
+    setSelectedAnime(data[0]);
   };
 
   const addAnimeList = async (data: AnimesData) => {
-    const postData = { ...data, userId: user.id };
+    const postData = {
+      title: data.title,
+      category: data.category,
+      rate: data.rate,
+      banner_url: data.banner_url,
+      image_url: data.image_url,
+      original: data.original,
+      status: data.status,
+      launch_date: data.launch_date,
+      studio: data.studio,
+      synopsis: data.synopsis,
+      userId: user.id,
+      animeId: data.id,
+    };
 
-    console.log(postData);
     const response = await api.post("/mylist", postData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -99,6 +111,31 @@ const AnimeProvider = ({ children }: Children) => {
     setMyList(response.data);
   };
 
+  const searchAnime = (search: string) => {
+    setSearched(search);
+    const searchedLower = search.toLowerCase();
+    const filterAnimeName = animes.filter((anime) => {
+      return anime.title.toLowerCase().includes(searchedLower);
+    });
+
+    const filterAnimeCategory = animes.filter((anime) => {
+      const category = anime.category.map((actual) => actual.toLowerCase());
+      const filtered = category.filter((actual) =>
+        actual.includes(searchedLower)
+      );
+
+      if (filtered[0]) {
+        return anime;
+      }
+    });
+
+    if (filterAnimeName[0]) {
+      setSearchList(filterAnimeName);
+    } else if (filterAnimeCategory[0]) {
+      setSearchList(filterAnimeCategory);
+    }
+  };
+
   return (
     <AnimeContext.Provider
       value={{
@@ -107,10 +144,15 @@ const AnimeProvider = ({ children }: Children) => {
         addAnimeList,
         getMyList,
         deleteMyList,
+        searchAnime,
+        setSearchList,
+        setSearched,
+        searched,
         animes,
         shounenAnimes,
         selectedAnime,
         myList,
+        searchList,
       }}
     >
       {children}

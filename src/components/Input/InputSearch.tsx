@@ -5,17 +5,15 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { BiSearchAlt } from "react-icons/bi";
-// import { Input } from "./Input";
+import { useAnime } from "../../Providers/AnimesProvider";
 
 interface InputSearchProps {
-  closeInputSearch: () => void;
-  filterAnimes: (inputValue: string) => void;
+  searchBox: () => void;
 }
 
-export const InputSearch = ({
-  closeInputSearch,
-  filterAnimes,
-}: InputSearchProps) => {
+export const InputSearch = ({ searchBox }: InputSearchProps) => {
+  const { searchAnime } = useAnime();
+
   return (
     <FormControl padding="5px">
       <InputGroup
@@ -26,7 +24,8 @@ export const InputSearch = ({
         <InputRightElement
           width="40px"
           height="40px"
-          bg="white"
+          bg="transparent"
+          color="white"
           borderRadius="10px"
           transition="filter .1s linear "
           _hover={{
@@ -35,25 +34,24 @@ export const InputSearch = ({
           }}
           _active={{ filter: "brightness(.8)" }}
           aria-label="supprimer"
-          onClick={closeInputSearch}
+          onClick={searchBox}
         >
-          <BiSearchAlt color="gray.100" width="100%" />
+          <BiSearchAlt size={30} />
         </InputRightElement>
         <Input
+          background="transparent"
           type="search"
           name="title"
           placeholder="Digitar Pesquisa"
           defaultValue=""
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            filterAnimes(event.target.value)
+            searchAnime(event.target.value)
           }
           border="none"
           variant="filled"
-          bg="gray.0"
           paddingRight="55px"
-          color="gray.300"
+          color="white"
           _hover={{ filter: "brightness(1.1)" }}
-          _focus={{ bg: "gray.0" }}
         />
       </InputGroup>
     </FormControl>

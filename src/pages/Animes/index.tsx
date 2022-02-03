@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
 // import { FixedAnimeCard } from "../../components/FixedAnimeModal";
 
 export const AnimePage = () => {
-  const { selectedAnime, getAnimeById } = useAnime()
+  const { selectedAnime, getAnimeById, setSearched } = useAnime()
 
   const { id } = useParams<{ id: string }>()
 
@@ -20,6 +20,7 @@ export const AnimePage = () => {
 
   useEffect(() => {
     getAnimeById(Number(id))
+    setSearched('')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -167,7 +168,7 @@ export const AnimePage = () => {
               textAlign="justify"
               paddingX="20px"
               marginLeft={['0px', '0px', '0px', '260px']}
-              marginRight={['0px', '0px', '0px']}
+              marginRight={['0px', '0px', '0px', '320px']}
             >
               {selectedAnime.synopsis}
             </Text>
@@ -184,7 +185,7 @@ export const AnimePage = () => {
               alignSelf="end"
               marginX="20px"
               marginTop={['20px', '20px', '20px', '0px']}
-              transform={['0px', '0px', '0px', 'translateY()']}
+              transform={['0px', '0px', '0px', 'translateY(-220px)']}
             >
               <Text
                 textAlign="center"

@@ -56,8 +56,8 @@ export const Searched = ({ title, animes }: SearchedProps) => {
         overflowX={["auto", "auto", "hidden", "hidden"]}
         maxH="480px"
       >
-        {animes.map((anime) => (
-          <Animecard anime={anime} key={animes.indexOf(anime)} />
+        {animes.map((anime, index) => (
+          <Animecard anime={anime} key={index} />
         ))}
       </Flex>
     </Flex>

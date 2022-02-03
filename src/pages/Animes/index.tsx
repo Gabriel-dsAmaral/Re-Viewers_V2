@@ -33,6 +33,7 @@ export const AnimePage = () => {
             background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${selectedAnime.banner_url})`}
             // background={`linear-gradient(rgba(211, 236, 226, 1), rgba(246, 236, 226, 0)),url(${selectedAnime.banner_url})`}
             backgroundSize="cover"
+            backgroundPosition="center"
             height="330px"
             width="100%"
           />

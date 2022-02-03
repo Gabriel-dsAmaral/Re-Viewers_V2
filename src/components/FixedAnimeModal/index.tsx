@@ -80,6 +80,7 @@ export const FixedAnimeCard = ({ thisAnime }: Anime) => {
       console.log(data);
     }
   };
+  //hmm
   return (
     <>
       <VStack border="2px solid" direction="column" top="100px">

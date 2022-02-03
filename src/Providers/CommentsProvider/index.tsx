@@ -15,6 +15,7 @@ interface Comment {
   userId: number;
   id: number;
   name: string;
+  userImg: string;
 }
 
 interface CommentProviderProps {
@@ -34,16 +35,6 @@ interface EditCommentCredentials {
   CommentId: number;
 }
 
-interface User {
-  email: string;
-  id: string;
-  name: string;
-}
-
-interface UserState {
-  user: User;
-}
-
 const CommentsContext = createContext<CommentsContextData>(
   {} as CommentsContextData
 );
@@ -59,7 +50,13 @@ const CommentProvider = ({ children }: CommentProviderProps) => {
     await api
       .post(
         "/comments",
-        { animeId, comment, userId: user?.id, name: user?.name },
+        {
+          animeId,
+          comment,
+          userId: user?.id,
+          name: user?.name,
+          userImg: user?.userImg,
+        },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }

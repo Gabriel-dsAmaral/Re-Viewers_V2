@@ -11,6 +11,7 @@ interface Rate {
   value: number;
 }
 interface AnimesData {
+  myListStatus?: string;
   id: number;
   title: string;
   category: Array<string>;
@@ -118,14 +119,16 @@ const AnimeProvider = ({ children }: Children) => {
 
   const searchAnime = (search: string) => {
     setSearched(search);
-    const searched = search.toLowerCase();
+    const searchedLower = search.toLowerCase();
     const filterAnimeName = animes.filter((anime) => {
-      return anime.title.toLowerCase().includes(searched);
+      return anime.title.toLowerCase().includes(searchedLower);
     });
 
     const filterAnimeCategory = animes.filter((anime) => {
       const category = anime.category.map((actual) => actual.toLowerCase());
-      const filtered = category.filter((actual) => actual.includes(searched));
+      const filtered = category.filter((actual) =>
+        actual.includes(searchedLower)
+      );
 
       if (filtered[0]) {
         return anime;

@@ -1,13 +1,24 @@
-import { Box, Button, Center, Flex, Image, Text } from '@chakra-ui/react'
-import { Animes3 } from '../../utils'
+import { Button, Center, Flex, Image, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useAnime } from "../../Providers/AnimesProvider";
 
 export const AnimeCardMobile = () => {
+  const { getAnimes, animes } = useAnime();
+
+  useEffect(() => {
+    getAnimes();
+  });
+
+  const termineiAnmesList = animes.filter(
+    (anime) => anime.myListStatus === "Terminei"
+  );
+
   return (
     <Center marginTop="50%" zIndex="999" flexDir="column" position="absolute">
-      <Image width="200px" src={Animes3[1].image_url} />
+      <Image width="200px" src={termineiAnmesList[1].image_url} />
 
       <Text fontSize="2.125rem" fontWeight="bold">
-        {Animes3[1].title}
+        {termineiAnmesList[1].title}
       </Text>
       <Text
         color="grey"
@@ -18,12 +29,12 @@ export const AnimeCardMobile = () => {
         borderRadius="10px"
         fontSize="1,5rem"
         fontWeight="bold"
-        _hover={{ backgroundColor: 'gold.light' }}
+        _hover={{ backgroundColor: "gold.light" }}
       >
-        Score: <Text>{Animes3[1].rate}</Text>
+        Score: <Text>{termineiAnmesList[1].rate}</Text>
       </Text>
       <Flex justifyContent="center" wrap="wrap">
-        {Animes3[1].category.map(textCateg => (
+        {termineiAnmesList[1].category.map((textCateg) => (
           <Button
             color="grey"
             bgColor="rgba(212, 161, 111, 0.1)"
@@ -35,12 +46,12 @@ export const AnimeCardMobile = () => {
             borderStyle="solid"
             textShadow="outline"
             borderRadius="10px"
-            _hover={{ backgroundColor: 'gold.light' }}
+            _hover={{ backgroundColor: "gold.light" }}
           >
             {textCateg}
           </Button>
         ))}
       </Flex>
     </Center>
-  )
-}
+  );
+};

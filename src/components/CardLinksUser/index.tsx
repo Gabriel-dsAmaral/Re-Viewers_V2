@@ -1,6 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { Animecard } from "../AnimeCard";
-
 interface Rate {
   userId: number;
   value: number;
@@ -26,11 +25,11 @@ interface CardLinksProps {
   animes: AnimesData[];
 }
 
-export const CardLinks = ({ title, animes }: CardLinksProps) => {
+export const CardLinksUser = ({ title, animes }: CardLinksProps) => {
   return (
     <Flex
       direction="column"
-      maxW={["100%", "100%", "400px", "400px"]}
+      maxW="100%"
       justifyContent="center"
       alignItems="center"
       backgroundColor="gold.sand20"
@@ -49,14 +48,13 @@ export const CardLinks = ({ title, animes }: CardLinksProps) => {
       </Text>
       <Flex
         w="90%"
-        wrap={["nowrap", "nowrap", "wrap", "wrap"]}
+        wrap="nowrap"
         gap={["20px", "20px", "20px", "30px"]}
         padding={["15px", "15px", "15px", "20px"]}
         paddingX={["0", "0"]}
         alignItems="center"
-        justifyContent={["flex-start", "flex-start", "center", "center"]}
-        overflow={["hidden", "hidden", "overlay", "overlay"]}
-        overflowX={["auto", "auto", "hidden", "hidden"]}
+        justifyContent="flex-start"
+        overflow="overlay"
         maxH="480px"
       >
         {animes.map((anime) => (

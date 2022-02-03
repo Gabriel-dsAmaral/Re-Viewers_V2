@@ -1,27 +1,25 @@
-import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
-import { useUser } from "../../Providers/UserProvider";
 import { useAnime } from "../../Providers/AnimesProvider";
-import { useComment } from "../../Providers/CommentsProvider";
 import { useEffect } from "react";
 import { SliderContainer } from "../../components/SliderContainer";
 import { SectionContainer } from "../../components/SectionContainer";
-import { Animes2, Animes3 } from "../../utils";
+import { Footer } from "../../components/Footer";
+import { Animes, Animes2, Animes3 } from "../../Utils";
 
 export const Home = () => {
-  const { signOut } = useUser();
-  const { animes, getAnimes } = useAnime();
-  const { MakeComment } = useComment();
-
-  useEffect(() => {
-    getAnimes();
-  }, []);
+  const { setSearchList, setSearched } = useAnime();
 
   const isWideVersion = useBreakpointValue({
     base: false,
     md: true,
   });
+
+  useEffect(() => {
+    setSearchList([]);
+    setSearched("");
+  }, []);
 
   return (
     <Box minH="100vh" w="100%" backgroundColor="grey.80">
@@ -40,13 +38,14 @@ export const Home = () => {
           overflow="hidden"
           minW="50vw"
         >
-          <SectionContainer title="5 beast" animeList={Animes2} />
+          <SectionContainer title="5 Melhores" animeList={Animes} />
 
-          <SectionContainer title="Most Popular" animeList={Animes2} />
+          <SectionContainer title="Mais Populares" animeList={Animes2} />
         </Flex>
 
         <CardLinks title="Recomendados" animes={Animes3} />
       </Flex>
+      <Footer />
     </Box>
   );
 };

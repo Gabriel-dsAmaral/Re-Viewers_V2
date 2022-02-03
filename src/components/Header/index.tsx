@@ -6,7 +6,8 @@ import {
   useColorMode,
   useDisclosure,
   Button,
-} from "@chakra-ui/react";
+  Img
+} from '@chakra-ui/react'
 
 import {
   BiUserCircle,
@@ -14,62 +15,86 @@ import {
   BiSearchAlt,
   BiMoon,
   BiSun,
-} from "react-icons/bi";
+  BiHome,
+  BiUserPlus,
+  BiLogIn
+} from 'react-icons/bi'
 
-import { InputSearch } from "../Input/InputSearch";
-import { Signup } from "../Modals/Signup";
-import { SignIn } from "../Modals/SignIn";
-import { useState } from "react";
-import { useUser } from "../../Providers/UserProvider";
-import { useAnime } from "../../Providers/AnimesProvider";
-import { useHistory } from "react-router-dom";
+import { InputSearch } from '../Input/InputSearch'
+import { Signup } from '../Modals/Signup'
+import { SignIn } from '../Modals/SignIn'
+import { useState } from 'react'
+import { useUser } from '../../Providers/UserProvider'
+import { useAnime } from '../../Providers/AnimesProvider'
+import { useHistory } from 'react-router-dom'
+import Logo from '../../assets/logo.png'
+import { ModalConfirm } from '../Modals/ModalConfirm'
 
 export const Header = () => {
   const {
     isOpen: isModalSignupOpen,
     onOpen: onModalSignupOpen,
-    onClose: onModalSignupClose,
-  } = useDisclosure();
+    onClose: onModalSignupClose
+  } = useDisclosure()
 
   const {
     isOpen: isModalSignInOpen,
     onOpen: onModalSignInOpen,
-    onClose: onModalSignInClose,
-  } = useDisclosure();
+    onClose: onModalSignInClose
+  } = useDisclosure()
 
-  const { searchList, setSearchList, setSearched, searched } = useAnime();
+  const {
+    isOpen: isModalConfirmOpen,
+    onOpen: onModalConfirmOpen,
+    onClose: onModalConfirmClose
+  } = useDisclosure()
 
-  const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
+  const { searched } = useAnime()
 
-  const [showSearchBox, setShowSearchBox] = useState(false);
+  const [isLightTheme, setIsLightTheme] = useState<boolean>(true)
 
-  const history = useHistory();
+  const [showSearchBox, setShowSearchBox] = useState(false)
 
-  const searchBox = () => {
-    console.log(searchList);
-    if (searchList[0]) {
-      setShowSearchBox(!showSearchBox);
-      history.push(`/search/${searched}`);
-      setSearchList([]);
-      setSearched("");
+  const { toggleColorMode } = useColorMode()
+
+  const { accessToken, signOut } = useUser()
+
+  const history = useHistory()
+
+  const toggleSearch = () => {
+    if (searched === '' && window.screen.width >= 768) {
+      setShowSearchBox(false)
+    } else if (searched === '') {
+      setShowSearchBox(!showSearchBox)
     } else {
-      setShowSearchBox(!showSearchBox);
+      setShowSearchBox(false)
+      searchFunction()
     }
-  };
+  }
 
-  const { toggleColorMode } = useColorMode();
-
-  const { accessToken, signOut } = useUser();
+  const searchFunction = () => {
+    if (searched !== '') {
+      history.push(`/search/${searched}`)
+    }
+  }
 
   const toggleTheme = () => {
-    setIsLightTheme(!isLightTheme);
-    toggleColorMode();
-  };
+    setIsLightTheme(!isLightTheme)
+    toggleColorMode()
+  }
 
   const isWideVersion = useBreakpointValue({
     base: false,
-    md: true,
-  });
+    md: true
+  })
+
+  const goHome = () => {
+    history.push('/')
+  }
+
+  const goUser = () => {
+    history.push('/user')
+  }
 
   return (
     <Flex
@@ -77,24 +102,24 @@ export const Header = () => {
       justifyContent="space-between"
       alignItems="center"
       height="60px"
-      paddingX={["10px", "40px"]}
+      paddingX={['10px', '40px']}
       position="absolute"
       top="0"
       zIndex="1"
     >
       {showSearchBox ? (
-        <InputSearch searchBox={searchBox} />
+        <InputSearch searchBox={toggleSearch} />
       ) : (
         <>
-          <Box>LOGO</Box>
+          <Img src={Logo} alt="Re:viewers" w="50px" h="50px" onClick={goHome} />
 
           <Flex
             justifyContent="space-between"
             alignItems="center"
-            gap={["20px", "60px"]}
+            gap={['15px', '100px']}
           >
             {isWideVersion ? (
-              <InputSearch searchBox={searchBox} />
+              <InputSearch searchBox={toggleSearch} />
             ) : (
               <IconButton
                 icon={<BiSearchAlt size={30} />}
@@ -103,17 +128,24 @@ export const Header = () => {
                 color="white"
                 transition="scale .2s linear "
                 _hover={{
-                  cursor: "pointer",
-                  transform: "scale(1.05)",
+                  cursor: 'pointer',
+                  transform: 'scale(1.05)'
                 }}
                 aria-label="supprimer"
                 borderRadius="10px"
-                onClick={() => searchBox()}
+                onClick={() => toggleSearch()}
               />
             )}
 
             <SignIn isOpen={isModalSignInOpen} onClose={onModalSignInClose} />
             <Signup isOpen={isModalSignupOpen} onClose={onModalSignupClose} />
+            <ModalConfirm
+              isOpen={isModalConfirmOpen}
+              onClose={onModalConfirmClose}
+              title="ERABE!!!"
+              message="Deseja realmente deletar o comentario"
+              result="Se confirmar não tem como voltar atras pense bem"
+            />
 
             <IconButton
               icon={isLightTheme ? <BiMoon size={30} /> : <BiSun size={30} />}
@@ -122,12 +154,26 @@ export const Header = () => {
               color="white"
               transition="scale .2s linear "
               _hover={{
-                cursor: "pointer",
-                transform: "scale(1.05)",
+                cursor: 'pointer',
+                transform: 'scale(1.05)'
               }}
               aria-label="supprimer"
               borderRadius="10px"
               onClick={toggleTheme}
+            />
+            <IconButton
+              icon={<BiHome size={30} />}
+              mixBlendMode="difference"
+              bg="transparent"
+              color="white"
+              transition="scale .2s linear "
+              _hover={{
+                cursor: 'pointer',
+                transform: 'scale(1.05)'
+              }}
+              aria-label="supprimer"
+              borderRadius="10px"
+              onClick={goHome}
             />
 
             {!!accessToken ? (
@@ -139,12 +185,12 @@ export const Header = () => {
                   color="white"
                   transition="scale .2s linear "
                   _hover={{
-                    cursor: "pointer",
-                    transform: "scale(1.05)",
+                    cursor: 'pointer',
+                    transform: 'scale(1.05)'
                   }}
                   aria-label="supprimer"
                   borderRadius="10px"
-                  onClick={onModalSignInOpen}
+                  onClick={goUser}
                 />
 
                 <IconButton
@@ -154,8 +200,8 @@ export const Header = () => {
                   color="white"
                   transition="scale .2s linear "
                   _hover={{
-                    cursor: "pointer",
-                    transform: "scale(1.05)",
+                    cursor: 'pointer',
+                    transform: 'scale(1.05)'
                   }}
                   aria-label="supprimer"
                   borderRadius="10px"
@@ -164,35 +210,40 @@ export const Header = () => {
               </>
             ) : (
               <>
-                <Button
-                  width="15px"
+                <IconButton
+                  icon={<BiUserPlus size={30} />}
                   mixBlendMode="difference"
                   bg="transparent"
                   color="white"
+                  transition="scale .2s linear "
                   _hover={{
-                    background: "gray",
+                    cursor: 'pointer',
+                    transform: 'scale(1.05)'
                   }}
+                  aria-label="supprimer"
+                  borderRadius="10px"
                   onClick={onModalSignupOpen}
-                >
-                  SUp
-                </Button>
-                <Button
-                  width="15px"
+                />
+
+                <IconButton
+                  icon={<BiLogIn size={30} />}
                   mixBlendMode="difference"
                   bg="transparent"
                   color="white"
+                  transition="scale .2s linear "
                   _hover={{
-                    background: "gray",
+                    cursor: 'pointer',
+                    transform: 'scale(1.05)'
                   }}
+                  aria-label="supprimer"
+                  borderRadius="10px"
                   onClick={onModalSignInOpen}
-                >
-                  SIn
-                </Button>
+                />
               </>
             )}
           </Flex>
         </>
       )}
     </Flex>
-  );
-};
+  )
+}

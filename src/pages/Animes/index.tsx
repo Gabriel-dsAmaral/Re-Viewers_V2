@@ -5,15 +5,19 @@ import { Button } from "../../components/Button";
 import { Comments } from "../../components/Comments";
 import { Header } from "../../components/Header";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { api } from "../../services/api";
 import { useUser } from "../../Providers/UserProvider";
 import { ModalScore } from "../../components/Modals/ModalScore";
+import { categories } from "../../Utils";
 
 export const AnimePage = () => {
   const [scoreResult, setScoreResult] = useState<number>(0);
 
-  const { selectedAnime, getAnimeById } = useAnime();
+  const { selectedAnime, getAnimeById, setSearched, searchAnime, getAnimes } =
+    useAnime();
+
+  const history = useHistory();
 
   const { id } = useParams<{ id: string }>();
 
@@ -74,7 +78,6 @@ export const AnimePage = () => {
       patchMyList(IdInFiltered, query);
       console.log("atualizei");
     }
-    calcScore();
   };
 
   //CALCULAR-SCORE
@@ -98,9 +101,17 @@ export const AnimePage = () => {
     }
   };
 
+  const searchCategories = (search: string) => {
+    setSearched(search);
+    searchAnime(search);
+    history.push(`/search/${search}`);
+  };
+
   useEffect(() => {
     getAnimeById(Number(id));
     calcScore();
+    setSearched("");
+    getAnimes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -122,12 +133,15 @@ export const AnimePage = () => {
       {selectedAnime.category && (
         <>
           <ModalScore
+            calcScore={calcScore}
             isOpen={isOpenModalScore}
             onClose={onCloseModalScore}
             selectedAnime={selectedAnime}
           />
           <Box
             background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${selectedAnime.banner_url})`}
+            backgroundSize="cover"
+            backgroundPosition="center"
             height="330px"
             width="100%"
           />
@@ -188,7 +202,6 @@ export const AnimePage = () => {
             <Text
               fontWeight="600"
               fontSize="30px"
-              color="grey.dark"
               marginY="10px"
               textAlign="center"
             >
@@ -219,6 +232,7 @@ export const AnimePage = () => {
                   lineHeight="40px"
                   width="120px"
                   mb="10px"
+                  textShadow="1px 1px #d6883f"
                 >
                   Score: {scoreResult}
                 </Text>
@@ -229,6 +243,8 @@ export const AnimePage = () => {
                 display="inline-flex"
                 justifyContent="space-around"
                 flexWrap="wrap"
+                fontWeight="semibold"
+                textShadow="0.5px 0.5px grey"
               >
                 {selectedAnime.category.map((category, key) => {
                   return (
@@ -243,6 +259,8 @@ export const AnimePage = () => {
                       textAlign="center"
                       marginTop="10px"
                       paddingY="3px"
+                      boxShadow="base"
+                      onClick={() => searchCategories(category)}
                     >
                       <p>{category}</p>
                     </Box>
@@ -267,7 +285,7 @@ export const AnimePage = () => {
               alignItems="center"
               paddingY="20px"
               borderRadius="10px"
-              bgColor="#F6ECE1"
+              bgColor="gold.light50"
               maxWidth={["100%", "100%", "100%", "280px"]}
               minW="280px"
               alignSelf="end"
@@ -276,11 +294,12 @@ export const AnimePage = () => {
             >
               <Text
                 textAlign="center"
-                fontStyle="bold"
+                fontWeight="bold"
                 fontSize="25px"
-                color="#8A5018"
+                color="primary"
+                textShadow="0.5px 0.5px black"
               >
-                Relacionados
+                Categorias
               </Text>
               <Flex
                 flexFlow="row wrap"
@@ -295,7 +314,7 @@ export const AnimePage = () => {
                 mt="30px"
                 paddingInline="10px"
               >
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item, key) => (
+                {categories.map((categories, key) => (
                   <Box
                     key={key}
                     border="2px solid"
@@ -307,8 +326,9 @@ export const AnimePage = () => {
                     padding="5px"
                     _hover={{ cursor: "pointer" }}
                     minW="100px"
+                    onClick={() => searchCategories(categories)}
                   >
-                    Categoria
+                    {categories}
                   </Box>
                 ))}
               </Flex>

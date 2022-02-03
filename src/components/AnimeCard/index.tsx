@@ -8,6 +8,7 @@ interface Rate {
   value: number;
 }
 interface AnimesData {
+  myListStatus?: string;
   id: number;
   title: string;
   category: Array<string>;
@@ -22,7 +23,6 @@ interface AnimesData {
   userId?: number;
   data?: object;
 }
-
 interface AnimeCardProps {
   anime: AnimesData;
 }

@@ -6,7 +6,6 @@ interface Rate {
   value: number;
 }
 interface AnimesData {
-  myListStatus?: string;
   id: number;
   title: string;
   category: Array<string>;
@@ -21,17 +20,19 @@ interface AnimesData {
   userId?: number;
   data?: object;
 }
-interface CardLinksProps {
+
+interface SearchedProps {
   title: string;
   animes: AnimesData[];
 }
 
-export const CardLinks = ({ title, animes }: CardLinksProps) => {
+export const Searched = ({ title, animes }: SearchedProps) => {
   return (
     <Flex
-      direction="column"
-      maxW={["100%", "100%", "400px", "400px"]}
+      direction="row"
+      maxW={["100%", "100%"]}
       justifyContent="center"
+      flexWrap="wrap"
       alignItems="center"
       backgroundColor="gold.sand20"
       borderRadius="8px"
@@ -48,7 +49,7 @@ export const CardLinks = ({ title, animes }: CardLinksProps) => {
         {title}
       </Text>
       <Flex
-        w="90%"
+        w="95%"
         wrap={["nowrap", "nowrap", "wrap", "wrap"]}
         gap={["20px", "20px", "20px", "30px"]}
         padding={["15px", "15px", "15px", "20px"]}
@@ -59,8 +60,8 @@ export const CardLinks = ({ title, animes }: CardLinksProps) => {
         overflowX={["auto", "auto", "hidden", "hidden"]}
         maxH="480px"
       >
-        {animes.map((anime) => (
-          <Animecard anime={anime} key={animes.indexOf(anime)} />
+        {animes.map((anime, index) => (
+          <Animecard anime={anime} key={index} />
         ))}
       </Flex>
     </Flex>

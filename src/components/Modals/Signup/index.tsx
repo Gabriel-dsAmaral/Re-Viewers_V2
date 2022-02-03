@@ -59,7 +59,14 @@ export const Signup = ({ isOpen, onClose }: ModalCartProps) => {
   const { sigNup } = useUser()
 
   const handleSignup = ({ name, email, password }: SignupData) => {
-    sigNup({ name, email, password })
+    sigNup({
+      name,
+      email,
+      password,
+      userImg:
+        'http://pm1.narvii.com/6861/44017694789ca7409a0a9a30a8c0be4a7e2bd9f8r1-800-713v2_00.jpg'
+    })
+      .then(() => onClose())
       .then(res => onModalSuccessOpen())
       .catch(err => onModalErrorOpen())
     reset()
@@ -67,17 +74,17 @@ export const Signup = ({ isOpen, onClose }: ModalCartProps) => {
 
   return (
     <>
+      <ModalSuccess
+        result="Bem vindo novo Otaku!!!"
+        message="Cadastro realizado com sucesso"
+        title="Okaeri-nasai mase, Goshujin-sama!!!"
+        isOpen={isModalSuccessOpen}
+        onClose={onModalSuccessClose}
+      />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent background="primary">
           <ModalCloseButton />
-          <ModalSuccess
-            result="Bem vindo novo Otaku!!!"
-            message="Cadastro realizado com sucesso"
-            title="Okaeri-nasai mase, Goshujin-sama!!!"
-            isOpen={isModalSuccessOpen}
-            onClose={onModalSuccessClose}
-          />
 
           <ModalError
             title="Algo de errado não esta certo"

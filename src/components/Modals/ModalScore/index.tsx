@@ -36,12 +36,14 @@ interface AnimesData {
 interface ModalErrorProps {
   selectedAnime: AnimesData;
   onClose: () => void;
+  calcScore: () => void;
   isOpen: boolean;
 }
 
 export const ModalScore = ({
   isOpen,
   onClose,
+  calcScore,
   selectedAnime,
 }: ModalErrorProps) => {
   const [sliderValue, setSliderValue] = useState<number>(1);
@@ -90,6 +92,7 @@ export const ModalScore = ({
 
       await api.patch(`/animes/${selectedAnime.id}`, currentAnime, tokenBearer);
     }
+    calcScore();
   };
 
   //PEGA-O-VALOR-DO-ON-CHANGE

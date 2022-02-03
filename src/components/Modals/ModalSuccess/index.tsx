@@ -8,16 +8,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text
-} from '@chakra-ui/react'
-import welcome from '../../../assets/welcome.jpg'
+  Text,
+} from "@chakra-ui/react";
+import welcome from "../../../assets/welcome.jpg";
 
 interface ModalSuccessProps {
-  isOpen: boolean
-  onClose: () => void
-  result: string
-  title: string
-  message: string
+  isOpen: boolean;
+  onClose: () => void;
+  result: string;
+  title: string;
+  message: string;
+  img?: string;
 }
 
 export const ModalSuccess = ({
@@ -25,7 +26,8 @@ export const ModalSuccess = ({
   onClose,
   title,
   message,
-  result
+  result,
+  img,
 }: ModalSuccessProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -46,7 +48,11 @@ export const ModalSuccess = ({
             >
               {message}
             </Text>
-            <Image border="2px solid" borderColor="grey.dark" src={welcome} />
+            {img === "" ? (
+              <Image border="2px solid" borderColor="grey.dark" src={welcome} />
+            ) : (
+              <Image border="2px solid" borderColor="grey.dark" src={img} />
+            )}
             <Text
               color="grey.dark"
               fontWeight="bold"
@@ -62,7 +68,7 @@ export const ModalSuccess = ({
           <Button
             bgColor="grey.dark"
             color="white"
-            _hover={{ background: 'grey.greyStone' }}
+            _hover={{ background: "grey.greyStone" }}
             onClick={onClose}
           >
             Fechar
@@ -70,5 +76,5 @@ export const ModalSuccess = ({
         </ModalFooter>
       </ModalContent>
     </Modal>
-  )
-}
+  );
+};

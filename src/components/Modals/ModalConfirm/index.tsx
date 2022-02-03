@@ -8,16 +8,16 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text
-} from '@chakra-ui/react'
-import erabe from '../../../assets/erabe.png'
+  Text,
+} from "@chakra-ui/react";
+import erabe from "../../../assets/erabe.png";
 
 interface ModalSuccessProps {
-  isOpen: boolean
-  onClose: () => void
-  result: string
-  title: string
-  message: string
+  isOpen: boolean;
+  onClose: () => void;
+  result: string;
+  title: string;
+  message: string;
 }
 
 export const ModalConfirm = ({
@@ -25,7 +25,7 @@ export const ModalConfirm = ({
   onClose,
   title,
   message,
-  result
+  result,
 }: ModalSuccessProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -68,5 +68,5 @@ export const ModalConfirm = ({
         </ModalFooter>
       </ModalContent>
     </Modal>
-  )
-}
+  );
+};

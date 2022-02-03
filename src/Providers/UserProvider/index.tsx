@@ -97,29 +97,49 @@ const UserProvider = ({ children }: UserProviderProps) => {
 
   const sigNup = useCallback(
     async ({ name, email, password, userImg }: SigNupCredentials) => {
-      await api
-        .post("/register", {
-          name,
-          email,
-          password,
-          userImg,
-        })
-        .catch((err) => console.log(err));
+      await api.post("/register", {
+        name,
+        email,
+        password,
+        userImg,
+      });
     },
     []
   );
 
-  const EditUser = useCallback(async ({ name }: EditUserCredentials) => {
-    const userId = data.user.id;
-    const accessToken = data.accessToken;
-    await api.patch(
-      `/users/${userId}`,
-      { name },
-      {
+  const EditUser = useCallback(
+    async ({ name }: EditUserCredentials) => {
+      const userId = data.user.id;
+      const accessToken = data.accessToken;
+      const response = await api.get(`/users/${userId}/comments`, {
         headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
-  }, []);
+      });
+      await api
+        .patch(
+          `/users/${userId}`,
+          { name },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        )
+        .then(
+          response.data.forEach((item: CommentInfo) => {
+            api.patch(
+              `/comments/${item.id}`,
+              { name: name },
+              {
+                headers: { Authorization: `Bearer ${accessToken}` },
+              }
+            );
+          })
+        )
+        .then((res) =>
+          localStorage.setItem("@re:viewers:user", JSON.stringify(res.data))
+        );
+      window.location.reload();
+    },
+    [data]
+  );
 
   const ChangeAvatar = useCallback(
     async ({ userImg }: ChangeAvatarCredentials) => {
@@ -147,9 +167,13 @@ const UserProvider = ({ children }: UserProviderProps) => {
               }
             );
           })
+        )
+        .then((res) =>
+          localStorage.setItem("@re:viewers:user", JSON.stringify(res.data))
         );
+      window.location.reload();
     },
-    []
+    [data]
   );
 
   return (

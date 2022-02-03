@@ -3,8 +3,11 @@ import { Box, Center, Flex, IconButton, Image, Text } from "@chakra-ui/react";
 import { FaEdit } from "react-icons/fa";
 import { Animes, Animes2, Animes3 } from "../../utils";
 import { CardLinksUser } from "../../components/CardLinksUser/index";
+import { useUser } from "../../Providers/UserProvider";
 
 export const User = () => {
+  const { ChangeAvatar } = useUser();
+
   return (
     <>
       <Header />
@@ -78,6 +81,12 @@ export const User = () => {
                 size="lg"
                 bgColor="#DD4A2E"
                 icon={<FaEdit />}
+                onClick={() =>
+                  ChangeAvatar({
+                    userImg:
+                      "https://i.ytimg.com/vi/1C9DdJogwFc/maxresdefault.jpg",
+                  })
+                }
               />
             </Center>
           </Flex>

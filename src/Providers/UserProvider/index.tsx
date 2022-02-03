@@ -5,7 +5,6 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { StringMappingType } from "typescript";
 
 import { api } from "../../services/api";
 
@@ -17,6 +16,7 @@ interface User {
   email: string;
   id: number;
   name: string;
+  userImg: string;
 }
 
 interface SighInCredentials {
@@ -28,10 +28,24 @@ interface SigNupCredentials {
   email: string;
   password: string;
   name: string;
+  userImg: string;
 }
 
 interface EditUserCredentials {
-  email: string;
+  name: string;
+}
+
+interface ChangeAvatarCredentials {
+  userImg: string;
+}
+
+interface CommentInfo {
+  animeId: number;
+  comment: string;
+  id: number;
+  name: string;
+  userId: number;
+  userImg: string;
 }
 
 interface UserContextData {
@@ -41,6 +55,7 @@ interface UserContextData {
   signIn: (credentials: SighInCredentials) => Promise<void>;
   sigNup: (credentials: SigNupCredentials) => Promise<void>;
   EditUser: (credentials: EditUserCredentials) => Promise<void>;
+  ChangeAvatar: (credentials: ChangeAvatarCredentials) => Promise<void>;
 }
 
 interface UserState {
@@ -81,25 +96,62 @@ const UserProvider = ({ children }: UserProviderProps) => {
   }, []);
 
   const sigNup = useCallback(
-    async ({ name, email, password }: SigNupCredentials) => {
+    async ({ name, email, password, userImg }: SigNupCredentials) => {
       await api
-        .post("/register", { name, email, password })
+        .post("/register", {
+          name,
+          email,
+          password,
+          userImg,
+        })
         .catch((err) => console.log(err));
     },
     []
   );
 
-  const EditUser = useCallback(async ({ email }: EditUserCredentials) => {
+  const EditUser = useCallback(async ({ name }: EditUserCredentials) => {
     const userId = data.user.id;
     const accessToken = data.accessToken;
     await api.patch(
       `/users/${userId}`,
-      { email },
+      { name },
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
   }, []);
+
+  const ChangeAvatar = useCallback(
+    async ({ userImg }: ChangeAvatarCredentials) => {
+      const userId = data.user.id;
+      const accessToken = data.accessToken;
+      const response = await api.get(`/users/${userId}/comments`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      await api
+        .patch(
+          `/users/${userId}`,
+          { userImg: userImg },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        )
+        .then(
+          response.data.forEach((item: CommentInfo) => {
+            api.patch(
+              `/comments/${item.id}`,
+              { userImg: userImg },
+              {
+                headers: { Authorization: `Bearer ${accessToken}` },
+              }
+            );
+          })
+        );
+    },
+    []
+  );
+
   return (
     <UserContext.Provider
       value={{
@@ -109,6 +161,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
         signIn,
         signOut,
         EditUser,
+        ChangeAvatar,
       }}
     >
       {children}

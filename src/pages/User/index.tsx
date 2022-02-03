@@ -1,10 +1,96 @@
+import {
+  Box,
+  Center,
+  Flex,
+  IconButton,
+  Image,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { Header } from "../../components/Header";
-import { Box, Center, Flex, IconButton, Image, Text } from "@chakra-ui/react";
 import { FaEdit } from "react-icons/fa";
-import { Animes, Animes2, Animes3 } from "../../utils";
 import { CardLinksUser } from "../../components/CardLinksUser/index";
+import { useUser } from "../../Providers/UserProvider";
+import { UserEdits } from "../../components/Modals/UserEdits";
+import { api } from "../../services/api";
+import { useState } from "react";
+import { useEffect } from "react";
+
+interface Rate {
+  userId: number;
+  value: number;
+}
+interface AnimesData {
+  myListStatus?: string;
+  id: number;
+  title: string;
+  category: Array<string>;
+  rate?: Array<Rate>;
+  banner_url: string;
+  image_url: string;
+  original: string;
+  status: string;
+  launch_date: string;
+  studio: string;
+  synopsis: string;
+  userId?: number;
+  data?: object;
+}
 
 export const User = () => {
+  const { ChangeAvatar, user, accessToken } = useUser();
+
+  const [watching, setWatching] = useState<AnimesData[]>([]);
+  const [finished, setFinished] = useState<AnimesData[]>([]);
+  const [wantWatch, setWantWatch] = useState<AnimesData[]>([]);
+
+  const tokenBearer = { headers: { Authorization: `Bearer ${accessToken}` } };
+
+  const getWatching = async () => {
+    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
+    const data = response.data;
+
+    const filteredWatch = data.filter(
+      (item: { myListStatus: string }) => item.myListStatus === "Assistindo"
+    );
+
+    setWatching(filteredWatch);
+  };
+
+  const getFinished = async () => {
+    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
+    const data = response.data;
+
+    const filteredFinished = data.filter(
+      (item: { myListStatus: string }) => item.myListStatus === "Terminei"
+    );
+
+    setFinished(filteredFinished);
+  };
+
+  const getWantedToWatch = async () => {
+    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
+    const data = response.data;
+
+    const filteredWantToWatch = data.filter(
+      (item: { myListStatus: string }) => item.myListStatus === "Quero assitir"
+    );
+
+    setWantWatch(filteredWantToWatch);
+  };
+
+  const {
+    isOpen: isModalOpen,
+    onOpen: onModalOpen,
+    onClose: onModalClose,
+  } = useDisclosure();
+
+  useEffect(() => {
+    getWatching();
+    getWantedToWatch();
+    getFinished();
+  }, []);
+
   return (
     <>
       <Header />
@@ -35,7 +121,7 @@ export const User = () => {
                 h="200px"
                 w="200px"
                 borderRadius="3px"
-                src="http://pm1.narvii.com/6861/44017694789ca7409a0a9a30a8c0be4a7e2bd9f8r1-800-713v2_00.jpg"
+                src={user.userImg}
               />
             </Center>
           </Box>
@@ -49,7 +135,7 @@ export const User = () => {
               fontSize="36px"
               margin={"0px 15px 0px 25px"}
             >
-              Rodolfo
+              {user.name}
             </Text>
             <Center
               _hover={{ cursor: "pointer" }}
@@ -60,6 +146,7 @@ export const User = () => {
               right={["0px", "0px", "23px", "23px"]}
               margin-top={["4px", "4px", "0px", "0px"]}
               bgColor="#DD4A2E"
+              onClick={onModalOpen}
             >
               <Text
                 display={["none", "none", "block", "block"]}
@@ -83,15 +170,16 @@ export const User = () => {
           </Flex>
         </Flex>
 
-        <Box w="90%" mt="20px">
-          <CardLinksUser animes={Animes} title="Assistindo" />
-        </Box>
+        <UserEdits isOpen={isModalOpen} onClose={onModalClose} />
 
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={Animes3} title="Quero Assistir" />
+          <CardLinksUser animes={watching} title="Assistindo" />
         </Box>
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={Animes2} title="Finalizados" />
+          <CardLinksUser animes={wantWatch} title="Quero Assistir" />
+        </Box>
+        <Box w="90%" mt="20px">
+          <CardLinksUser animes={finished} title="Finalizados" />
         </Box>
       </Flex>
     </>

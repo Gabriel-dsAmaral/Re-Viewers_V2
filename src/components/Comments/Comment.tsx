@@ -3,9 +3,10 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react";
 interface CommentProps {
   name: string;
   comment: string;
+  img: string;
 }
 
-export const Comment = ({ name, comment }: CommentProps) => {
+export const Comment = ({ name, comment, img }: CommentProps) => {
   return (
     <Box
       maxWidth={["90%", "80%", "80%", "75%"]}
@@ -25,7 +26,7 @@ export const Comment = ({ name, comment }: CommentProps) => {
           h="58px"
           marginRight="10px"
           borderRadius="8px"
-          src="https://i.pinimg.com/280x280_RS/1a/2d/38/1a2d38f8916060f75fe4af01871bf8f0.jpg"
+          src={img}
         />
         {name}
       </Flex>

@@ -5,11 +5,17 @@ import { useUser } from "../UserProvider";
 interface Children {
   children: ReactNode;
 }
+
+interface Rate {
+  userId: number;
+  value: number;
+}
 interface AnimesData {
+  myListStatus?: string;
   id: number;
   title: string;
   category: Array<string>;
-  rate?: Array<string>;
+  rate?: Array<Rate>;
   banner_url: string;
   image_url: string;
   original: string;

@@ -1,18 +1,21 @@
-import { Text, useBreakpointValue, VStack } from "@chakra-ui/react";
-import { Box, Flex, Img } from "@chakra-ui/react";
+import { Text, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Img, VStack } from "@chakra-ui/react";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { Button } from "../../components/Button";
 import { Comments } from "../../components/Comments";
 import { Header } from "../../components/Header";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../services/api";
 import { useUser } from "../../Providers/UserProvider";
+import { ModalScore } from "../../components/Modals/ModalScore";
 
 export const AnimePage = () => {
-  const { id } = useParams<{ id: string }>();
+  const [scoreResult, setScoreResult] = useState<number>(0);
 
   const { selectedAnime, getAnimeById } = useAnime();
+
+  const { id } = useParams<{ id: string }>();
 
   const { user, accessToken } = useUser();
 
@@ -71,10 +74,33 @@ export const AnimePage = () => {
       patchMyList(IdInFiltered, query);
       console.log("atualizei");
     }
+    calcScore();
+  };
+
+  //CALCULAR-SCORE
+  const calcScore = async () => {
+    const res = await api.get(`/animes?id=${id}`, tokenBearer);
+
+    const currentAnime = res.data[0];
+
+    console.log(res.data);
+
+    if (!!currentAnime.rate[0]) {
+      const output =
+        currentAnime.rate.reduce(
+          (acc: number, curr: { value: number }) => acc + curr.value,
+          0
+        ) / currentAnime.rate.length;
+
+      setScoreResult(output);
+    } else {
+      setScoreResult(1);
+    }
   };
 
   useEffect(() => {
     getAnimeById(Number(id));
+    calcScore();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -83,29 +109,36 @@ export const AnimePage = () => {
     lg: true,
   });
 
+  const {
+    isOpen: isOpenModalScore,
+    onOpen: OnOpenModalScore,
+    onClose: onCloseModalScore,
+  } = useDisclosure();
+
   return (
     <Box width="100%" minH="100vh">
       <Header />
 
       {selectedAnime.category && (
         <>
+          <ModalScore
+            isOpen={isOpenModalScore}
+            onClose={onCloseModalScore}
+            selectedAnime={selectedAnime}
+          />
           <Box
             background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${selectedAnime.banner_url})`}
-            // background={`linear-gradient(rgba(211, 236, 226, 1), rgba(246, 236, 226, 0)),url(${selectedAnime.banner_url})`}
             height="330px"
             width="100%"
           />
           <Flex
-            // marginLeft={["0px", "0px", "0px", "270px"]}
             flexDirection="column"
             alignItems={["center", "center", "center", "start"]}
-            // border="2px solid"
             marginTop={["-150px", "-150px", "-150px", "0px"]}
             marginLeft={["0px", "0px", "0px", "280px"]}
           >
             {/* IMAGEM E BOTÕES */}
             <VStack
-              // border="2px solid"
               direction="column"
               top="120px"
               left="20px"
@@ -142,7 +175,11 @@ export const AnimePage = () => {
                   >
                     Terminei...):
                   </Button>
-                  <Button w="inherit" model="4">
+                  <Button
+                    w="inherit"
+                    model="4"
+                    onClick={() => OnOpenModalScore()}
+                  >
                     Avaliar
                   </Button>
                 </VStack>
@@ -152,7 +189,6 @@ export const AnimePage = () => {
               fontWeight="600"
               fontSize="30px"
               color="grey.dark"
-              // border="2px solid red"
               marginY="10px"
               textAlign="center"
             >
@@ -163,7 +199,6 @@ export const AnimePage = () => {
               justifyContent="space-around"
               alignItems="baseline"
               width={["80%", "80%", "80%", "auto"]}
-              // border="2px solid red"
             >
               <Box
                 p="1"
@@ -185,7 +220,7 @@ export const AnimePage = () => {
                   width="120px"
                   mb="10px"
                 >
-                  Score: 6.89
+                  Score: {scoreResult}
                 </Text>
               </Box>
 
@@ -194,7 +229,6 @@ export const AnimePage = () => {
                 display="inline-flex"
                 justifyContent="space-around"
                 flexWrap="wrap"
-                // border="2px solid"
               >
                 {selectedAnime.category.map((category, key) => {
                   return (
@@ -223,8 +257,6 @@ export const AnimePage = () => {
               textAlign="justify"
               paddingX="20px"
               marginLeft={["0px", "0px", "0px", "260px"]}
-              // marginRight={["0px", "0px", "0px", "320px"]}
-              // border="2px solid purple"
             >
               Sobre Anime: {selectedAnime.synopsis}
             </Text>
@@ -241,7 +273,6 @@ export const AnimePage = () => {
               alignSelf="end"
               marginX="20px"
               marginTop="20px"
-              // transform={["0px", "0px", "0px", "translateY(-220px)"]}
             >
               <Text
                 textAlign="center"
@@ -289,21 +320,40 @@ export const AnimePage = () => {
               alignItems="center"
               justifyContent="space-around"
               flexFlow="row wrap"
-              // border="2px solid"
               marginY="20px"
               paddingX="10px"
               gap="20px"
             >
-              <Button minW="150px" h="40px" model="1">
+              <Button
+                minW="150px"
+                h="40px"
+                model="1"
+                onClick={() => handlePatchMyList("Assistindo")}
+              >
                 Assitindo
               </Button>
-              <Button minW="150px" h="40px" model="2">
+              <Button
+                minW="150px"
+                h="40px"
+                model="2"
+                onClick={() => handlePatchMyList("Quero assitir")}
+              >
                 Quero Assistir
               </Button>
-              <Button minW="150px" h="40px" model="3">
+              <Button
+                minW="150px"
+                h="40px"
+                model="3"
+                onClick={() => handlePatchMyList("Terminei")}
+              >
                 Terminei...):
               </Button>
-              <Button minW="150px" h="40px" model="4">
+              <Button
+                minW="150px"
+                h="40px"
+                model="4"
+                onClick={() => OnOpenModalScore()}
+              >
                 Avaliar
               </Button>
             </Flex>

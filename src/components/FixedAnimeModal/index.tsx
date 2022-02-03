@@ -1,4 +1,4 @@
-import { Flex, Img, VStack } from "@chakra-ui/react";
+import { Img, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { useUser } from "../../Providers/UserProvider";
@@ -31,55 +31,55 @@ export const FixedAnimeCard = ({ thisAnime }: Anime) => {
   const animeId = thisAnime.id;
   const userId = user.id;
 
-  const patchMyList = async (userId: number, query: string) => {
-    const response = await api.patch(
-      `mylist/?animeId=${animeId}&userId=${userId}`,
-      { userStatus: query },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-  };
+  // const patchMyList = async (userId: number, query: string) => {
+  //   const response = await api.patch(
+  //     `mylist/?animeId=${animeId}&userId=${userId}`,
+  //     { userStatus: query },
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     }
+  //   );
+  // };
 
-  const getMyList = async () => {
-    const response = await api.get(
-      `mylist/?userId=${userId}`,
+  // const getMyList = async () => {
+  //   const response = await api.get(
+  //     `mylist/?userId=${userId}`,
 
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    console.log(response.data);
-  };
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     }
+  //   );
+  //   console.log(response.data);
+  // };
 
-  useEffect(() => {
-    getMyList();
-  }, []);
+  // useEffect(() => {
+  //   getMyList();
+  // }, []);
 
-  const handleMyList = (userId: number, query: string) => {
-    if (query === "") {
-      addAnimeList(thisAnime);
-    } else if (query === "Assistindo" || query === "Terminado") {
-      patchMyList(userId, query);
-    } else {
-      const response = api.patch(
-        `/animes/${animeId}`,
-        { rate: [...(thisAnime.rate || [0]), 6] },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+  // const handleMyList = (userId: number, query: string) => {
+  //   if (query === "") {
+  //     addAnimeList(thisAnime);
+  //   } else if (query === "Assistindo" || query === "Terminado") {
+  //     patchMyList(userId, query);
+  //   } else {
+  //     const response = api.patch(
+  //       `/animes/${animeId}`,
+  //       { rate: [...(thisAnime.rate || [0]), 6] },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       }
+  //     );
 
-      const data = response;
-      console.log(data);
-    }
-  };
+  //     const data = response;
+  //     console.log(data);
+  //   }
+  // };
   return (
     <>
       <VStack border="2px solid" direction="column" top="100px">
@@ -91,7 +91,7 @@ export const FixedAnimeCard = ({ thisAnime }: Anime) => {
         />
 
         <VStack w="230px">
-          <Button
+          {/* <Button
             w="inherit"
             model="1"
             onClick={() => handleMyList(userId, "Assistindo")}
@@ -118,7 +118,7 @@ export const FixedAnimeCard = ({ thisAnime }: Anime) => {
             onClick={() => handleMyList(userId, "Avaliar")}
           >
             Avaliar
-          </Button>
+          </Button> */}
         </VStack>
       </VStack>
     </>

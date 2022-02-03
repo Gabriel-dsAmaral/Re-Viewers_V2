@@ -1,11 +1,14 @@
 import { Divider, Flex, Heading } from "@chakra-ui/react";
 import { Animecard } from "../AnimeCard";
-
-interface Anime {
+interface Rate {
+  userId: number;
+  value: number;
+}
+interface AnimesData {
   id: number;
   title: string;
   category: Array<string>;
-  rate?: Array<string>;
+  rate?: Array<Rate>;
   banner_url: string;
   image_url: string;
   original: string;
@@ -13,11 +16,13 @@ interface Anime {
   launch_date: string;
   studio: string;
   synopsis: string;
+  userId?: number;
+  data?: object;
 }
 
 interface SectionContainerProps {
   title: string;
-  animeList: Anime[];
+  animeList: AnimesData[];
 }
 
 export const SectionContainer = ({

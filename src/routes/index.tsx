@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Route, Switch } from "react-router-dom";
 import { AboutUs } from "../pages/AboutUs";
 import { AnimePage } from "../pages/Animes";
@@ -6,14 +5,6 @@ import { Home } from "../pages/Home";
 import { HomeTeste } from "../pages/HomeTeste";
 import { Search } from "../pages/Search";
 import { User } from "../pages/User";
-=======
-import { Route, Switch } from 'react-router-dom'
-import { AnimePage } from '../pages/Animes'
-import { Home } from '../pages/Home'
-import { HomeTeste } from '../pages/HomeTeste'
-import { Search } from '../pages/Search'
-import { User } from '../pages/User'
->>>>>>> 26838799943098e9dba0d7c9fde52e686b204f61
 
 export const Routes = () => {
   return (

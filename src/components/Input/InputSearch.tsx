@@ -1,8 +1,8 @@
 import {
-  FormControl,
-  Input,
-  InputGroup,
   InputRightElement,
+  FormControl,
+  InputGroup,
+  Input,
 } from "@chakra-ui/react";
 import { BiSearchAlt } from "react-icons/bi";
 import { useAnime } from "../../Providers/AnimesProvider";

@@ -1,4 +1,3 @@
-import { Header } from "../../components/Header";
 import {
   Box,
   Center,
@@ -8,14 +7,15 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Header } from "../../components/Header";
 import { FaEdit } from "react-icons/fa";
-import { Animes, Animes2, Animes3 } from "../../utils";
 import { CardLinksUser } from "../../components/CardLinksUser/index";
 import { useUser } from "../../Providers/UserProvider";
 import { UserEdits } from "../../components/Modals/UserEdits";
+import { Animes, Animes2, Animes3 } from "../../Utils";
 
 export const User = () => {
-  const { ChangeAvatar, user } = useUser();
+  const { user } = useUser();
 
   const {
     isOpen: isModalOpen,
@@ -78,6 +78,7 @@ export const User = () => {
               right={["0px", "0px", "23px", "23px"]}
               margin-top={["4px", "4px", "0px", "0px"]}
               bgColor="#DD4A2E"
+              onClick={onModalOpen}
             >
               <Text
                 display={["none", "none", "block", "block"]}
@@ -96,7 +97,6 @@ export const User = () => {
                 size="lg"
                 bgColor="#DD4A2E"
                 icon={<FaEdit />}
-                onClick={onModalOpen}
               />
             </Center>
           </Flex>
@@ -107,12 +107,11 @@ export const User = () => {
         <Box w="90%" mt="20px">
           <CardLinksUser animes={Animes} title="Assistindo" />
         </Box>
-
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={Animes3} title="Quero Assistir" />
+          <CardLinksUser animes={Animes2} title="Quero Assistir" />
         </Box>
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={Animes2} title="Finalizados" />
+          <CardLinksUser animes={Animes3} title="Finalizados" />
         </Box>
       </Flex>
     </>

@@ -1,4 +1,4 @@
-import { Box, Flex, Img, Text } from "@chakra-ui/react";
+import { Flex, Img, Text } from "@chakra-ui/react";
 import logo from "../../assets/logo.png";
 import { Footer } from "../../components/Footer";
 export const AboutUs = () => {

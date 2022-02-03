@@ -1,11 +1,16 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { Animecard } from "../AnimeCard";
 
+interface Rate {
+  userId: number;
+  value: number;
+}
 interface AnimesData {
+  myListStatus?: string;
   id: number;
   title: string;
   category: Array<string>;
-  rate?: Array<string>;
+  rate?: Array<Rate>;
   banner_url: string;
   image_url: string;
   original: string;
@@ -16,7 +21,6 @@ interface AnimesData {
   userId?: number;
   data?: object;
 }
-
 interface CardLinksProps {
   title: string;
   animes: AnimesData[];

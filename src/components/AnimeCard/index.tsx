@@ -1,12 +1,18 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useAnime } from "../../Providers/AnimesProvider";
 
+interface Rate {
+  userId: number;
+  value: number;
+}
 interface AnimesData {
+  myListStatus?: string;
   id: number;
   title: string;
   category: Array<string>;
-  rate?: Array<string>;
+  rate?: Array<Rate>;
   banner_url: string;
   image_url: string;
   original: string;
@@ -17,7 +23,6 @@ interface AnimesData {
   userId?: number;
   data?: object;
 }
-
 interface AnimeCardProps {
   anime: AnimesData;
 }
@@ -27,7 +32,11 @@ export const Animecard = ({ anime }: AnimeCardProps) => {
 
   const history = useHistory();
 
+  const { getAnimeById } = useAnime();
+
   const handleAnimePage = (animeID: number) => {
+    console.log(animeID);
+    getAnimeById(Number(animeID));
     history.push(`/animePage/${animeID}`);
   };
 

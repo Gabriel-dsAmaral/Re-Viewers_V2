@@ -1,6 +1,4 @@
 import {
-  Box,
-  Center,
   Flex,
   IconButton,
   Image,
@@ -13,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { Input } from "../../Input/Input";
 import { ModalError } from "../ModalError";
-import { ModalSuccess } from "../ModalSuccess";
 import { useUser } from "../../../Providers/UserProvider";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
@@ -32,11 +29,6 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
   const [avatar, setAvatar] = useState("");
 
   const {
-    isOpen: isModalSuccessOpen,
-    onOpen: onModalSuccessOpen,
-    onClose: onModalSuccessClose,
-  } = useDisclosure();
-  const {
     isOpen: isModalErrorOpen,
     onOpen: onModalErrorOpen,
     onClose: onModalErrorClose,
@@ -52,8 +44,13 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
   };
 
   const handleAvatarEdit = () => {
-    if (user.userImg !== avatar)
+    if (user.userImg !== avatar && avatar !== "")
       ChangeAvatar({ userImg: avatar }).catch((err) => onModalErrorOpen());
+  };
+
+  const handleUser = () => {
+    handleNameEdit();
+    handleAvatarEdit();
   };
 
   return (
@@ -73,18 +70,10 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Lança a braba!"
+              placeholder="Para não alterar mantenha vazio"
               name={!!user.name ? "" : user.name}
               label="Novo user name"
               mt="15px"
-            />
-            <IconButton
-              ml="5px"
-              mb="1px"
-              size="lg"
-              aria-label="supprimer"
-              icon={<FaCheck />}
-              onClick={handleNameEdit}
             />
           </Flex>
 
@@ -131,8 +120,8 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
                 />
               ))}
             </Flex>
-            <Button onClick={handleAvatarEdit} model="3" mt="15px">
-              Alterar avatar
+            <Button onClick={handleUser} model="3" mt="15px">
+              Salvar alterações
             </Button>
           </Flex>
         </ModalContent>

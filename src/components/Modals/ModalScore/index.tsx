@@ -33,11 +33,11 @@ interface AnimesData {
   usersWhoRated?: Array<number>;
 }
 
-interface ModalErrorProps {
-  selectedAnime: AnimesData;
+interface ModalScoreProps {
+  isOpen: boolean;
   onClose: () => void;
   calcScore: () => void;
-  isOpen: boolean;
+  selectedAnime: AnimesData;
 }
 
 export const ModalScore = ({
@@ -45,7 +45,7 @@ export const ModalScore = ({
   onClose,
   calcScore,
   selectedAnime,
-}: ModalErrorProps) => {
+}: ModalScoreProps) => {
   const [sliderValue, setSliderValue] = useState<number>(1);
 
   const { user, accessToken } = useUser();

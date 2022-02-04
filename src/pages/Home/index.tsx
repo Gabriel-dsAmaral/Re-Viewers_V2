@@ -2,11 +2,11 @@ import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
 import { useAnime } from "../../Providers/AnimesProvider";
-import { useEffect } from "react";
 import { SliderContainer } from "../../components/SliderContainer";
 import { SectionContainer } from "../../components/SectionContainer";
 import { Footer } from "../../components/Footer";
-import { Animes, Animes2, Animes3 } from "../../Utils";
+import { Animes2, Animes3 } from "../../Utils";
+import { useEffect } from "react";
 
 export const Home = () => {
   const { setSearchList, setSearched } = useAnime();
@@ -38,7 +38,7 @@ export const Home = () => {
           overflow="hidden"
           minW="50vw"
         >
-          <SectionContainer title="5 Melhores" animeList={Animes} />
+          <SectionContainer title="5 Melhores" animeList={Animes2} />
 
           <SectionContainer title="Mais Populares" animeList={Animes2} />
         </Flex>

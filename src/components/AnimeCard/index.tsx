@@ -42,7 +42,7 @@ export const Animecard = ({ anime }: AnimeCardProps) => {
 
   return (
     <Box
-      backgroundImage={anime.image_url}
+      backgroundImage={`url(${anime.image_url})`}
       _hover={{ cursor: "pointer" }}
       backgroundPosition="center"
       backgroundSize="cover"

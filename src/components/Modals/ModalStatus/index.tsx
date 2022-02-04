@@ -1,55 +1,61 @@
 import {
   Button,
+  Flex,
   Modal,
-  ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-
-interface Rate {
-  userId: number;
-  value: number;
-}
-
-interface AnimesData {
-  id: number;
-  title: string;
-  category: Array<string>;
-  rate?: Array<Rate>;
-  banner_url: string;
-  image_url: string;
-  original: string;
-  status: string;
-  launch_date: string;
-  studio: string;
-  synopsis: string;
-  usersWhoRated?: Array<number>;
-}
-
-interface ModalErrorProps {
-  status: string;
+import { useHistory } from "react-router-dom";
+interface ModalMyListStatusProps {
   onClose: () => void;
   isOpen: boolean;
 }
 
-export const ModalScore = ({ isOpen, onClose, status }: ModalErrorProps) => {
+export const ModalMyListStatus = ({
+  isOpen,
+  onClose,
+}: ModalMyListStatusProps) => {
+  const history = useHistory();
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Status atualizado com sucesso!</ModalHeader>
-        <ModalBody></ModalBody>
-        <ModalFooter j>
-          <Button
-            width="90%"
-            bgColor="grey.dark"
-            color="white"
-            _hover={{ background: "grey.greyStone" }}
+      <ModalContent
+        color="white"
+        bgColor="gold.sand"
+        fontWeight="extrabold"
+        top="150px"
+      >
+        <ModalHeader textAlign="center">Anime adicionado a lista!</ModalHeader>
+        <ModalFooter>
+          <Flex
+            width="100%"
+            gap="10px"
+            flexFlow="column"
+            justifyContent="center"
+            alignItems="center"
           >
-            Avaliar
-          </Button>
+            <Button
+              width="80%"
+              bgColor="grey.dark"
+              color="white"
+              _hover={{ background: "grey.greyStone" }}
+              onClick={() => history.push("/user")}
+            >
+              Ir para página do usuário
+            </Button>
+            <Button
+              width="80%"
+              bgColor="grey.dark"
+              color="white"
+              _hover={{ background: "grey.greyStone" }}
+              onClick={onClose}
+            >
+              Fechar modal
+            </Button>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>

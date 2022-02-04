@@ -10,6 +10,7 @@ import { api } from "../../services/api";
 import { useUser } from "../../Providers/UserProvider";
 import { ModalScore } from "../../components/Modals/ModalScore";
 import { categories } from "../../Utils";
+import { ModalMyListStatus } from "../../components/Modals/ModalStatus";
 
 export const AnimePage = () => {
   const [scoreResult, setScoreResult] = useState<number>(0);
@@ -46,47 +47,37 @@ export const AnimePage = () => {
       myListStatus: query,
     };
 
-    const response = await api.post("mylist", animeData, tokenBearer);
-    console.log("add", response.data);
+    await api.post("mylist", animeData, tokenBearer);
   };
 
   const patchMyList = async (AnimeId: Number, query: string) => {
-    const response = await api.patch(
-      `mylist/${AnimeId}`,
-      { myListStatus: query },
-      tokenBearer
-    );
-    console.log("patch", response.data);
+    await api.patch(`mylist/${AnimeId}`, { myListStatus: query }, tokenBearer);
   };
 
   const handlePatchMyList = async (query: string) => {
     const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
     const data = response.data;
 
-    if (
-      !data.some(
-        (item: { animeId: Number }) => item.animeId === selectedAnime.id
-      )
-    ) {
+    const isInMyList = data.some(
+      (item: { animeId: Number }) => item.animeId === selectedAnime.id
+    );
+
+    if (!isInMyList) {
       addToMyList(query);
-      console.log("adicionei");
     } else {
-      let IsInMyList = data.filter(
+      const animeInMyList = data.filter(
         (item: { animeId: Number }) => item.animeId === selectedAnime.id
       );
-      let IdInFiltered = IsInMyList[0].id;
+      const IdInFiltered = animeInMyList[0].id;
       patchMyList(IdInFiltered, query);
-      console.log("atualizei");
     }
+    OnOpenModalInfo();
   };
 
-  //CALCULAR-SCORE
   const calcScore = async () => {
     const res = await api.get(`/animes?id=${id}`, tokenBearer);
 
     const currentAnime = res.data[0];
-
-    console.log(res.data);
 
     if (!!currentAnime.rate[0]) {
       const output =
@@ -126,6 +117,12 @@ export const AnimePage = () => {
     onClose: onCloseModalScore,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenModalInfo,
+    onOpen: OnOpenModalInfo,
+    onClose: onCloseModalInfo,
+  } = useDisclosure();
+
   return (
     <Box width="100%" minH="100vh">
       <Header />
@@ -137,6 +134,10 @@ export const AnimePage = () => {
             isOpen={isOpenModalScore}
             onClose={onCloseModalScore}
             selectedAnime={selectedAnime}
+          />
+          <ModalMyListStatus
+            isOpen={isOpenModalInfo}
+            onClose={onCloseModalInfo}
           />
           <Box
             background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${selectedAnime.banner_url})`}
@@ -151,7 +152,6 @@ export const AnimePage = () => {
             marginTop={["-150px", "-150px", "-150px", "0px"]}
             marginLeft={["0px", "0px", "0px", "280px"]}
           >
-            {/* IMAGEM E BOTÕES */}
             <VStack
               direction="column"
               top="120px"
@@ -165,7 +165,6 @@ export const AnimePage = () => {
                 src={selectedAnime.image_url}
               />
 
-              {/* APAGAR-BOTÕES NO MOBILE */}
               {isWideVersion && (
                 <VStack w="230px">
                   <Button
@@ -234,7 +233,7 @@ export const AnimePage = () => {
                   mb="10px"
                   textShadow="1px 1px #d6883f"
                 >
-                  Score: {scoreResult}
+                  Score: {scoreResult.toFixed(2)}
                 </Text>
               </Box>
 
@@ -278,7 +277,6 @@ export const AnimePage = () => {
             >
               Sobre Anime: {selectedAnime.synopsis}
             </Text>
-
             <VStack
               border="2px solid"
               borderColor="secondary"

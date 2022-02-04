@@ -3,36 +3,36 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  useDisclosure
-} from '@chakra-ui/react'
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { SignupForm } from './SignupForm'
-import { ModalSuccess } from '../ModalSuccess'
-import { ModalError } from '../ModalError'
-import { useUser } from '../../../Providers/UserProvider'
+  useDisclosure,
+} from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { SignupForm } from "./SignupForm";
+import { ModalSuccess } from "../ModalSuccess";
+import { ModalError } from "../ModalError";
+import { useUser } from "../../../Providers/UserProvider";
 
 const signupSchema = yup.object().shape({
-  name: yup.string().required('Precisamos do seu nome Otaku'),
+  name: yup.string().required("Precisamos do seu nome Otaku"),
   email: yup
     .string()
-    .required('Must have a E-mail')
-    .email('Esse e-mail é de outro mundo'),
-  password: yup.string().required('Precisamos do seu codigo secreto'),
+    .required("Must have a E-mail")
+    .email("Esse e-mail é de outro mundo"),
+  password: yup.string().required("Precisamos do seu codigo secreto"),
   confirm_password: yup
     .string()
-    .required('Precisamos da confirmação do código secreto')
-    .oneOf([yup.ref('password'), null], 'Senhas devem ser iguais')
-})
+    .required("Precisamos da confirmação do código secreto")
+    .oneOf([yup.ref("password"), null], "Senhas devem ser iguais"),
+});
 
 type SignupData = {
-  [key: string]: string
-}
+  [key: string]: string;
+};
 
 interface ModalCartProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export const Signup = ({ isOpen, onClose }: ModalCartProps) => {
@@ -40,23 +40,24 @@ export const Signup = ({ isOpen, onClose }: ModalCartProps) => {
     formState: { errors },
     register,
     handleSubmit,
-    reset
+    reset,
   } = useForm({
-    resolver: yupResolver(signupSchema)
-  })
+    resolver: yupResolver(signupSchema),
+  });
 
   const {
     isOpen: isModalSuccessOpen,
     onOpen: onModalSuccessOpen,
-    onClose: onModalSuccessClose
-  } = useDisclosure()
+    onClose: onModalSuccessClose,
+  } = useDisclosure();
+
   const {
     isOpen: isModalErrorOpen,
     onOpen: onModalErrorOpen,
-    onClose: onModalErrorClose
-  } = useDisclosure()
+    onClose: onModalErrorClose,
+  } = useDisclosure();
 
-  const { sigNup } = useUser()
+  const { sigNup } = useUser();
 
   const handleSignup = ({ name, email, password }: SignupData) => {
     sigNup({
@@ -64,13 +65,13 @@ export const Signup = ({ isOpen, onClose }: ModalCartProps) => {
       email,
       password,
       userImg:
-        'http://pm1.narvii.com/6861/44017694789ca7409a0a9a30a8c0be4a7e2bd9f8r1-800-713v2_00.jpg'
+        "http://pm1.narvii.com/6861/44017694789ca7409a0a9a30a8c0be4a7e2bd9f8r1-800-713v2_00.jpg",
     })
       .then(() => onClose())
-      .then(res => onModalSuccessOpen())
-      .catch(err => onModalErrorOpen())
-    reset()
-  }
+      .then((res) => onModalSuccessOpen())
+      .catch((err) => onModalErrorOpen());
+    reset();
+  };
 
   return (
     <>
@@ -80,6 +81,7 @@ export const Signup = ({ isOpen, onClose }: ModalCartProps) => {
         title="Okaeri-nasai mase, Goshujin-sama!!!"
         isOpen={isModalSuccessOpen}
         onClose={onModalSuccessClose}
+        img=""
       />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -101,5 +103,5 @@ export const Signup = ({ isOpen, onClose }: ModalCartProps) => {
         </ModalContent>
       </Modal>
     </>
-  )
-}
+  );
+};

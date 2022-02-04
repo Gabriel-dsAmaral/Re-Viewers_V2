@@ -2,14 +2,14 @@ import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
 import { useAnime } from "../../Providers/AnimesProvider";
-import { useEffect } from "react";
 import { SliderContainer } from "../../components/SliderContainer";
 import { SectionContainer } from "../../components/SectionContainer";
 import { Footer } from "../../components/Footer";
 import { Animes, Animes2, Animes3 } from "../../Utils";
+import { useEffect } from "react";
 
 export const Home = () => {
-  const { setSearchList, setSearched } = useAnime();
+  const { setSearchList, setSearched, getAnimes } = useAnime();
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -17,8 +17,10 @@ export const Home = () => {
   });
 
   useEffect(() => {
+    getAnimes();
     setSearchList([]);
     setSearched("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

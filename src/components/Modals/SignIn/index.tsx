@@ -3,31 +3,30 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  useDisclosure
-} from '@chakra-ui/react'
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { SignInForm } from './SignInForm'
-import { ModalSuccess } from '../ModalSuccess'
-import { ModalError } from '../ModalError'
-import { useUser } from '../../../Providers/UserProvider'
+  useDisclosure,
+} from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { SignInForm } from "./SignInForm";
+import { ModalError } from "../ModalError";
+import { useUser } from "../../../Providers/UserProvider";
 
 const SignInSchema = yup.object().shape({
   email: yup
     .string()
-    .required('Must have a E-mail')
-    .email('Esse e-mail é de outro mundo'),
-  password: yup.string().required('Precisamos do seu codigo secreto')
-})
+    .required("Must have a E-mail")
+    .email("Esse e-mail é de outro mundo"),
+  password: yup.string().required("Precisamos do seu codigo secreto"),
+});
 
 type SignInData = {
-  [key: string]: string
-}
+  [key: string]: string;
+};
 
 interface ModalCartProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export const SignIn = ({ isOpen, onClose }: ModalCartProps) => {
@@ -35,30 +34,25 @@ export const SignIn = ({ isOpen, onClose }: ModalCartProps) => {
     formState: { errors },
     register,
     handleSubmit,
-    reset
+    reset,
   } = useForm({
-    resolver: yupResolver(SignInSchema)
-  })
+    resolver: yupResolver(SignInSchema),
+  });
 
-  const {
-    isOpen: isModalSuccessOpen,
-    onOpen: onModalSuccessOpen,
-    onClose: onModalSuccessClose
-  } = useDisclosure()
   const {
     isOpen: isModalErrorOpen,
     onOpen: onModalErrorOpen,
-    onClose: onModalErrorClose
-  } = useDisclosure()
+    onClose: onModalErrorClose,
+  } = useDisclosure();
 
-  const { signIn } = useUser()
+  const { signIn } = useUser();
 
   const handleSignIn = ({ email, password }: SignInData) => {
     signIn({ password: password, email: email })
       .then(() => window.location.reload())
-      .catch(err => onModalErrorOpen())
-    reset()
-  }
+      .catch((err) => onModalErrorOpen());
+    reset();
+  };
 
   return (
     <>
@@ -82,5 +76,5 @@ export const SignIn = ({ isOpen, onClose }: ModalCartProps) => {
         </ModalContent>
       </Modal>
     </>
-  )
-}
+  );
+};

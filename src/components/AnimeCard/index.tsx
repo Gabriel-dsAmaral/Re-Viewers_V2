@@ -35,14 +35,13 @@ export const Animecard = ({ anime }: AnimeCardProps) => {
   const { getAnimeById } = useAnime();
 
   const handleAnimePage = (animeID: number) => {
-    console.log(animeID);
     getAnimeById(Number(animeID));
     history.push(`/animePage/${animeID}`);
   };
 
   return (
     <Box
-      backgroundImage={anime.image_url}
+      backgroundImage={`url(${anime.image_url})`}
       _hover={{ cursor: "pointer" }}
       backgroundPosition="center"
       backgroundSize="cover"

@@ -1,6 +1,5 @@
 import {
   Flex,
-  IconButton,
   Image,
   Modal,
   ModalCloseButton,
@@ -13,7 +12,6 @@ import { Input } from "../../Input/Input";
 import { ModalError } from "../ModalError";
 import { useUser } from "../../../Providers/UserProvider";
 import { useEffect, useState } from "react";
-import { FaCheck } from "react-icons/fa";
 import { api } from "../../../services/api";
 import { Button } from "../../Button";
 

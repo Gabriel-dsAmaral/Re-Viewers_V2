@@ -5,11 +5,11 @@ import { useAnime } from "../../Providers/AnimesProvider";
 import { SliderContainer } from "../../components/SliderContainer";
 import { SectionContainer } from "../../components/SectionContainer";
 import { Footer } from "../../components/Footer";
-import { Animes2, Animes3 } from "../../Utils";
+import { Animes, Animes2, Animes3 } from "../../Utils";
 import { useEffect } from "react";
 
 export const Home = () => {
-  const { setSearchList, setSearched } = useAnime();
+  const { setSearchList, setSearched, getAnimes } = useAnime();
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -17,6 +17,7 @@ export const Home = () => {
   });
 
   useEffect(() => {
+    getAnimes();
     setSearchList([]);
     setSearched("");
   }, []);
@@ -38,7 +39,7 @@ export const Home = () => {
           overflow="hidden"
           minW="50vw"
         >
-          <SectionContainer title="5 Melhores" animeList={Animes2} />
+          <SectionContainer title="5 Melhores" animeList={Animes} />
 
           <SectionContainer title="Mais Populares" animeList={Animes2} />
         </Flex>

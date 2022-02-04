@@ -12,16 +12,84 @@ import { FaEdit } from "react-icons/fa";
 import { CardLinksUser } from "../../components/CardLinksUser/index";
 import { useUser } from "../../Providers/UserProvider";
 import { UserEdits } from "../../components/Modals/UserEdits";
-import { Animes, Animes2, Animes3 } from "../../Utils";
+import { api } from "../../services/api";
+import { useState } from "react";
+import { useEffect } from "react";
+
+interface Rate {
+  userId: number;
+  value: number;
+}
+interface AnimesData {
+  myListStatus?: string;
+  id: number;
+  title: string;
+  category: Array<string>;
+  rate?: Array<Rate>;
+  banner_url: string;
+  image_url: string;
+  original: string;
+  status: string;
+  launch_date: string;
+  studio: string;
+  synopsis: string;
+  userId?: number;
+  data?: object;
+}
 
 export const User = () => {
-  const { user } = useUser();
+  const { ChangeAvatar, user, accessToken } = useUser();
+
+  const [watching, setWatching] = useState<AnimesData[]>([]);
+  const [finished, setFinished] = useState<AnimesData[]>([]);
+  const [wantWatch, setWantWatch] = useState<AnimesData[]>([]);
+
+  const tokenBearer = { headers: { Authorization: `Bearer ${accessToken}` } };
+
+  const getWatching = async () => {
+    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
+    const data = response.data;
+
+    const filteredWatch = data.filter(
+      (item: { myListStatus: string }) => item.myListStatus === "Assistindo"
+    );
+
+    setWatching(filteredWatch);
+  };
+
+  const getFinished = async () => {
+    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
+    const data = response.data;
+
+    const filteredFinished = data.filter(
+      (item: { myListStatus: string }) => item.myListStatus === "Terminei"
+    );
+
+    setFinished(filteredFinished);
+  };
+
+  const getWantedToWatch = async () => {
+    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
+    const data = response.data;
+
+    const filteredWantToWatch = data.filter(
+      (item: { myListStatus: string }) => item.myListStatus === "Quero assitir"
+    );
+
+    setWantWatch(filteredWantToWatch);
+  };
 
   const {
     isOpen: isModalOpen,
     onOpen: onModalOpen,
     onClose: onModalClose,
   } = useDisclosure();
+
+  useEffect(() => {
+    getWatching();
+    getWantedToWatch();
+    getFinished();
+  }, []);
 
   return (
     <>
@@ -105,13 +173,13 @@ export const User = () => {
         <UserEdits isOpen={isModalOpen} onClose={onModalClose} />
 
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={Animes} title="Assistindo" />
+          <CardLinksUser animes={watching} title="Assistindo" />
         </Box>
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={Animes2} title="Quero Assistir" />
+          <CardLinksUser animes={wantWatch} title="Quero Assistir" />
         </Box>
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={Animes3} title="Finalizados" />
+          <CardLinksUser animes={finished} title="Finalizados" />
         </Box>
       </Flex>
     </>

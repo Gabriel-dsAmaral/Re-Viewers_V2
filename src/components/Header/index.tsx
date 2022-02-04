@@ -109,7 +109,14 @@ export const Header = () => {
         <InputSearch searchBox={toggleSearch} />
       ) : (
         <>
-          <Img src={Logo} alt="Re:viewers" w="50px" h="50px" onClick={goHome} />
+          <Img
+            src={Logo}
+            alt="Re:viewers"
+            w="50px"
+            h="50px"
+            onClick={goHome}
+            cursor="pointer"
+          />
 
           <Flex
             justifyContent="space-between"

@@ -85,7 +85,7 @@ export const AnimePage = () => {
         currentAnime.rate.reduce(
           (acc: number, curr: { value: number }) => acc + curr.value,
           0
-        ) / currentAnime.rate.length.parseFloat(2);
+        ) / currentAnime.rate.length;
 
       setScoreResult(output);
     } else {
@@ -237,7 +237,7 @@ export const AnimePage = () => {
                   mb="10px"
                   textShadow="1px 1px #d6883f"
                 >
-                  Score: {scoreResult}
+                  Score: {scoreResult.toFixed(2)}
                 </Text>
               </Box>
 

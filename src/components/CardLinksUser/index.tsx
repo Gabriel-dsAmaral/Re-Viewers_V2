@@ -1,5 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { Animecard } from "../AnimeCard";
+import { AnimecardUser } from "../AnimeCardUser";
 interface Rate {
   userId: number;
   value: number;
@@ -19,6 +20,7 @@ interface AnimesData {
   synopsis: string;
   userId?: number;
   data?: object;
+  animeId: number;
 }
 interface CardLinksProps {
   title: string;
@@ -57,8 +59,8 @@ export const CardLinksUser = ({ title, animes }: CardLinksProps) => {
         overflow="overlay"
         maxH="480px"
       >
-        {animes.map((anime) => (
-          <Animecard anime={anime} key={animes.indexOf(anime)} />
+        {animes.map((anime, index) => (
+          <AnimecardUser anime={anime} key={index} />
         ))}
       </Flex>
     </Flex>

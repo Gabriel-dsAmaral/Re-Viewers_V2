@@ -35,6 +35,7 @@ interface AnimesData {
   synopsis: string;
   userId?: number;
   data?: object;
+  animeId: number;
 }
 
 export const User = () => {

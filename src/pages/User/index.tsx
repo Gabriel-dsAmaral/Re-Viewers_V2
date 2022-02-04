@@ -38,7 +38,7 @@ interface AnimesData {
 }
 
 export const User = () => {
-  const { ChangeAvatar, user, accessToken } = useUser();
+  const { user, accessToken } = useUser();
 
   const [watching, setWatching] = useState<AnimesData[]>([]);
   const [finished, setFinished] = useState<AnimesData[]>([]);
@@ -89,6 +89,7 @@ export const User = () => {
     getWatching();
     getWantedToWatch();
     getFinished();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

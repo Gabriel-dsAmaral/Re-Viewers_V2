@@ -74,7 +74,6 @@ export const AnimePage = () => {
     OnOpenModalInfo();
   };
 
-  //CALCULAR-SCORE
   const calcScore = async () => {
     const res = await api.get(`/animes?id=${id}`, tokenBearer);
 
@@ -112,14 +111,12 @@ export const AnimePage = () => {
     lg: true,
   });
 
-  //MODAL-AVALIAÇÃO
   const {
     isOpen: isOpenModalScore,
     onOpen: OnOpenModalScore,
     onClose: onCloseModalScore,
   } = useDisclosure();
 
-  //MODAL-STATUS-DA-LISTA
   const {
     isOpen: isOpenModalInfo,
     onOpen: OnOpenModalInfo,
@@ -155,7 +152,6 @@ export const AnimePage = () => {
             marginTop={["-150px", "-150px", "-150px", "0px"]}
             marginLeft={["0px", "0px", "0px", "280px"]}
           >
-            {/* IMAGEM-E-BOTÕES */}
             <VStack
               direction="column"
               top="120px"
@@ -168,7 +164,7 @@ export const AnimePage = () => {
                 borderRadius="3px"
                 src={selectedAnime.image_url}
               />
-              {/* APAGAR-BOTÕES-NO-MOBILE */}
+
               {isWideVersion && (
                 <VStack w="230px">
                   <Button

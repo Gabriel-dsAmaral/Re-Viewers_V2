@@ -89,12 +89,11 @@ const AnimeProvider = ({ children }: Children) => {
       animeId: data.id,
     };
 
-    const response = await api.post("/mylist", postData, {
+    await api.post("/mylist", postData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response.data);
   };
 
   const getMyList = async (userId: number) => {
@@ -103,7 +102,6 @@ const AnimeProvider = ({ children }: Children) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response.data);
     setMyList(response.data);
   };
 
@@ -124,6 +122,7 @@ const AnimeProvider = ({ children }: Children) => {
       return anime.title.toLowerCase().includes(searchedLower);
     });
 
+    // eslint-disable-next-line array-callback-return
     const filterAnimeCategory = animes.filter((anime) => {
       const category = anime.category.map((actual) => actual.toLowerCase());
       const filtered = category.filter((actual) =>

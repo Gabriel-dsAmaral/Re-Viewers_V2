@@ -62,6 +62,7 @@ const CommentProvider = ({ children }: CommentProviderProps) => {
         }
       )
       .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const LoadComments = useCallback(async (animeId: number) => {
@@ -76,6 +77,7 @@ const CommentProvider = ({ children }: CommentProviderProps) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const EditComment = useCallback(
@@ -88,6 +90,7 @@ const CommentProvider = ({ children }: CommentProviderProps) => {
         }
       );
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
   return (

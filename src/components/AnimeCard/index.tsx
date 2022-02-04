@@ -35,7 +35,6 @@ export const Animecard = ({ anime }: AnimeCardProps) => {
   const { getAnimeById } = useAnime();
 
   const handleAnimePage = (animeID: number) => {
-    console.log(animeID);
     getAnimeById(Number(animeID));
     history.push(`/animePage/${animeID}`);
   };

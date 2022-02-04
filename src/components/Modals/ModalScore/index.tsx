@@ -10,7 +10,6 @@ import {
 import { useState } from "react";
 import { useUser } from "../../../Providers/UserProvider";
 import { api } from "../../../services/api";
-
 import { SliderThumbWithTooltip } from "./Slider";
 
 interface Rate {

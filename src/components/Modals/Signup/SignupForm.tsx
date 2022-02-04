@@ -1,16 +1,16 @@
-import { Box, Button, Flex, Grid, Heading, VStack } from '@chakra-ui/react'
-import { Input } from '../../Input/Input'
 import {
   DeepMap,
   FieldError,
   FieldValues,
-  UseFormRegister
-} from 'react-hook-form'
+  UseFormRegister,
+} from "react-hook-form";
+import { Box, Button, Flex, Grid, Heading, VStack } from "@chakra-ui/react";
+import { Input } from "../../Input/Input";
 
 interface SignupData {
-  handleSignup: () => void
-  errors: DeepMap<FieldValues, FieldError>
-  register: UseFormRegister<FieldValues>
+  handleSignup: () => void;
+  errors: DeepMap<FieldValues, FieldError>;
+  register: UseFormRegister<FieldValues>;
 }
 
 export const SignupForm = ({ handleSignup, errors, register }: SignupData) => {
@@ -29,26 +29,26 @@ export const SignupForm = ({ handleSignup, errors, register }: SignupData) => {
         <Heading size="3">Criar Conta</Heading>
       </Flex>
       <VStack spacing="7" mt="5">
-        <Input label="Name" error={errors.name} {...register('name')} />
+        <Input label="Name" error={errors.name} {...register("name")} />
         <Box w="100%">
           <Input
             label="E-mail"
             error={errors.email}
             type="email"
-            {...register('email')}
+            {...register("email")}
           />
         </Box>
         <Input
           label="Password"
           type="password"
           error={errors.password}
-          {...register('password')}
+          {...register("password")}
         />
         <Input
           label="Confirm Password"
           type="password"
           error={errors.confirm_password}
-          {...register('confirm_password')}
+          {...register("confirm_password")}
         />
         <Button
           mt="10"
@@ -58,12 +58,12 @@ export const SignupForm = ({ handleSignup, errors, register }: SignupData) => {
           color="white"
           h="40px"
           borderRadius="10px"
-          _hover={{ bg: 'grey.grey' }}
+          _hover={{ bg: "grey.grey" }}
           type="submit"
         >
           Criar Conta
         </Button>
       </VStack>
     </Grid>
-  )
-}
+  );
+};

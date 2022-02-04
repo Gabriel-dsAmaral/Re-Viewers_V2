@@ -1,5 +1,6 @@
 import {
   extendTheme,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Theme as ChakraTheme,
   ThemeConfig,
 } from "@chakra-ui/react";
@@ -10,10 +11,8 @@ const config: ThemeConfig = {
 };
 
 export const theme = extendTheme({
-  //Dark Mode
   config,
 
-  //Colors sizes and styles of our aplication
   colors: {
     primary: "#E6B578",
 

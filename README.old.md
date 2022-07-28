@@ -1,1 +1,0 @@
-# capstone-group-3

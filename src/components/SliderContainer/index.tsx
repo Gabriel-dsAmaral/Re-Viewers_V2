@@ -1,7 +1,7 @@
 import "react-slideshow-image/dist/styles.css";
 import { Slide } from "react-slideshow-image";
 import { Box } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const SliderContainer = () => {
   const slideImages = [
@@ -14,7 +14,7 @@ export const SliderContainer = () => {
 
   const link = [52, 54, 49, 47, 33];
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Slide easing="ease">
@@ -26,7 +26,7 @@ export const SliderContainer = () => {
           backgroundPosition="center"
           backgroundSize="cover"
           height="350px"
-          onClick={() => history.push(`/animePage/${link[index]}`)}
+          onClick={() => navigate(`/animePage/${link[index]}`)}
         />
       ))}
     </Slide>

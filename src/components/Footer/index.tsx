@@ -1,8 +1,8 @@
 import { Flex } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Footer = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <Flex
       direction="row"
@@ -12,8 +12,8 @@ export const Footer = () => {
       alignItems="center"
       justifyContent="space-around"
     >
-      <div onClick={() => history.push("/aboutUs")}>About Us</div>
-      <div onClick={() => history.push("/")}>Home</div>
+      <div onClick={() => navigate("/aboutUs")}>About Us</div>
+      <div onClick={() => navigate("/")}>Home</div>
       <div>Developers</div>
     </Flex>
   );

@@ -26,7 +26,7 @@ export const Search = () => {
   });
 
   return (
-    <Box minh="100vh" w="100%">
+    <Box minH="100vh" w="100%">
       <Header />
       <SliderContainer />
       <Flex

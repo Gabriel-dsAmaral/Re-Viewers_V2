@@ -31,7 +31,8 @@ export const AnimeCardMobile = () => {
         fontWeight="bold"
         _hover={{ backgroundColor: "gold.light" }}
       >
-        Score: <Text>{termineiAnmesList[1].rate}</Text>
+        Score: descomend to see
+        {/* <Text>{termineiAnmesList[1].rate}</Text> */}
       </Text>
       <Flex justifyContent="center" wrap="wrap">
         {termineiAnmesList[1].category.map((textCateg) => (

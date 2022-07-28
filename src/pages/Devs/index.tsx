@@ -28,10 +28,10 @@ export const Developers = () => {
         />
 
         <Flex
-          width={["100%", "100%", "50%", "50%"]}
-          Width="100%"
+          // width={["100%", "100%", "50%", "50%"]}
+          width="100%"
           maxW="480px"
-          Heigh="inherit"
+          height="inherit"
           justifyContent="stretch"
           direction="column"
           alignItems="center"

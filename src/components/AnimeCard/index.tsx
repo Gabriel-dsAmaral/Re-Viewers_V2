@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAnime } from "../../Providers/AnimesProvider";
 
 interface Rate {
@@ -30,13 +30,13 @@ interface AnimeCardProps {
 export const Animecard = ({ anime }: AnimeCardProps) => {
   const [show, setShow] = useState<boolean>(false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { getAnimeById } = useAnime();
 
   const handleAnimePage = (animeID: number) => {
     getAnimeById(Number(animeID));
-    history.push(`/animePage/${animeID}`);
+    navigate(`/animePage/${animeID}`);
   };
 
   return (

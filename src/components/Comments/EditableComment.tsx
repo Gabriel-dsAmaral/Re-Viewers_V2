@@ -49,7 +49,7 @@ export const EditableComment = ({
     } = useEditableControls();
 
     return isEditing ? (
-      <Flex mt="5px" justifyContent="flex-end" size="sm">
+      <Flex mt="5px" justifyContent="flex-end" fontSize="sm">
         <IconButton
           mr="8px"
           size="lg"
@@ -117,7 +117,8 @@ export const EditableComment = ({
           {name}
         </Flex>
         <Editable
-          maxLength="100"
+          // maxLength="100"
+          maxWidth="100"
           marginLeft="65px"
           textAlign="start"
           value={value}

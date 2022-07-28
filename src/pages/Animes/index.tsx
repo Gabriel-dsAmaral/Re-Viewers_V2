@@ -5,7 +5,7 @@ import { Button } from "../../components/Button";
 import { Comments } from "../../components/Comments";
 import { Header } from "../../components/Header";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
 import { useUser } from "../../Providers/UserProvider";
 import { ModalScore } from "../../components/Modals/ModalScore";
@@ -18,7 +18,7 @@ export const AnimePage = () => {
   const { selectedAnime, getAnimeById, setSearched, searchAnime, getAnimes } =
     useAnime();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
 
@@ -95,7 +95,7 @@ export const AnimePage = () => {
   const searchCategories = (search: string) => {
     setSearched(search);
     searchAnime(search);
-    history.push(`/search/${search}`);
+    navigate(`/search/${search}`);
   };
 
   useEffect(() => {

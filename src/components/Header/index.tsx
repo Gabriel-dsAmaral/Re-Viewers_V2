@@ -24,7 +24,7 @@ import { SignIn } from "../Modals/SignIn";
 import { useState } from "react";
 import { useUser } from "../../Providers/UserProvider";
 import { useAnime } from "../../Providers/AnimesProvider";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import { ModalConfirm } from "../Modals/ModalConfirm";
 
@@ -57,7 +57,7 @@ export const Header = () => {
 
   const { accessToken, signOut } = useUser();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const toggleSearch = () => {
     if (searched === "" && window.screen.width >= 768) {
@@ -72,7 +72,7 @@ export const Header = () => {
 
   const searchFunction = () => {
     if (searched !== "") {
-      history.push(`/search/${searched}`);
+      navigate(`/search/${searched}`);
     }
   };
 
@@ -87,11 +87,11 @@ export const Header = () => {
   });
 
   const goHome = () => {
-    history.push("/");
+    navigate("/");
   };
 
   const goUser = () => {
-    history.push("/user");
+    navigate("/user");
   };
 
   return (

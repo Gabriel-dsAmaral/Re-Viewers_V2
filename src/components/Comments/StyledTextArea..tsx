@@ -20,7 +20,7 @@ export const StyledTextArea = ({ img, name }: StyledTextAreaProps) => {
   const [input, setInput] = useState("");
   const { MakeComment, LoadComments } = useComment();
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: any }>();
 
   const handleMake = () => {
     if (input.length > 1) {

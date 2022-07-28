@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface ModalMyListStatusProps {
   onClose: () => void;
   isOpen: boolean;
@@ -17,7 +17,7 @@ export const ModalMyListStatus = ({
   isOpen,
   onClose,
 }: ModalMyListStatusProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -42,7 +42,7 @@ export const ModalMyListStatus = ({
               bgColor="grey.dark"
               color="white"
               _hover={{ background: "grey.greyStone" }}
-              onClick={() => history.push("/user")}
+              onClick={() => navigate("/user")}
             >
               Ir para página do usuário
             </Button>

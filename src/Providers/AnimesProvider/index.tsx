@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { api } from "../../services/api";
+import { api, api2 } from "../../services/api";
 import { useUser } from "../UserProvider";
 
 interface Children {
@@ -16,13 +16,13 @@ interface AnimesData {
   title: string;
   category: Array<string>;
   rate?: Array<Rate>;
-  banner_url: string;
-  image_url: string;
-  original: string;
+  banner: string;
+  image: string;
+  original_title: string;
   status: string;
-  launch_date: string;
+  launch_data: string;
   studio: string;
-  synopsis: string;
+  sinopse: string;
   userId?: number;
   data?: object;
 }
@@ -33,15 +33,17 @@ interface AnimeProviderData {
   selectedAnime: AnimesData;
   searchList: AnimesData[];
   searched: string;
+  bestAnimes: AnimesData[];
 
   setSearchList: (prevState: AnimesData[]) => void;
   getAnimeById: (id: number) => void;
-  getAnimes: () => void;
   getMyList: (userId: number) => void;
   deleteMyList: (userId: number) => void;
   addAnimeList: (data: AnimesData) => void;
   searchAnime: (search: string) => void;
   setSearched: (search: string) => void;
+  getAllAnimes: () => void;
+  getBestAnimes: (amount: number) => void;
 }
 
 const AnimeContext = createContext<AnimeProviderData>({} as AnimeProviderData);
@@ -57,12 +59,25 @@ const AnimeProvider = ({ children }: Children) => {
   const [myList, setMyList] = useState<AnimesData[]>([]);
   const [searchList, setSearchList] = useState<AnimesData[]>([]);
   const [searched, setSearched] = useState("");
+  const [bestAnimes, setBestAnimes] = useState<AnimesData[]>([]);
 
-  const getAnimes = async () => {
-    const response = await api.get("/animes");
+  // const getAnimes = async () => {
+  //   const response = await api.get("/animes");
 
-    const data = response.data;
-    setAnimes(data);
+  //   const data = response.data;
+  //   setAnimes(data);
+  // };
+
+  // let allAnimes: AnimesData[] = [];
+
+  const getAllAnimes = async () => {
+    const response = await api2.get("/api/animes/");
+    setAnimes(response.data);
+  };
+
+  const getBestAnimes = async (amount: number) => {
+    const response = await api2.get(`/api/animes/best/${amount}/`);
+    setBestAnimes(response.data);
   };
 
   const getAnimeById = async (id: number) => {
@@ -78,13 +93,13 @@ const AnimeProvider = ({ children }: Children) => {
       title: data.title,
       category: data.category,
       rate: data.rate,
-      banner_url: data.banner_url,
-      image_url: data.image_url,
-      original: data.original,
+      banner_url: data.banner,
+      image_url: data.image,
+      original: data.original_title,
       status: data.status,
-      launch_date: data.launch_date,
+      launch_date: data.launch_data,
       studio: data.studio,
-      synopsis: data.synopsis,
+      synopsis: data.sinopse,
       userId: user.id,
       animeId: data.id,
     };
@@ -144,7 +159,6 @@ const AnimeProvider = ({ children }: Children) => {
   return (
     <AnimeContext.Provider
       value={{
-        getAnimes,
         getAnimeById,
         addAnimeList,
         getMyList,
@@ -152,12 +166,15 @@ const AnimeProvider = ({ children }: Children) => {
         searchAnime,
         setSearchList,
         setSearched,
+        getAllAnimes,
+        getBestAnimes,
         searched,
         animes,
         shounenAnimes,
         selectedAnime,
         myList,
         searchList,
+        bestAnimes,
       }}
     >
       {children}

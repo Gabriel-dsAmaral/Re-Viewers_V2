@@ -13,13 +13,13 @@ interface AnimesData {
   title: string;
   category: Array<string>;
   rate?: Array<Rate>;
-  banner_url: string;
-  image_url: string;
-  original: string;
+  banner: string;
+  image: string;
+  original_title: string;
   status: string;
-  launch_date: string;
+  launch_data: string;
   studio: string;
-  synopsis: string;
+  sinopse: string;
   userId?: number;
   data?: object;
 }
@@ -41,7 +41,7 @@ export const Animecard = ({ anime }: AnimeCardProps) => {
 
   return (
     <Box
-      backgroundImage={`url(${anime.image_url})`}
+      backgroundImage={`url(${anime.image})`}
       _hover={{ cursor: "pointer" }}
       backgroundPosition="center"
       backgroundSize="cover"

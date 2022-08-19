@@ -9,7 +9,14 @@ import { Animes, Animes2, Animes3 } from "../../Utils";
 import { useEffect } from "react";
 
 export const Home = () => {
-  const { setSearchList, setSearched, getAnimes } = useAnime();
+  const {
+    setSearchList,
+    setSearched,
+    getBestAnimes,
+    bestAnimes,
+    getAllAnimes,
+    animes,
+  } = useAnime();
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -17,9 +24,11 @@ export const Home = () => {
   });
 
   useEffect(() => {
-    getAnimes();
+    getAllAnimes();
     setSearchList([]);
     setSearched("");
+    getBestAnimes(5);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -40,9 +49,10 @@ export const Home = () => {
           overflow="hidden"
           minW="50vw"
         >
-          <SectionContainer title="5 Melhores" animeList={Animes} />
+          {/* <SectionContainer title="5 Melhores" animeList={Animes} /> */}
+          <SectionContainer title="5 Melhores" animeList={bestAnimes} />
 
-          <SectionContainer title="Mais Populares" animeList={Animes2} />
+          <SectionContainer title="Mais Populares" animeList={animes} />
         </Flex>
 
         <CardLinks title="Recomendados" animes={Animes3} />

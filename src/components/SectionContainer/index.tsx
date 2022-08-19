@@ -1,34 +1,34 @@
-import { Divider, Flex, Heading } from '@chakra-ui/react'
-import { Animecard } from '../AnimeCard'
+import { Divider, Flex, Heading } from "@chakra-ui/react";
+import { Animecard } from "../AnimeCard";
 interface Rate {
-  userId: number
-  value: number
+  userId: number;
+  value: number;
 }
 interface AnimesData {
-  myListStatus?: string
-  id: number
-  title: string
-  category: Array<string>
-  rate?: Array<Rate>
-  banner_url: string
-  image_url: string
-  original: string
-  status: string
-  launch_date: string
-  studio: string
-  synopsis: string
-  userId?: number
-  data?: object
+  myListStatus?: string;
+  id: number;
+  title: string;
+  category: Array<string>;
+  rate?: Array<Rate>;
+  banner: string;
+  image: string;
+  original_title: string;
+  status: string;
+  launch_data: string;
+  studio: string;
+  sinopse: string;
+  userId?: number;
+  data?: object;
 }
 
 interface SectionContainerProps {
-  title: string
-  animeList: AnimesData[]
+  title: string;
+  animeList: AnimesData[];
 }
 
 export const SectionContainer = ({
   title,
-  animeList
+  animeList,
 }: SectionContainerProps) => (
   <>
     <Heading
@@ -52,15 +52,15 @@ export const SectionContainer = ({
     />
 
     <Flex
-      justifyContent={['space-between']}
+      justifyContent={["space-between"]}
       alignItems="center"
       overflowY="auto"
       width="100%"
       gap="20px"
     >
-      {animeList.map(anime => (
+      {animeList.map((anime) => (
         <Animecard anime={anime} key={animeList.indexOf(anime)} />
       ))}
     </Flex>
   </>
-)
+);

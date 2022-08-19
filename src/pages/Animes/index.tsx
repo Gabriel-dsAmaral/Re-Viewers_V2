@@ -25,6 +25,7 @@ export const AnimePage = () => {
     setSearched,
     searchAnime,
     getAllAnimes,
+    getAnimesByCategory,
   } = useAnime();
 
   const navigate = useNavigate();
@@ -103,7 +104,8 @@ export const AnimePage = () => {
 
   const searchCategories = (search: string) => {
     setSearched(search);
-    searchAnime(search);
+    // searchAnime(search);
+    getAnimesByCategory(search);
     navigate(`/search/${search}`);
   };
 
@@ -254,8 +256,8 @@ export const AnimePage = () => {
                 fontWeight="semibold"
                 textShadow="0.5px 0.5px grey"
               >
-                {selectedAnime.categories.map((cat, key) => {
-                  const { category } = cat as Category;
+                {selectedAnime.categories.map((e, key) => {
+                  const { category } = e as Category;
                   return (
                     <Box
                       key={key}
@@ -269,7 +271,8 @@ export const AnimePage = () => {
                       marginTop="10px"
                       paddingY="3px"
                       boxShadow="base"
-                      // onClick={() => searchCategories(category)}
+                      _hover={{ cursor: "pointer" }}
+                      onClick={() => searchCategories(category)}
                     >
                       {category}
                     </Box>

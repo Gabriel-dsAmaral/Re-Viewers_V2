@@ -44,6 +44,7 @@ interface AnimeProviderData {
   setSearched: (search: string) => void;
   getAllAnimes: () => void;
   getBestAnimes: (amount: number) => void;
+  getAnimesByCategory: (category: string) => void;
 }
 
 const AnimeContext = createContext<AnimeProviderData>({} as AnimeProviderData);
@@ -61,15 +62,6 @@ const AnimeProvider = ({ children }: Children) => {
   const [searched, setSearched] = useState("");
   const [bestAnimes, setBestAnimes] = useState<AnimesData[]>([]);
 
-  // const getAnimes = async () => {
-  //   const response = await api.get("/animes");
-
-  //   const data = response.data;
-  //   setAnimes(data);
-  // };
-
-  // let allAnimes: AnimesData[] = [];
-
   const getAllAnimes = async () => {
     const response = await api2.get("/api/animes/");
     setAnimes(response.data);
@@ -82,11 +74,12 @@ const AnimeProvider = ({ children }: Children) => {
 
   const getAnimeById = async (id: string) => {
     const response = await api2.get(`/api/animes/one/${id}/`);
+    setSelectedAnime(response.data);
+  };
 
-    const data = response.data;
-    console.log("==========", data);
-
-    setSelectedAnime(data);
+  const getAnimesByCategory = async (category: string) => {
+    const response = await api2.get(`/api/animes/category/?${category}`);
+    setSearchList(response.data[0]);
   };
 
   const addAnimeList = async (data: AnimesData) => {
@@ -169,6 +162,7 @@ const AnimeProvider = ({ children }: Children) => {
         setSearched,
         getAllAnimes,
         getBestAnimes,
+        getAnimesByCategory,
         searched,
         animes,
         shounenAnimes,

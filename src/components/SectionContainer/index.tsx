@@ -6,9 +6,9 @@ interface Rate {
 }
 interface AnimesData {
   myListStatus?: string;
-  id: number;
+  id: string;
   title: string;
-  category: Array<string>;
+  categories: Array<object>;
   rate?: Array<Rate>;
   banner: string;
   image: string;

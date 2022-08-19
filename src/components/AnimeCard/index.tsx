@@ -9,9 +9,9 @@ interface Rate {
 }
 interface AnimesData {
   myListStatus?: string;
-  id: number;
+  id: string;
   title: string;
-  category: Array<string>;
+  categories: Array<object>;
   rate?: Array<Rate>;
   banner: string;
   image: string;
@@ -34,8 +34,8 @@ export const Animecard = ({ anime }: AnimeCardProps) => {
 
   const { getAnimeById } = useAnime();
 
-  const handleAnimePage = (animeID: number) => {
-    getAnimeById(Number(animeID));
+  const handleAnimePage = (animeID: string) => {
+    getAnimeById(animeID);
     navigate(`/animePage/${animeID}`);
   };
 

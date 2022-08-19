@@ -12,9 +12,9 @@ interface Rate {
 }
 interface AnimesData {
   myListStatus?: string;
-  id: number;
+  id: string;
   title: string;
-  category: Array<string>;
+  categories: Array<object>;
   rate?: Array<Rate>;
   banner: string;
   image: string;
@@ -36,7 +36,7 @@ interface AnimeProviderData {
   bestAnimes: AnimesData[];
 
   setSearchList: (prevState: AnimesData[]) => void;
-  getAnimeById: (id: number) => void;
+  getAnimeById: (id: string) => void;
   getMyList: (userId: number) => void;
   deleteMyList: (userId: number) => void;
   addAnimeList: (data: AnimesData) => void;
@@ -80,12 +80,13 @@ const AnimeProvider = ({ children }: Children) => {
     setBestAnimes(response.data);
   };
 
-  const getAnimeById = async (id: number) => {
-    const response = await api.get(`/animes?id=${id}`);
+  const getAnimeById = async (id: string) => {
+    const response = await api2.get(`/api/animes/one/${id}/`);
 
     const data = response.data;
+    console.log("==========", data);
 
-    setSelectedAnime(data[0]);
+    setSelectedAnime(data);
   };
 
   const addAnimeList = async (data: AnimesData) => {
@@ -139,7 +140,7 @@ const AnimeProvider = ({ children }: Children) => {
 
     // eslint-disable-next-line array-callback-return
     const filterAnimeCategory = animes.filter((anime) => {
-      const category = anime.category.map((actual) => actual.toLowerCase());
+      const category = anime.categories.map((actual) => actual.toLowerCase());
       const filtered = category.filter((actual) =>
         actual.includes(searchedLower)
       );

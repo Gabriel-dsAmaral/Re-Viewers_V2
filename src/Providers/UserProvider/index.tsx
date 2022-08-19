@@ -6,7 +6,7 @@ import {
   ReactNode,
 } from "react";
 
-import { api } from "../../services/api";
+import { api, api2 } from "../../services/api";
 
 interface UserProviderProps {
   children: ReactNode;
@@ -15,8 +15,9 @@ interface UserProviderProps {
 interface User {
   email: string;
   id: number;
-  name: string;
-  userImg: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
 }
 
 interface SighInCredentials {
@@ -24,11 +25,12 @@ interface SighInCredentials {
   password: string;
 }
 
-interface SigNupCredentials {
+interface SignUpCredentials {
   email: string;
   password: string;
-  name: string;
-  userImg: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
 }
 
 interface EditUserCredentials {
@@ -36,7 +38,7 @@ interface EditUserCredentials {
 }
 
 interface ChangeAvatarCredentials {
-  userImg: string;
+  avatar: string;
 }
 
 interface CommentInfo {
@@ -45,7 +47,7 @@ interface CommentInfo {
   id: number;
   name: string;
   userId: number;
-  userImg: string;
+  avatar: string;
 }
 
 interface UserContextData {
@@ -53,13 +55,13 @@ interface UserContextData {
   accessToken: string;
   signOut: () => void;
   signIn: (credentials: SighInCredentials) => Promise<void>;
-  sigNup: (credentials: SigNupCredentials) => Promise<void>;
+  signUp: (credentials: SignUpCredentials) => Promise<void>;
   EditUser: (credentials: EditUserCredentials) => Promise<void>;
   ChangeAvatar: (credentials: ChangeAvatarCredentials) => Promise<void>;
 }
 
 interface UserState {
-  accessToken: string;
+  token: string;
   user: User;
 }
 
@@ -69,39 +71,52 @@ const useUser = () => useContext(UserContext);
 
 const UserProvider = ({ children }: UserProviderProps) => {
   const [data, setData] = useState<UserState>(() => {
-    const accessToken = localStorage.getItem("@re:viewers:acessToken");
+    const token = localStorage.getItem("@re:viewers:acessToken");
     const user = localStorage.getItem("@re:viewers:user");
 
-    if (accessToken && user) {
-      return { accessToken, user: JSON.parse(user) };
+    if (token && user) {
+      return { token, user: JSON.parse(user) };
     }
     return {} as UserState;
   });
 
   const signIn = useCallback(async ({ email, password }: SighInCredentials) => {
-    const response = await api.post("/login", { email, password });
+    let response = await api2.post("/api/users/login/", { email, password });
 
-    const { accessToken, user } = response.data;
+    const { token } = response.data;
 
-    localStorage.setItem("@re:viewers:acessToken", accessToken);
-    localStorage.setItem("@re:viewers:user", JSON.stringify(user));
+    response = await api2.get("/api/users/profile/", {
+      headers: { Authorization: `Token ${token}` },
+    });
 
-    setData({ accessToken, user });
+    const user = response.data;
+
+    localStorage.setItem("@re:viewers:acessToken", token);
+    localStorage.setItem("@re:viewers:user", user);
+
+    setData({ token, user });
   }, []);
-
+  console.log(data);
   const signOut = useCallback(() => {
     localStorage.clear();
 
     setData({} as UserState);
   }, []);
 
-  const sigNup = useCallback(
-    async ({ name, email, password, userImg }: SigNupCredentials) => {
-      await api.post("/register", {
-        name,
+  const signUp = useCallback(
+    async ({
+      first_name,
+      last_name,
+      email,
+      password,
+      avatar,
+    }: SignUpCredentials) => {
+      await api2.post("/api/users/register/", {
+        first_name,
+        last_name,
         email,
         password,
-        userImg,
+        avatar,
       });
     },
     []
@@ -179,9 +194,9 @@ const UserProvider = ({ children }: UserProviderProps) => {
   return (
     <UserContext.Provider
       value={{
-        accessToken: data.accessToken,
+        accessToken: data.token,
         user: data.user,
-        sigNup,
+        signUp,
         signIn,
         signOut,
         EditUser,

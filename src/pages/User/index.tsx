@@ -38,7 +38,13 @@ interface AnimesData {
 }
 
 export const User = () => {
-  const { user, accessToken } = useUser();
+  const { user, accessToken, getUserList } = useUser();
+
+  useEffect(() => {
+    getUserList();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [watching, setWatching] = useState<AnimesData[]>([]);
   const [finished, setFinished] = useState<AnimesData[]>([]);
@@ -122,7 +128,7 @@ export const User = () => {
                 h="200px"
                 w="200px"
                 borderRadius="3px"
-                src={user.userImg}
+                src={user.avatar}
               />
             </Center>
           </Box>
@@ -136,7 +142,7 @@ export const User = () => {
               fontSize="36px"
               margin={"0px 15px 0px 25px"}
             >
-              {user.name}
+              {user.first_name}
             </Text>
             <Center
               _hover={{ cursor: "pointer" }}

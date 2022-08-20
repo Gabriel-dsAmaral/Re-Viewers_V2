@@ -58,6 +58,7 @@ interface UserContextData {
   signUp: (credentials: SignUpCredentials) => Promise<void>;
   EditUser: (credentials: EditUserCredentials) => Promise<void>;
   ChangeAvatar: (credentials: ChangeAvatarCredentials) => Promise<void>;
+  getUserList: () => void;
 }
 
 interface UserState {
@@ -96,7 +97,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
 
     setData({ token, user });
   }, []);
-  console.log(data);
+
   const signOut = useCallback(() => {
     localStorage.clear();
 
@@ -121,6 +122,18 @@ const UserProvider = ({ children }: UserProviderProps) => {
     },
     []
   );
+
+  const getUserList = async () => {
+    const response = await api2.get("/api/userlist/", {
+      headers: {
+        Authorization: `Token ${localStorage.getItem(
+          "@re:viewers:acessToken"
+        )}`,
+      },
+    });
+
+    console.log(response.data);
+  };
 
   const EditUser = useCallback(
     async ({ name }: EditUserCredentials) => {
@@ -201,6 +214,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
         signOut,
         EditUser,
         ChangeAvatar,
+        getUserList,
       }}
     >
       {children}

@@ -50,15 +50,24 @@ interface CommentInfo {
   avatar: string;
 }
 
+type UserList = {
+  status: string;
+  id: string;
+};
+
 interface UserContextData {
   user: User;
   accessToken: string;
+  watchingList: AnimesData[];
+  watchLaterList: AnimesData[];
+  finishedList: AnimesData[];
   signOut: () => void;
   signIn: (credentials: SighInCredentials) => Promise<void>;
   signUp: (credentials: SignUpCredentials) => Promise<void>;
   EditUser: (credentials: EditUserCredentials) => Promise<void>;
   ChangeAvatar: (credentials: ChangeAvatarCredentials) => Promise<void>;
   getUserList: () => void;
+  addUserList: (status: string, id: string) => Promise<void>;
 }
 
 interface UserState {
@@ -66,11 +75,41 @@ interface UserState {
   user: User;
 }
 
+interface IUserList {
+  [key: string]: string;
+}
+
+interface AnimesData {
+  myListStatus?: string;
+  id: string;
+  title: string;
+  categories: Array<object>;
+  // rate?: Array<Rate>;
+  banner: string;
+  image: string;
+  original_title: string;
+  status: string;
+  launch_data: string;
+  studio: string;
+  sinopse: string;
+  userId?: number;
+  data?: object;
+}
+
+type IUserListStatus = {
+  watching_status: string;
+  anime: AnimesData;
+};
+
 const UserContext = createContext<UserContextData>({} as UserContextData);
 
 const useUser = () => useContext(UserContext);
 
 const UserProvider = ({ children }: UserProviderProps) => {
+  // const [watching, setWatching ] = useState<IUserList | AnimesData[]>({"status": "Nenhum Anime adicionado ainda"})
+  // const [watchLater, setWatchLater ] = useState<IUserList | AnimesData[]>({"status": "Nenhum Anime adicionado ainda"})
+  // const [finished, setFinished ] = useState<IUserList | AnimesData[]>({"status": "Nenhum Anime adicionado ainda"})
+
   const [data, setData] = useState<UserState>(() => {
     const token = localStorage.getItem("@re:viewers:acessToken");
     const user = localStorage.getItem("@re:viewers:user");
@@ -123,7 +162,15 @@ const UserProvider = ({ children }: UserProviderProps) => {
     []
   );
 
+  let watchingList: AnimesData[] = [];
+  let watchLaterList: AnimesData[] = [];
+  let finishedList: AnimesData[] = [];
+
   const getUserList = async () => {
+    watchingList.length = 0;
+    watchLaterList.length = 0;
+    finishedList.length = 0;
+
     const response = await api2.get("/api/userlist/", {
       headers: {
         Authorization: `Token ${localStorage.getItem(
@@ -132,7 +179,40 @@ const UserProvider = ({ children }: UserProviderProps) => {
       },
     });
 
+    if (!response.data.results) return "";
+
+    response.data.results.forEach((e: IUserListStatus) => {
+      if (e.watching_status === "Assistindo") {
+        // if (!watchingList.find((anime) => e.anime["id"] === anime["id"]))
+        watchingList.push(e.anime);
+      }
+      if (e.watching_status === "Assistir mais tarde") {
+        // if (!watchLaterList.find((anime) => e.anime["id"] === anime["id"]))
+        watchLaterList.push(e.anime);
+      }
+      if (e.watching_status === "Finalizado") {
+        // if (!finishedList.find((anime) => e.anime["id"] === anime["id"]))
+        finishedList.push(e.anime);
+      }
+    });
+
     console.log(response.data);
+  };
+
+  const addUserList = async (status: string, id: string) => {
+    await api2.post(
+      `/api/userlist/${id}/`,
+      {
+        watching_status: status,
+      },
+      {
+        headers: {
+          Authorization: `Token ${localStorage.getItem(
+            "@re:viewers:acessToken"
+          )}`,
+        },
+      }
+    );
   };
 
   const EditUser = useCallback(
@@ -209,12 +289,16 @@ const UserProvider = ({ children }: UserProviderProps) => {
       value={{
         accessToken: data.token,
         user: data.user,
+        watchingList,
+        watchLaterList,
+        finishedList,
         signUp,
         signIn,
         signOut,
         EditUser,
         ChangeAvatar,
         getUserList,
+        addUserList,
       }}
     >
       {children}

@@ -32,7 +32,7 @@ export const AnimePage = () => {
 
   const { id } = useParams<{ id: string }>();
 
-  const { user, accessToken } = useUser();
+  const { user, accessToken, addUserList } = useUser();
 
   const tokenBearer = {
     headers: {
@@ -178,26 +178,26 @@ export const AnimePage = () => {
 
               {isWideVersion && (
                 <VStack w="230px">
-                  {/* <Button
+                  <Button
                     w="inherit"
                     model="1"
-                    onClick={() => handlePatchMyList("Assistindo")}
+                    onClick={() => addUserList("Assistindo", id!)}
                   >
-                    Assitindo
+                    Assistindo
                   </Button>
                   <Button
                     w="inherit"
                     model="2"
-                    onClick={() => handlePatchMyList("Quero assitir")}
+                    onClick={() => addUserList("Assistir mais tarde", id!)}
                   >
-                    Quero Assistir
+                    Assistir mais tarde
                   </Button>
                   <Button
                     w="inherit"
                     model="3"
-                    onClick={() => handlePatchMyList("Terminei")}
+                    onClick={() => addUserList("Finalizado", id!)}
                   >
-                    Terminei...):
+                    Finalizado
                   </Button>
                   <Button
                     w="inherit"
@@ -205,7 +205,7 @@ export const AnimePage = () => {
                     onClick={() => OnOpenModalScore()}
                   >
                     Avaliar
-                  </Button> */}
+                  </Button>
                 </VStack>
               )}
             </VStack>

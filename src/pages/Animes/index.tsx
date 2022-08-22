@@ -16,6 +16,29 @@ type Category = {
   category: string;
 };
 
+interface AnimesData {
+  myListStatus?: string;
+  id: string;
+  title: string;
+  categories: Array<object>;
+  // rate?: Array<Rate>;
+  banner: string;
+  image: string;
+  original_title: string;
+  status: string;
+  launch_data: string;
+  studio: string;
+  sinopse: string;
+  userId?: number;
+  data?: object;
+}
+
+type IUserListStatus = {
+  id: string;
+  watching_status: string;
+  anime: AnimesData;
+};
+
 export const AnimePage = () => {
   const [scoreResult, setScoreResult] = useState<number>(0);
 
@@ -32,7 +55,14 @@ export const AnimePage = () => {
 
   const { id } = useParams<{ id: string }>();
 
-  const { user, accessToken, addUserList } = useUser();
+  const {
+    user,
+    accessToken,
+    addUserList,
+    watchingList,
+    finishedList,
+    watchLaterList,
+  } = useUser();
 
   const tokenBearer = {
     headers: {
@@ -84,23 +114,23 @@ export const AnimePage = () => {
   //   OnOpenModalInfo();
   // };
 
-  // const calcScore = async () => {
-  //   const res = await api.get(`/animes?id=${id}`, tokenBearer);
+  const calcScore = async () => {
+    const res = await api.get(`/animes?id=${id}`, tokenBearer);
 
-  //   const currentAnime = res.data[0];
+    const currentAnime = res.data[0];
 
-  //   if (!!currentAnime.rate[0]) {
-  //     const output =
-  //       currentAnime.rate.reduce(
-  //         (acc: number, curr: { value: number }) => acc + curr.value,
-  //         0
-  //       ) / currentAnime.rate.length;
+    if (!!currentAnime.rate[0]) {
+      const output =
+        currentAnime.rate.reduce(
+          (acc: number, curr: { value: number }) => acc + curr.value,
+          0
+        ) / currentAnime.rate.length;
 
-  //     setScoreResult(output);
-  //   } else {
-  //     setScoreResult(1);
-  //   }
-  // };
+      setScoreResult(output);
+    } else {
+      setScoreResult(1);
+    }
+  };
 
   const searchCategories = (search: string) => {
     setSearched(search);
@@ -134,18 +164,31 @@ export const AnimePage = () => {
     onClose: onCloseModalInfo,
   } = useDisclosure();
 
+  const statusFound: IUserListStatus[] = [];
+  const handleUserList = (list: IUserListStatus[]) => {
+    const found = list.find((e) => e.anime["id"] === id);
+
+    if (found) {
+      statusFound.push(found);
+      console.log("statusFound", statusFound);
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <Box width="100%" minH="100vh">
       <Header />
 
       {selectedAnime.categories && (
         <>
-          {/* <ModalScore
+          <ModalScore
             calcScore={calcScore}
             isOpen={isOpenModalScore}
             onClose={onCloseModalScore}
             selectedAnime={selectedAnime}
-          /> */}
+          />
           <ModalMyListStatus
             isOpen={isOpenModalInfo}
             onClose={onCloseModalInfo}
@@ -178,27 +221,50 @@ export const AnimePage = () => {
 
               {isWideVersion && (
                 <VStack w="230px">
-                  <Button
-                    w="inherit"
-                    model="1"
-                    onClick={() => addUserList("Assistindo", id!)}
-                  >
-                    Assistindo
-                  </Button>
-                  <Button
-                    w="inherit"
-                    model="2"
-                    onClick={() => addUserList("Assistir mais tarde", id!)}
-                  >
-                    Assistir mais tarde
-                  </Button>
-                  <Button
-                    w="inherit"
-                    model="3"
-                    onClick={() => addUserList("Finalizado", id!)}
-                  >
-                    Finalizado
-                  </Button>
+                  {handleUserList(watchingList) ? (
+                    <Button w="inherit" model="1" disabled>
+                      Assistindo
+                    </Button>
+                  ) : (
+                    <Button
+                      w="inherit"
+                      model="1"
+                      onClick={() =>
+                        addUserList("Assistindo", id!, statusFound)
+                      }
+                    >
+                      Assistindo
+                    </Button>
+                  )}
+                  {handleUserList(watchLaterList) ? (
+                    <Button w="inherit" model="2" disabled>
+                      Assistir mais tarde
+                    </Button>
+                  ) : (
+                    <Button
+                      w="inherit"
+                      model="2"
+                      onClick={() =>
+                        addUserList("Assistir mais tarde", id!, statusFound)
+                      }
+                    >
+                      Assistir mais tarde
+                    </Button>
+                  )}
+                  {handleUserList(finishedList) ? (
+                    <Button w="inherit" model="3" disabled>
+                      Finalizado
+                    </Button>
+                  ) : (
+                    <Button
+                      w="inherit"
+                      model="3"
+                      onClick={() => addUserList("Terminado", id!, statusFound)}
+                    >
+                      Finalizado
+                    </Button>
+                  )}
+
                   <Button
                     w="inherit"
                     model="4"

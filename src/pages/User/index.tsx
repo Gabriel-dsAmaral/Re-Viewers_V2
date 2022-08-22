@@ -38,14 +38,8 @@ interface AnimesData {
 }
 
 export const User = () => {
-  const {
-    user,
-    accessToken,
-    getUserList,
-    watchingList,
-    finishedList,
-    watchLaterList,
-  } = useUser();
+  const { user, getUserList, watchingList, finishedList, watchLaterList } =
+    useUser();
 
   useEffect(() => {
     getUserList();
@@ -53,57 +47,11 @@ export const User = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const [watching, setWatching] = useState<AnimesData[]>([]);
-  // const [finished, setFinished] = useState<AnimesData[]>([]);
-  // const [wantWatch, setWantWatch] = useState<AnimesData[]>([]);
-
-  // const tokenBearer = { headers: { Authorization: `Bearer ${accessToken}` } };
-
-  // const getWatching = async () => {
-  //   const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
-  //   const data = response.data;
-
-  //   const filteredWatch = data.filter(
-  //     (item: { myListStatus: string }) => item.myListStatus === "Assistindo"
-  //   );
-
-  //   setWatching(filteredWatch);
-  // };
-
-  // const getFinished = async () => {
-  //   const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
-  //   const data = response.data;
-
-  //   const filteredFinished = data.filter(
-  //     (item: { myListStatus: string }) => item.myListStatus === "Terminei"
-  //   );
-
-  //   setFinished(filteredFinished);
-  // };
-
-  // const getWantedToWatch = async () => {
-  //   const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
-  //   const data = response.data;
-
-  //   const filteredWantToWatch = data.filter(
-  //     (item: { myListStatus: string }) => item.myListStatus === "Quero assitir"
-  //   );
-
-  //   setWantWatch(filteredWantToWatch);
-  // };
-
   const {
     isOpen: isModalOpen,
     onOpen: onModalOpen,
     onClose: onModalClose,
   } = useDisclosure();
-
-  // useEffect(() => {
-  //   getWatching();
-  //   getWantedToWatch();
-  //   getFinished();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   return (
     <>
@@ -187,13 +135,13 @@ export const User = () => {
         <UserEdits isOpen={isModalOpen} onClose={onModalClose} />
 
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={watchingList} title="Assistindo" />
+          <CardLinksUser list={watchingList} title="Assistindo" />
         </Box>
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={watchLaterList} title="Quero Assistir" />
+          <CardLinksUser list={watchLaterList} title="Quero Assistir" />
         </Box>
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={finishedList} title="Finalizados" />
+          <CardLinksUser list={finishedList} title="Finalizados" />
         </Box>
       </Flex>
     </>

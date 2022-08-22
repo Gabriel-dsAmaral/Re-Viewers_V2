@@ -22,10 +22,16 @@ interface AnimesData {
 }
 interface CardLinksProps {
   title: string;
-  animes: AnimesData[];
+  list: IUserListStatus[];
 }
 
-export const CardLinksUser = ({ title, animes }: CardLinksProps) => {
+type IUserListStatus = {
+  id: string;
+  watching_status: string;
+  anime: AnimesData;
+};
+
+export const CardLinksUser = ({ title, list }: CardLinksProps) => {
   return (
     <Flex
       direction="column"
@@ -57,10 +63,8 @@ export const CardLinksUser = ({ title, animes }: CardLinksProps) => {
         overflow="overlay"
         maxH="480px"
       >
-        {animes.length > 0 ? (
-          animes.map((anime) => (
-            <Animecard anime={anime} key={animes.indexOf(anime)} />
-          ))
+        {list.length > 0 ? (
+          list.map((e) => <Animecard anime={e.anime} key={list.indexOf(e)} />)
         ) : (
           <Text
             textAlign="center"

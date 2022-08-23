@@ -21,7 +21,7 @@ interface UserEditsProps {
 }
 
 export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
-  const { user, ChangeAvatar, EditUser } = useUser();
+  const { user, ChangeAvatar, EditUser, getUserList } = useUser();
   const [avatars, setAvatars] = useState<string[]>([]);
   const [input, setInput] = useState("");
   const [avatar, setAvatar] = useState("");
@@ -38,12 +38,16 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
 
   const handleNameEdit = () => {
     if (input !== "")
-      EditUser({ name: input }).catch((err) => onModalErrorOpen());
+      EditUser({ name: input })
+        // .then(() => getUserList())
+        .catch((err) => onModalErrorOpen());
   };
 
   const handleAvatarEdit = () => {
-    if (user.userImg !== avatar && avatar !== "")
-      ChangeAvatar({ userImg: avatar }).catch((err) => onModalErrorOpen());
+    if (user.avatar !== avatar && avatar !== "")
+      ChangeAvatar({ avatar })
+        // .then(() => getUserList())
+        .catch((err) => onModalErrorOpen());
   };
 
   const handleUser = () => {
@@ -69,7 +73,7 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Para não alterar mantenha vazio"
-              name={!!user.name ? "" : user.name}
+              name={!!user.first_name ? "" : user.first_name}
               label="Novo user name"
               mt="15px"
             />
@@ -102,7 +106,7 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
               paddingX={["0", "0"]}
               alignItems="end"
               justifyContent="flex-start"
-              overflow="overlay"
+              overflowX="scroll"
               maxH="480px"
             >
               {avatars.map((img, index) => (

@@ -181,9 +181,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
     await api2
       .get("/api/userlist/", {
         headers: {
-          Authorization: `Token ${localStorage.getItem(
-            "@re:viewers:acessToken"
-          )}`,
+          Authorization: `Token ${data.token}`,
         },
       })
       .then((response) => {
@@ -227,9 +225,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
     await api2
       .get(`/api/userlist/?page=${page}`, {
         headers: {
-          Authorization: `Token ${localStorage.getItem(
-            "@re:viewers:acessToken"
-          )}`,
+          Authorization: `Token ${data.token}`,
         },
       })
       .then((res) => {
@@ -274,9 +270,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
           },
           {
             headers: {
-              Authorization: `Token ${localStorage.getItem(
-                "@re:viewers:acessToken"
-              )}`,
+              Authorization: `Token ${data.token}`,
             },
           }
         )
@@ -295,9 +289,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
         },
         {
           headers: {
-            Authorization: `Token ${localStorage.getItem(
-              "@re:viewers:acessToken"
-            )}`,
+            Authorization: `Token ${data.token}`,
           },
         }
       )
@@ -308,68 +300,96 @@ const UserProvider = ({ children }: UserProviderProps) => {
 
   const EditUser = useCallback(
     async ({ name }: EditUserCredentials) => {
-      const userId = data.user.id;
-      const accessToken = data.accessToken;
-      const response = await api.get(`/users/${userId}/comments`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      await api
+      // const response =
+      await api2
         .patch(
-          `/users/${userId}`,
-          { name },
+          `/api/users/profile/`,
           {
-            headers: { Authorization: `Bearer ${accessToken}` },
+            first_name: name,
+          },
+          {
+            headers: { Authorization: `Token ${data.token}` },
           }
-        )
-        .then(
-          response.data.forEach((item: CommentInfo) => {
-            api.patch(
-              `/comments/${item.id}`,
-              { name: name },
-              {
-                headers: { Authorization: `Bearer ${accessToken}` },
-              }
-            );
-          })
         )
         .then((res) =>
           localStorage.setItem("@re:viewers:user", JSON.stringify(res.data))
-        );
+        )
+        .catch((err) => {
+          console.log("edit user", err);
+        });
+
+      // await api
+      //   .patch(
+      //     `/users/${userId}`,
+      //     { name },
+      //     {
+      //       headers: { Authorization: `Bearer ${accessToken}` },
+      //     }
+      //   )
+      //   .then(
+      //     response.data.forEach((item: CommentInfo) => {
+      //       api.patch(
+      //         `/comments/${item.id}`,
+      //         { name: name },
+      //         {
+      //           headers: { Authorization: `Bearer ${accessToken}` },
+      //         }
+      //       );
+      //     })
+      //   )
+
+      //   );
       // window.location.reload();
     },
     [data]
   );
 
   const ChangeAvatar = useCallback(
-    async ({ userImg }: ChangeAvatarCredentials) => {
-      const userId = data.user.id;
-      const accessToken = data.accessToken;
-      const response = await api.get(`/users/${userId}/comments`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-
-      await api
+    async ({ avatar }: ChangeAvatarCredentials) => {
+      console.log("avatar", avatar);
+      await api2
         .patch(
-          `/users/${userId}`,
-          { userImg: userImg },
+          `/api/users/profile/`,
           {
-            headers: { Authorization: `Bearer ${accessToken}` },
+            avatar,
+          },
+          {
+            headers: { Authorization: `Token ${data.token}` },
           }
-        )
-        .then(
-          response.data.forEach((item: CommentInfo) => {
-            api.patch(
-              `/comments/${item.id}`,
-              { userImg: userImg },
-              {
-                headers: { Authorization: `Bearer ${accessToken}` },
-              }
-            );
-          })
         )
         .then((res) =>
           localStorage.setItem("@re:viewers:user", JSON.stringify(res.data))
-        );
+        )
+        .catch((err) => {
+          console.log("avatar", err);
+        });
+
+      // const response = await api.get(`/users/${userId}/comments`, {
+      //   headers: { Authorization: `Bearer ${accessToken}` },
+      // });
+
+      // await api
+      //   .patch(
+      //     `/users/${userId}`,
+      //     { userImg: userImg },
+      //     {
+      //       headers: { Authorization: `Bearer ${accessToken}` },
+      //     }
+      //   )
+      //   .then(
+      //     response.data.forEach((item: CommentInfo) => {
+      //       api.patch(
+      //         `/comments/${item.id}`,
+      //         { userImg: userImg },
+      //         {
+      //           headers: { Authorization: `Bearer ${accessToken}` },
+      //         }
+      //       );
+      //     })
+      //   )
+      //   .then((res) =>
+      //     localStorage.setItem("@re:viewers:user", JSON.stringify(res.data))
+      //   );
       // window.location.reload();
     },
     [data]

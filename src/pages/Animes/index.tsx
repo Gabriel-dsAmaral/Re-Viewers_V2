@@ -21,7 +21,7 @@ interface AnimesData {
   id: string;
   title: string;
   categories: Array<object>;
-  // rate?: Array<Rate>;
+  average_rate: Number;
   banner: string;
   image: string;
   original_title: string;
@@ -70,50 +70,6 @@ export const AnimePage = () => {
     },
   };
 
-  // const addToMyList = async (query: string) => {
-  //   let animeData = {
-  //     animeId: selectedAnime.id,
-  //     title: selectedAnime.title,
-  //     category: selectedAnime.category,
-  //     banner_url: selectedAnime.category,
-  //     image_url: selectedAnime.image_url,
-  //     launch_date: selectedAnime.launch_date,
-  //     original: selectedAnime.original,
-  //     rate: selectedAnime.rate,
-  //     status: selectedAnime.status,
-  //     studio: selectedAnime.status,
-  //     synopsis: selectedAnime.synopsis,
-  //     userId: user.id,
-  //     myListStatus: query,
-  //   };
-
-  //   await api.post("mylist", animeData, tokenBearer);
-  // };
-
-  // const patchMyList = async (AnimeId: Number, query: string) => {
-  //   await api.patch(`mylist/${AnimeId}`, { myListStatus: query }, tokenBearer);
-  // };
-
-  // const handlePatchMyList = async (query: string) => {
-  //   const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
-  //   const data = response.data;
-
-  //   const isInMyList = data.some(
-  //     (item: { animeId: Number }) => item.animeId === selectedAnime.id
-  //   );
-
-  //   if (!isInMyList) {
-  //     addToMyList(query);
-  //   } else {
-  //     const animeInMyList = data.filter(
-  //       (item: { animeId: Number }) => item.animeId === selectedAnime.id
-  //     );
-  //     const IdInFiltered = animeInMyList[0].id;
-  //     patchMyList(IdInFiltered, query);
-  //   }
-  //   OnOpenModalInfo();
-  // };
-
   const calcScore = async () => {
     const res = await api.get(`/animes?id=${id}`, tokenBearer);
 
@@ -134,7 +90,6 @@ export const AnimePage = () => {
 
   const searchCategories = (search: string) => {
     setSearched(search);
-    // searchAnime(search);
     getAnimesByCategory(search);
     navigate(`/search/${search}`);
   };
@@ -184,7 +139,7 @@ export const AnimePage = () => {
       {selectedAnime.categories && (
         <>
           <ModalScore
-            calcScore={calcScore}
+            // calcScore={calcScore}
             isOpen={isOpenModalScore}
             onClose={onCloseModalScore}
             selectedAnime={selectedAnime}
@@ -310,7 +265,7 @@ export const AnimePage = () => {
                   mb="10px"
                   textShadow="1px 1px #d6883f"
                 >
-                  Score: {scoreResult.toFixed(2)}
+                  Score: {selectedAnime.average_rate}
                 </Text>
               </Box>
 

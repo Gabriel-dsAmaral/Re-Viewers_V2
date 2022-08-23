@@ -88,7 +88,7 @@ interface AnimesData {
   id: string;
   title: string;
   categories: Array<object>;
-  // rate?: Array<Rate>;
+  average_rate: Number;
   banner: string;
   image: string;
   original_title: string;
@@ -125,23 +125,24 @@ const UserProvider = ({ children }: UserProviderProps) => {
     return {} as UserState;
   });
 
-  const signIn = useCallback(async ({ email, password }: SighInCredentials) => {
+  const signIn = async ({ email, password }: SighInCredentials) => {
     let response = await api2.post("/api/users/login/", { email, password });
 
     const { token } = response.data;
 
-    response = await api2.get("/api/users/profile/", {
-      headers: { Authorization: `Token ${token}` },
-    });
+    await api2
+      .get("/api/users/profile/", {
+        headers: { Authorization: `Token ${token}` },
+      })
+      .then((response) => {
+        const user = response.data;
 
-    const user = response.data;
+        localStorage.setItem("@re:viewers:acessToken", token);
+        localStorage.setItem("@re:viewers:user", JSON.stringify(user));
 
-    localStorage.setItem("@re:viewers:acessToken", token);
-    localStorage.setItem("@re:viewers:user", user);
-
-    setData({ token, user });
-    getUserList();
-  }, []);
+        setData({ token, user });
+      });
+  };
 
   const signOut = useCallback(() => {
     localStorage.clear();
@@ -334,7 +335,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
         .then((res) =>
           localStorage.setItem("@re:viewers:user", JSON.stringify(res.data))
         );
-      window.location.reload();
+      // window.location.reload();
     },
     [data]
   );
@@ -369,7 +370,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
         .then((res) =>
           localStorage.setItem("@re:viewers:user", JSON.stringify(res.data))
         );
-      window.location.reload();
+      // window.location.reload();
     },
     [data]
   );

@@ -15,7 +15,7 @@ interface AnimesData {
   id: string;
   title: string;
   categories: Array<object>;
-  rate?: Array<Rate>;
+  average_rate: Number;
   banner: string;
   image: string;
   original_title: string;

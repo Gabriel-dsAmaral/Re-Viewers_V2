@@ -7,6 +7,7 @@ import { SectionContainer } from "../../components/SectionContainer";
 import { Footer } from "../../components/Footer";
 import { Animes, Animes2, Animes3 } from "../../Utils";
 import { useEffect } from "react";
+import { useUser } from "../../Providers/UserProvider";
 
 export const Home = () => {
   const {
@@ -18,19 +19,22 @@ export const Home = () => {
     animes,
   } = useAnime();
 
+  const { getUserList, user } = useUser();
+
   const isWideVersion = useBreakpointValue({
     base: false,
     md: true,
   });
 
   useEffect(() => {
+    if (user) getUserList();
     getAllAnimes();
     setSearchList([]);
     setSearched("");
     getBestAnimes(5);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   return (
     <Box minH="100vh" w="100%" backgroundColor="grey.80">

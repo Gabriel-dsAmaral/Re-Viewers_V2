@@ -5,6 +5,7 @@ import {
   useState,
   ReactNode,
 } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { api, api2 } from "../../services/api";
 
@@ -115,6 +116,8 @@ const UserProvider = ({ children }: UserProviderProps) => {
   // const [watchLaterList, setWatchLaterList] = useState<IUserListStatus[]>([]);
   // const [finishedList, setFinishedList] = useState<IUserListStatus[]>([]);
 
+  const navigate = useNavigate();
+
   const [data, setData] = useState<UserState>(() => {
     const token = localStorage.getItem("@re:viewers:acessToken");
     const user = localStorage.getItem("@re:viewers:user");
@@ -148,6 +151,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
     localStorage.clear();
 
     setData({} as UserState);
+    navigate("/");
   }, []);
 
   const signUp = useCallback(

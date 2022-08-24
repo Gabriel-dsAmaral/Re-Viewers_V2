@@ -33,7 +33,7 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
   } = useDisclosure();
 
   useEffect(() => {
-    api.get("/avatars").then((res) => setAvatars(res.data));
+    // api.get("/avatars").then((res) => setAvatars(res.data));
   }, []);
 
   const handleNameEdit = () => {

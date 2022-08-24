@@ -18,14 +18,16 @@ interface StyledTextAreaProps {
 
 export const StyledTextArea = ({ img, name }: StyledTextAreaProps) => {
   const [input, setInput] = useState("");
-  const { MakeComment, LoadComments } = useComment();
+  const { postComment, getComments } = useComment();
 
   const { id } = useParams<{ id: any }>();
 
+  console.log("input", input);
+
   const handleMake = () => {
     if (input.length > 1) {
-      MakeComment(+id, input)
-        .then(() => LoadComments(+id))
+      postComment(id, input)
+        .then(() => getComments(id))
         .then(() => {
           setInput("");
           onModalSuccessOpen();

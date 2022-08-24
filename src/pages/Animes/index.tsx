@@ -55,38 +55,7 @@ export const AnimePage = () => {
 
   const { id } = useParams<{ id: string }>();
 
-  const {
-    user,
-    accessToken,
-    addUserList,
-    watchingList,
-    finishedList,
-    watchLaterList,
-  } = useUser();
-
-  const tokenBearer = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  const calcScore = async () => {
-    const res = await api.get(`/animes?id=${id}`, tokenBearer);
-
-    const currentAnime = res.data[0];
-
-    if (!!currentAnime.rate[0]) {
-      const output =
-        currentAnime.rate.reduce(
-          (acc: number, curr: { value: number }) => acc + curr.value,
-          0
-        ) / currentAnime.rate.length;
-
-      setScoreResult(output);
-    } else {
-      setScoreResult(1);
-    }
-  };
+  const { addUserList, watchingList, finishedList, watchLaterList } = useUser();
 
   const searchCategories = (search: string) => {
     setSearched(search);
@@ -96,7 +65,6 @@ export const AnimePage = () => {
 
   useEffect(() => {
     getAnimeById(String(id));
-    // calcScore();
     setSearched("");
     getAllAnimes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,7 +107,6 @@ export const AnimePage = () => {
       {selectedAnime.categories && (
         <>
           <ModalScore
-            // calcScore={calcScore}
             isOpen={isOpenModalScore}
             onClose={onCloseModalScore}
             selectedAnime={selectedAnime}
@@ -412,7 +379,7 @@ export const AnimePage = () => {
           </Flex>
         </>
       )}
-      {/* <Comments /> */}
+      <Comments />
     </Box>
   );
 };

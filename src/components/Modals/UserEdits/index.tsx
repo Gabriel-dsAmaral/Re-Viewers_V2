@@ -32,9 +32,9 @@ export const UserEdits = ({ isOpen, onClose }: UserEditsProps) => {
     onClose: onModalErrorClose,
   } = useDisclosure();
 
-  useEffect(() => {
-    // api.get("/avatars").then((res) => setAvatars(res.data));
-  }, []);
+  // useEffect(() => {
+  //   // api.get("/avatars").then((res) => setAvatars(res.data));
+  // }, []);
 
   const handleNameEdit = () => {
     if (input !== "")

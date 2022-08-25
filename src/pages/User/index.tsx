@@ -42,16 +42,19 @@ export const User = () => {
     useUser();
 
   useEffect(() => {
-    getUserList();
-
+    // getUserList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   const {
     isOpen: isModalOpen,
     onOpen: onModalOpen,
     onClose: onModalClose,
   } = useDisclosure();
+
+  console.log("watchingListUser", watchingList);
+  console.log("watchLaterListUser", watchLaterList);
+  console.log("finishedListUser", finishedList);
 
   return (
     <>

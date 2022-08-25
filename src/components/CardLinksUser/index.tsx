@@ -32,6 +32,7 @@ type IUserListStatus = {
 };
 
 export const CardLinksUser = ({ title, list }: CardLinksProps) => {
+  console.log("cardlinkuser", list);
   return (
     <Flex
       direction="column"

@@ -62,6 +62,7 @@ interface UserContextData {
   watchingList: IUserListStatus[];
   watchLaterList: IUserListStatus[];
   finishedList: IUserListStatus[];
+
   signOut: () => void;
   signIn: (credentials: SighInCredentials) => Promise<void>;
   signUp: (credentials: SignUpCredentials) => Promise<void>;
@@ -112,9 +113,9 @@ const UserContext = createContext<UserContextData>({} as UserContextData);
 const useUser = () => useContext(UserContext);
 
 const UserProvider = ({ children }: UserProviderProps) => {
-  // const [watchingList, setWatchingList] = useState<IUserListStatus[]>([]);
-  // const [watchLaterList, setWatchLaterList] = useState<IUserListStatus[]>([]);
-  // const [finishedList, setFinishedList] = useState<IUserListStatus[]>([]);
+  const [watchingList, setWatchingList] = useState<IUserListStatus[]>([]);
+  const [watchLaterList, setWatchLaterList] = useState<IUserListStatus[]>([]);
+  const [finishedList, setFinishedList] = useState<IUserListStatus[]>([]);
 
   const navigate = useNavigate();
 
@@ -173,9 +174,9 @@ const UserProvider = ({ children }: UserProviderProps) => {
     []
   );
 
-  let watchingList: IUserListStatus[] = [];
-  let watchLaterList: IUserListStatus[] = [];
-  let finishedList: IUserListStatus[] = [];
+  // let watchingList: IUserListStatus[] = [];
+  // let watchLaterList: IUserListStatus[] = [];
+  // let finishedList: IUserListStatus[] = [];
 
   const getUserList = async () => {
     watchingList.length = 0;
@@ -201,6 +202,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
         response.data.results.forEach((e: IUserListStatus) => {
           if (e.watching_status === "Assistindo") {
             watchingList.push(e);
+            // setWatchingList([e]);
           }
           if (e.watching_status === "Assistir mais tarde") {
             watchLaterList.push(e);
@@ -302,51 +304,48 @@ const UserProvider = ({ children }: UserProviderProps) => {
       });
   };
 
-  const EditUser = useCallback(
-    async ({ name }: EditUserCredentials) => {
-      // const response =
-      await api2
-        .patch(
-          `/api/users/profile/`,
-          {
-            first_name: name,
-          },
-          {
-            headers: { Authorization: `Token ${data.token}` },
-          }
-        )
-        .then((res) =>
-          localStorage.setItem("@re:viewers:user", JSON.stringify(res.data))
-        )
-        .catch((err) => {
-          console.log("edit user", err);
-        });
+  const EditUser = useCallback(async ({ name }: EditUserCredentials) => {
+    // const response =
+    await api2
+      .patch(
+        `/api/users/profile/`,
+        {
+          first_name: name,
+        },
+        {
+          headers: { Authorization: `Token ${data.token}` },
+        }
+      )
+      .then((res) =>
+        localStorage.setItem("@re:viewers:user", JSON.stringify(res.data))
+      )
+      .catch((err) => {
+        console.log("edit user", err);
+      });
 
-      // await api
-      //   .patch(
-      //     `/users/${userId}`,
-      //     { name },
-      //     {
-      //       headers: { Authorization: `Bearer ${accessToken}` },
-      //     }
-      //   )
-      //   .then(
-      //     response.data.forEach((item: CommentInfo) => {
-      //       api.patch(
-      //         `/comments/${item.id}`,
-      //         { name: name },
-      //         {
-      //           headers: { Authorization: `Bearer ${accessToken}` },
-      //         }
-      //       );
-      //     })
-      //   )
+    // await api
+    //   .patch(
+    //     `/users/${userId}`,
+    //     { name },
+    //     {
+    //       headers: { Authorization: `Bearer ${accessToken}` },
+    //     }
+    //   )
+    //   .then(
+    //     response.data.forEach((item: CommentInfo) => {
+    //       api.patch(
+    //         `/comments/${item.id}`,
+    //         { name: name },
+    //         {
+    //           headers: { Authorization: `Bearer ${accessToken}` },
+    //         }
+    //       );
+    //     })
+    //   )
 
-      //   );
-      // window.location.reload();
-    },
-    [data]
-  );
+    //   );
+    // window.location.reload();
+  }, []);
 
   const ChangeAvatar = useCallback(
     async ({ avatar }: ChangeAvatarCredentials) => {
@@ -396,7 +395,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
       //   );
       // window.location.reload();
     },
-    [data]
+    []
   );
 
   return (

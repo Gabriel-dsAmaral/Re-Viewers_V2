@@ -2,9 +2,25 @@ import "react-slideshow-image/dist/styles.css";
 import { Slide } from "react-slideshow-image";
 import { Box } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useAnime } from "../../Providers/AnimesProvider";
+import { useEffect } from "react";
 
-export const SliderContainer = () => {
+export const SliderContainer = ({ animes }: any) => {
+  // let randomAnimes = [];
+
+  // for (let i = 0; i < 5; i++) {
+  //   randomAnimes.push(animes[Math.floor(Math.random() * animes.length)]);
+  // }
+
+  console.log(animes);
+
   const slideImages = [
+    // animes[0].banner,
+    // randomAnimes[0].banner,
+    // randomAnimes[1].banner,
+    // randomAnimes[2].banner,
+    // randomAnimes[3].banner,
+    // randomAnimes[4].banner,
     "https://media.kitsu.io/anime/cover_images/8699/original.jpg",
     "https://media.kitsu.io/anime/cover_images/8063/original.png",
     "https://media.kitsu.io/anime/cover_images/43321/original.png",

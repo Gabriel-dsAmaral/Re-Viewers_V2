@@ -11,11 +11,11 @@ import { useUser } from "../../Providers/UserProvider";
 
 export const Home = () => {
   const {
+    getAllAnimes,
     setSearchList,
     setSearched,
     getBestAnimes,
     bestAnimes,
-    getAllAnimes,
     animes,
   } = useAnime();
 
@@ -27,11 +27,18 @@ export const Home = () => {
   });
 
   useEffect(() => {
-    if (user) getUserList();
     getAllAnimes();
     setSearchList([]);
     setSearched("");
     getBestAnimes(5);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      getUserList();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -40,7 +47,7 @@ export const Home = () => {
     <Box minH="100vh" w="100%" backgroundColor="grey.80">
       <Header />
 
-      <SliderContainer />
+      <SliderContainer animes={animes} />
 
       <Flex
         flexDirection={isWideVersion ? "row" : "column"}

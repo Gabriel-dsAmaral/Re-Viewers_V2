@@ -5,14 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { useEffect } from "react";
 
-export const SliderContainer = ({ animes }: any) => {
+export const SliderContainer = () => {
+  const { getAllAnimes, animes } = useAnime();
   // let randomAnimes = [];
 
   // for (let i = 0; i < 5; i++) {
   //   randomAnimes.push(animes[Math.floor(Math.random() * animes.length)]);
   // }
-
-  console.log(animes);
 
   const slideImages = [
     // animes[0].banner,

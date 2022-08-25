@@ -38,7 +38,7 @@ export const Comments = () => {
 
   console.log(comments);
 
-  const Margin = useBreakpointValue({ base: "0px", lg: "300px" });
+  const Margin = useBreakpointValue({ base: "0px", lg: "280px" });
 
   return (
     <>
@@ -50,7 +50,7 @@ export const Comments = () => {
         onClose={onModalSuccessClose}
         img="https://cdn.myanimelist.net/r/560x300/s/common/uploaded_files/1446435249-fa90bbc0193df219dffb8b473b8f4b15.jpeg?s=733a33ce219c47aff743178eb0b59f60"
       />
-      <Box ml={Margin}>
+      <Box ml={Margin} mt={100}>
         <Text fontWeight="SemiBold" fontSize="24px" color="primary">
           To omoimasu (comentarios):
         </Text>

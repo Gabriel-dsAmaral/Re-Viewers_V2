@@ -278,7 +278,7 @@ export const AnimePage = () => {
             >
               Sobre Anime: {selectedAnime.sinopse}
             </Text>
-            <VStack
+            {/* <VStack
               border="2px solid"
               borderColor="secondary"
               alignItems="center"
@@ -331,7 +331,7 @@ export const AnimePage = () => {
                   </Box>
                 ))}
               </Flex>
-            </VStack>
+            </VStack> */}
             <Flex
               w="100%"
               display={["flex", "flex", "flex", "none"]}
@@ -343,11 +343,11 @@ export const AnimePage = () => {
               paddingX="10px"
               gap="20px"
             >
-              {/* <Button
+              <Button
                 minW="150px"
                 h="40px"
                 model="1"
-                onClick={() => handlePatchMyList("Assistindo")}
+                onClick={() => addUserList("Assistindo", id!, statusFound)}
               >
                 Assitindo
               </Button>
@@ -355,7 +355,9 @@ export const AnimePage = () => {
                 minW="150px"
                 h="40px"
                 model="2"
-                onClick={() => handlePatchMyList("Quero assitir")}
+                onClick={() =>
+                  addUserList("Assistir mais tarde", id!, statusFound)
+                }
               >
                 Quero Assistir
               </Button>
@@ -363,7 +365,7 @@ export const AnimePage = () => {
                 minW="150px"
                 h="40px"
                 model="3"
-                onClick={() => handlePatchMyList("Terminei")}
+                onClick={() => addUserList("Terminado", id!, statusFound)}
               >
                 Terminei...):
               </Button>
@@ -374,7 +376,7 @@ export const AnimePage = () => {
                 onClick={() => OnOpenModalScore()}
               >
                 Avaliar
-              </Button> */}
+              </Button>
             </Flex>
           </Flex>
         </>

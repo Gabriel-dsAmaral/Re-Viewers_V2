@@ -1,13 +1,14 @@
-import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, useBreakpointValue, VStack, Text } from "@chakra-ui/react";
 import { CardLinks } from "../../components/CardLinks";
 import { Header } from "../../components/Header";
 import { useAnime } from "../../Providers/AnimesProvider";
 import { SliderContainer } from "../../components/SliderContainer";
 import { SectionContainer } from "../../components/SectionContainer";
 import { Footer } from "../../components/Footer";
-import { Animes, Animes2, Animes3 } from "../../Utils";
+import { Animes, Animes2, Animes3, categories } from "../../Utils";
 import { useEffect } from "react";
 import { useUser } from "../../Providers/UserProvider";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const {
@@ -47,7 +48,7 @@ export const Home = () => {
     <Box minH="100vh" w="100%" backgroundColor="grey.80">
       <Header />
 
-      <SliderContainer animes={animes} />
+      <SliderContainer />
 
       <Flex
         flexDirection={isWideVersion ? "row" : "column"}
@@ -66,7 +67,7 @@ export const Home = () => {
           <SectionContainer title="Mais Populares" animeList={animes} />
         </Flex>
 
-        <CardLinks title="Recomendados" animes={Animes3} />
+        {/* <CardLinks title="Recomendados" animes={Animes3} /> */}
       </Flex>
       <Footer />
     </Box>

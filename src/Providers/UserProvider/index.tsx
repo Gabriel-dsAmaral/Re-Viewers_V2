@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/react";
 import {
   createContext,
   useCallback,
@@ -118,6 +119,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
   const [finishedList, setFinishedList] = useState<IUserListStatus[]>([]);
 
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [data, setData] = useState<UserState>(() => {
     const token = localStorage.getItem("@re:viewers:acessToken");
@@ -145,6 +147,15 @@ const UserProvider = ({ children }: UserProviderProps) => {
         localStorage.setItem("@re:viewers:user", JSON.stringify(user));
 
         setData({ token, user });
+
+        toast({
+          position: "top",
+          title: "Dattebayo!",
+          description: "Bem vindo!",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
       });
   };
 
@@ -153,6 +164,14 @@ const UserProvider = ({ children }: UserProviderProps) => {
 
     setData({} as UserState);
     navigate("/");
+    toast({
+      position: "top",
+      // title: "",
+      description: "Volte sempre!",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
   }, []);
 
   const signUp = useCallback(

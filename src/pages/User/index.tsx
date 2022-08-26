@@ -22,62 +22,29 @@ interface Rate {
 }
 interface AnimesData {
   myListStatus?: string;
-  id: number;
+  id: string;
   title: string;
-  category: Array<string>;
+  categories: Array<object>;
   rate?: Array<Rate>;
-  banner_url: string;
-  image_url: string;
-  original: string;
+  banner: string;
+  image: string;
+  original_title: string;
   status: string;
-  launch_date: string;
+  launch_data: string;
   studio: string;
-  synopsis: string;
+  sinopse: string;
   userId?: number;
   data?: object;
 }
 
 export const User = () => {
-  const { user, accessToken } = useUser();
+  const { user, getUserList, watchingList, finishedList, watchLaterList } =
+    useUser();
 
-  const [watching, setWatching] = useState<AnimesData[]>([]);
-  const [finished, setFinished] = useState<AnimesData[]>([]);
-  const [wantWatch, setWantWatch] = useState<AnimesData[]>([]);
-
-  const tokenBearer = { headers: { Authorization: `Bearer ${accessToken}` } };
-
-  const getWatching = async () => {
-    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
-    const data = response.data;
-
-    const filteredWatch = data.filter(
-      (item: { myListStatus: string }) => item.myListStatus === "Assistindo"
-    );
-
-    setWatching(filteredWatch);
-  };
-
-  const getFinished = async () => {
-    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
-    const data = response.data;
-
-    const filteredFinished = data.filter(
-      (item: { myListStatus: string }) => item.myListStatus === "Terminei"
-    );
-
-    setFinished(filteredFinished);
-  };
-
-  const getWantedToWatch = async () => {
-    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
-    const data = response.data;
-
-    const filteredWantToWatch = data.filter(
-      (item: { myListStatus: string }) => item.myListStatus === "Quero assitir"
-    );
-
-    setWantWatch(filteredWantToWatch);
-  };
+  useEffect(() => {
+    // getUserList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     isOpen: isModalOpen,
@@ -85,12 +52,9 @@ export const User = () => {
     onClose: onModalClose,
   } = useDisclosure();
 
-  useEffect(() => {
-    getWatching();
-    getWantedToWatch();
-    getFinished();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  console.log("watchingListUser", watchingList);
+  console.log("watchLaterListUser", watchLaterList);
+  console.log("finishedListUser", finishedList);
 
   return (
     <>
@@ -122,7 +86,7 @@ export const User = () => {
                 h="200px"
                 w="200px"
                 borderRadius="3px"
-                src={user.userImg}
+                src={user.avatar}
               />
             </Center>
           </Box>
@@ -136,7 +100,7 @@ export const User = () => {
               fontSize="36px"
               margin={"0px 15px 0px 25px"}
             >
-              {user.name}
+              {user.first_name}
             </Text>
             <Center
               _hover={{ cursor: "pointer" }}
@@ -174,13 +138,13 @@ export const User = () => {
         <UserEdits isOpen={isModalOpen} onClose={onModalClose} />
 
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={watching} title="Assistindo" />
+          <CardLinksUser list={watchingList} title="Assistindo" />
         </Box>
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={wantWatch} title="Quero Assistir" />
+          <CardLinksUser list={watchLaterList} title="Quero Assistir" />
         </Box>
         <Box w="90%" mt="20px">
-          <CardLinksUser animes={finished} title="Finalizados" />
+          <CardLinksUser list={finishedList} title="Finalizados" />
         </Box>
       </Flex>
     </>

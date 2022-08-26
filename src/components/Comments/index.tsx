@@ -16,7 +16,7 @@ import { StyledTextArea } from "./StyledTextArea.";
 import { ModalSuccess } from "../Modals/ModalSuccess";
 
 export const Comments = () => {
-  const { DeleteComment, LoadComments, comments } = useComment();
+  const { delComment, getComments, comments } = useComment();
   const { selectedAnime } = useAnime();
   const { user, accessToken } = useUser();
 
@@ -26,16 +26,19 @@ export const Comments = () => {
     onClose: onModalSuccessClose,
   } = useDisclosure();
 
-  const handleDelete = (id: number) => {
-    DeleteComment(id).then(() => LoadComments(selectedAnime.id));
+  const handleDelete = (id: string) => {
+    delComment(id).then(() => getComments(selectedAnime.id));
     onModalSuccessOpen();
   };
 
   useEffect(() => {
-    LoadComments(selectedAnime.id);
-  }, [selectedAnime, LoadComments]);
+    getComments(selectedAnime.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAnime]);
 
-  const Margin = useBreakpointValue({ base: "0px", lg: "300px" });
+  console.log(comments);
+
+  const Margin = useBreakpointValue({ base: "0px", lg: "280px" });
 
   return (
     <>
@@ -47,12 +50,12 @@ export const Comments = () => {
         onClose={onModalSuccessClose}
         img="https://cdn.myanimelist.net/r/560x300/s/common/uploaded_files/1446435249-fa90bbc0193df219dffb8b473b8f4b15.jpeg?s=733a33ce219c47aff743178eb0b59f60"
       />
-      <Box ml={Margin}>
+      <Box ml={Margin} mt={100}>
         <Text fontWeight="SemiBold" fontSize="24px" color="primary">
           To omoimasu (comentarios):
         </Text>
         {!!accessToken ? (
-          <StyledTextArea name={user.name} img={user.userImg} />
+          <StyledTextArea name={user.first_name} img={user.avatar} />
         ) : (
           <CallingCard />
         )}
@@ -60,19 +63,19 @@ export const Comments = () => {
           {!!accessToken
             ? comments.map((item, index) => (
                 <Box key={index}>
-                  {Number(user.id) !== item.userId ? (
+                  {user.id !== item.user.user_id ? (
                     <Comment
-                      img={item.userImg}
+                      img={item.user.avatar}
                       comment={item.comment}
-                      name={item.name}
+                      name={item.user.first_name}
                     />
                   ) : (
                     <EditableComment
                       key={index}
-                      id={item.id}
+                      id={item.comment_id}
                       input={item.comment}
-                      name={item.name}
-                      img={item.userImg}
+                      name={item.user.first_name}
+                      img={item.user.avatar}
                       callback={handleDelete}
                     />
                   )}
@@ -80,10 +83,10 @@ export const Comments = () => {
               ))
             : comments.map((item, index) => (
                 <Comment
-                  img={item.userImg}
+                  img={item.user.avatar}
                   key={index}
                   comment={item.comment}
-                  name={item.name}
+                  name={item.user.first_name}
                 />
               ))}
         </Flex>

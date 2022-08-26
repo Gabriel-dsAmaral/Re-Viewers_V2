@@ -12,97 +12,60 @@ import { ModalScore } from "../../components/Modals/ModalScore";
 import { categories } from "../../Utils";
 import { ModalMyListStatus } from "../../components/Modals/ModalStatus";
 
-export const AnimePage = () => {
-  const [scoreResult, setScoreResult] = useState<number>(0);
+type Category = {
+  category: string;
+};
 
-  const { selectedAnime, getAnimeById, setSearched, searchAnime, getAnimes } =
-    useAnime();
+interface AnimesData {
+  myListStatus?: string;
+  id: string;
+  title: string;
+  categories: Array<object>;
+  average_rate: Number;
+  banner: string;
+  image: string;
+  original_title: string;
+  status: string;
+  launch_data: string;
+  studio: string;
+  sinopse: string;
+  userId?: number;
+  data?: object;
+}
+
+type IUserListStatus = {
+  id: string;
+  watching_status: string;
+  anime: AnimesData;
+};
+
+export const AnimePage = () => {
+  const {
+    selectedAnime,
+    getAnimeById,
+    setSearched,
+    // getAllAnimes,
+    getAnimesByCategory,
+    setLoad,
+  } = useAnime();
 
   const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
 
-  const { user, accessToken } = useUser();
-
-  const tokenBearer = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  const addToMyList = async (query: string) => {
-    let animeData = {
-      animeId: selectedAnime.id,
-      title: selectedAnime.title,
-      category: selectedAnime.category,
-      banner_url: selectedAnime.category,
-      image_url: selectedAnime.image_url,
-      launch_date: selectedAnime.launch_date,
-      original: selectedAnime.original,
-      rate: selectedAnime.rate,
-      status: selectedAnime.status,
-      studio: selectedAnime.status,
-      synopsis: selectedAnime.synopsis,
-      userId: user.id,
-      myListStatus: query,
-    };
-
-    await api.post("mylist", animeData, tokenBearer);
-  };
-
-  const patchMyList = async (AnimeId: Number, query: string) => {
-    await api.patch(`mylist/${AnimeId}`, { myListStatus: query }, tokenBearer);
-  };
-
-  const handlePatchMyList = async (query: string) => {
-    const response = await api.get(`/users/${user.id}/myList`, tokenBearer);
-    const data = response.data;
-
-    const isInMyList = data.some(
-      (item: { animeId: Number }) => item.animeId === selectedAnime.id
-    );
-
-    if (!isInMyList) {
-      addToMyList(query);
-    } else {
-      const animeInMyList = data.filter(
-        (item: { animeId: Number }) => item.animeId === selectedAnime.id
-      );
-      const IdInFiltered = animeInMyList[0].id;
-      patchMyList(IdInFiltered, query);
-    }
-    OnOpenModalInfo();
-  };
-
-  const calcScore = async () => {
-    const res = await api.get(`/animes?id=${id}`, tokenBearer);
-
-    const currentAnime = res.data[0];
-
-    if (!!currentAnime.rate[0]) {
-      const output =
-        currentAnime.rate.reduce(
-          (acc: number, curr: { value: number }) => acc + curr.value,
-          0
-        ) / currentAnime.rate.length;
-
-      setScoreResult(output);
-    } else {
-      setScoreResult(1);
-    }
-  };
+  const { addUserList, watchingList, finishedList, watchLaterList } = useUser();
 
   const searchCategories = (search: string) => {
     setSearched(search);
-    searchAnime(search);
+    getAnimesByCategory(search);
+    setLoad(false);
     navigate(`/search/${search}`);
   };
 
   useEffect(() => {
-    getAnimeById(Number(id));
-    calcScore();
+    getAnimeById(String(id));
     setSearched("");
-    getAnimes();
+    // getAllAnimes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -123,14 +86,26 @@ export const AnimePage = () => {
     onClose: onCloseModalInfo,
   } = useDisclosure();
 
+  const statusFound: IUserListStatus[] = [];
+  const handleUserList = (list: IUserListStatus[]) => {
+    const found = list.find((e) => e.anime["id"] === id);
+
+    if (found) {
+      statusFound.push(found);
+      console.log("statusFound", statusFound);
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <Box width="100%" minH="100vh">
       <Header />
 
-      {selectedAnime.category && (
+      {selectedAnime.categories && (
         <>
           <ModalScore
-            calcScore={calcScore}
             isOpen={isOpenModalScore}
             onClose={onCloseModalScore}
             selectedAnime={selectedAnime}
@@ -140,7 +115,7 @@ export const AnimePage = () => {
             onClose={onCloseModalInfo}
           />
           <Box
-            background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${selectedAnime.banner_url})`}
+            background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${selectedAnime.banner})`}
             backgroundSize="cover"
             backgroundPosition="center"
             height="330px"
@@ -162,32 +137,75 @@ export const AnimePage = () => {
                 h="300px"
                 w="230px"
                 borderRadius="3px"
-                src={selectedAnime.image_url}
+                src={selectedAnime.image}
               />
 
               {isWideVersion && (
                 <VStack w="230px">
-                  <Button
-                    w="inherit"
-                    model="1"
-                    onClick={() => handlePatchMyList("Assistindo")}
-                  >
-                    Assitindo
-                  </Button>
-                  <Button
-                    w="inherit"
-                    model="2"
-                    onClick={() => handlePatchMyList("Quero assitir")}
-                  >
-                    Quero Assistir
-                  </Button>
-                  <Button
-                    w="inherit"
-                    model="3"
-                    onClick={() => handlePatchMyList("Terminei")}
-                  >
-                    Terminei...):
-                  </Button>
+                  {handleUserList(watchingList) ? (
+                    <Button
+                      w="inherit"
+                      model="1"
+                      disabled
+                      title="Anime já em sua lista"
+                    >
+                      Assistindo
+                    </Button>
+                  ) : (
+                    <Button
+                      w="inherit"
+                      model="1"
+                      onClick={() => {
+                        addUserList("Assistindo", id!, statusFound);
+                        OnOpenModalInfo();
+                      }}
+                    >
+                      Assistindo
+                    </Button>
+                  )}
+                  {handleUserList(watchLaterList) ? (
+                    <Button
+                      w="inherit"
+                      model="2"
+                      disabled
+                      title="Anime já em sua lista"
+                    >
+                      Assistir mais tarde
+                    </Button>
+                  ) : (
+                    <Button
+                      w="inherit"
+                      model="2"
+                      onClick={() => {
+                        addUserList("Assistir mais tarde", id!, statusFound);
+                        OnOpenModalInfo();
+                      }}
+                    >
+                      Assistir mais tarde
+                    </Button>
+                  )}
+                  {handleUserList(finishedList) ? (
+                    <Button
+                      w="inherit"
+                      model="3"
+                      disabled
+                      title="Anime já em sua lista"
+                    >
+                      Finalizado
+                    </Button>
+                  ) : (
+                    <Button
+                      w="inherit"
+                      model="3"
+                      onClick={() => {
+                        addUserList("Terminado", id!, statusFound);
+                        OnOpenModalInfo();
+                      }}
+                    >
+                      Finalizado
+                    </Button>
+                  )}
+
                   <Button
                     w="inherit"
                     model="4"
@@ -233,7 +251,7 @@ export const AnimePage = () => {
                   mb="10px"
                   textShadow="1px 1px #d6883f"
                 >
-                  Score: {scoreResult.toFixed(2)}
+                  {`Score: ${selectedAnime.average_rate}`}
                 </Text>
               </Box>
 
@@ -245,7 +263,8 @@ export const AnimePage = () => {
                 fontWeight="semibold"
                 textShadow="0.5px 0.5px grey"
               >
-                {selectedAnime.category.map((category, key) => {
+                {selectedAnime.categories.map((e, key) => {
+                  const { category } = e as Category;
                   return (
                     <Box
                       key={key}
@@ -259,9 +278,10 @@ export const AnimePage = () => {
                       marginTop="10px"
                       paddingY="3px"
                       boxShadow="base"
+                      _hover={{ cursor: "pointer" }}
                       onClick={() => searchCategories(category)}
                     >
-                      <p>{category}</p>
+                      {category}
                     </Box>
                   );
                 })}
@@ -275,9 +295,9 @@ export const AnimePage = () => {
               paddingX="20px"
               marginLeft={["0px", "0px", "0px", "260px"]}
             >
-              Sobre Anime: {selectedAnime.synopsis}
+              Sobre Anime: {selectedAnime.sinopse}
             </Text>
-            <VStack
+            {/* <VStack
               border="2px solid"
               borderColor="secondary"
               alignItems="center"
@@ -330,7 +350,7 @@ export const AnimePage = () => {
                   </Box>
                 ))}
               </Flex>
-            </VStack>
+            </VStack> */}
             <Flex
               w="100%"
               display={["flex", "flex", "flex", "none"]}
@@ -346,7 +366,7 @@ export const AnimePage = () => {
                 minW="150px"
                 h="40px"
                 model="1"
-                onClick={() => handlePatchMyList("Assistindo")}
+                onClick={() => addUserList("Assistindo", id!, statusFound)}
               >
                 Assitindo
               </Button>
@@ -354,7 +374,9 @@ export const AnimePage = () => {
                 minW="150px"
                 h="40px"
                 model="2"
-                onClick={() => handlePatchMyList("Quero assitir")}
+                onClick={() =>
+                  addUserList("Assistir mais tarde", id!, statusFound)
+                }
               >
                 Quero Assistir
               </Button>
@@ -362,7 +384,7 @@ export const AnimePage = () => {
                 minW="150px"
                 h="40px"
                 model="3"
-                onClick={() => handlePatchMyList("Terminei")}
+                onClick={() => addUserList("Terminado", id!, statusFound)}
               >
                 Terminei...):
               </Button>

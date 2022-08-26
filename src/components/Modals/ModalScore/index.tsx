@@ -6,10 +6,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useUser } from "../../../Providers/UserProvider";
-import { api } from "../../../services/api";
+import { api, api2 } from "../../../services/api";
 import { SliderThumbWithTooltip } from "./Slider";
 
 interface Rate {
@@ -18,46 +19,90 @@ interface Rate {
 }
 
 interface AnimesData {
-  id: number;
+  id: string;
   title: string;
-  category: Array<string>;
+  categories: Array<object>;
   rate?: Array<Rate>;
-  banner_url: string;
-  image_url: string;
-  original: string;
+  banner: string;
+  image: string;
+  original_title: string;
   status: string;
-  launch_date: string;
+  launch_data: string;
   studio: string;
-  synopsis: string;
-  usersWhoRated?: Array<number>;
+  sinopse: string;
+  // usersWhoRated?: Array<number>;
 }
 
 interface ModalScoreProps {
   isOpen: boolean;
   onClose: () => void;
-  calcScore: () => void;
+  // calcScore: () => void;
   selectedAnime: AnimesData;
 }
 
 export const ModalScore = ({
   isOpen,
   onClose,
-  calcScore,
+  // calcScore,
   selectedAnime,
 }: ModalScoreProps) => {
   const [sliderValue, setSliderValue] = useState<number>(1);
 
   const { user, accessToken } = useUser();
 
+  const toast = useToast();
+
   const tokenBearer = {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Token ${accessToken}`,
     },
+  };
+
+  const postRate = async (selectedAnime: AnimesData) => {
+    api2
+      .post(
+        `/api/rate/${selectedAnime.id}/`,
+        {
+          rate: sliderValue,
+        },
+        tokenBearer
+      )
+      .then(() => {
+        toast({
+          position: "top",
+          title: "Nota",
+          description: "Nota computada com sucesso!",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      })
+      .catch((err) => {
+        api2
+          .patch(
+            `/api/rate/${selectedAnime.id}/`,
+            {
+              rate: sliderValue,
+            },
+            tokenBearer
+          )
+          .then(() => {
+            toast({
+              position: "top",
+              title: "Alteração Nota",
+              description: "Nota alterada com sucesso!",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+          });
+      });
   };
 
   //HANDLE-PATCH-DA-API
   const toEvaluate = async (selectedAnime: AnimesData) => {
-    const res = await api.get(`/animes?id=${selectedAnime.id}`, tokenBearer);
+    // const res = await api.get(`/animes?id=${selectedAnime.id}`, tokenBearer);
+    const res = await api.get(`/api/rate/${selectedAnime.id}`, tokenBearer);
 
     const wasVoted = res.data[0].rate?.filter(
       (item: { userId: Number }) => item.userId === user.id
@@ -91,7 +136,7 @@ export const ModalScore = ({
 
       await api.patch(`/animes/${selectedAnime.id}`, currentAnime, tokenBearer);
     }
-    calcScore();
+    // calcScore();
   };
 
   //PEGA-O-VALOR-DO-ON-CHANGE
@@ -101,7 +146,8 @@ export const ModalScore = ({
 
   //NO-CLICK-CHAMA-A-FUNÇÃO-DE-VOTO
   const handleToEvaluate = () => {
-    toEvaluate(selectedAnime).then(() => onClose());
+    postRate(selectedAnime).then(() => onClose());
+    // toEvaluate(selectedAnime).then(() => onClose());
     setSliderValue(1); //APOS=>FECHO-O-MODAL-E-LIMPO-O-STATE
   };
 

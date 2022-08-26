@@ -5,6 +5,11 @@ import {
   useColorMode,
   useDisclosure,
   Img,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
 } from "@chakra-ui/react";
 
 import {
@@ -16,6 +21,7 @@ import {
   BiHome,
   BiUserPlus,
   BiLogIn,
+  BiMenu,
 } from "react-icons/bi";
 
 import { InputSearch } from "../Input/InputSearch";
@@ -27,6 +33,7 @@ import { useAnime } from "../../Providers/AnimesProvider";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import { ModalConfirm } from "../Modals/ModalConfirm";
+import { categories } from "../../Utils";
 
 export const Header = () => {
   const {
@@ -47,7 +54,8 @@ export const Header = () => {
     onClose: onModalConfirmClose,
   } = useDisclosure();
 
-  const { searched } = useAnime();
+  const { searched, setSearched, getAnimesByCategory, setLoad, load } =
+    useAnime();
 
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
 
@@ -58,6 +66,14 @@ export const Header = () => {
   const { accessToken, signOut } = useUser();
 
   const navigate = useNavigate();
+
+  const searchCategories = (search: string) => {
+    setSearched(search);
+    getAnimesByCategory(search);
+
+    setLoad(false);
+    navigate(`/search/${search}`);
+  };
 
   const toggleSearch = () => {
     if (searched === "" && window.screen.width >= 768) {
@@ -151,6 +167,39 @@ export const Header = () => {
               message="Deseja realmente deletar o comentario"
               result="Se confirmar não tem como voltar atras pense bem"
             />
+
+            <Menu>
+              {isWideVersion ? (
+                <MenuButton
+                  as={Button}
+                  bg="transparent"
+                  w="100%"
+                  color="white"
+                  fontSize={20}
+                >
+                  Categorias
+                </MenuButton>
+              ) : (
+                <MenuButton
+                  as={IconButton}
+                  icon={<BiMenu size={30} />}
+                  bg="transparent"
+                  w="100%"
+                  color="white"
+                  fontSize={20}
+                />
+              )}
+              <MenuList h="500px" overflowY="scroll">
+                {categories.map((categories, key) => (
+                  <MenuItem
+                    key={key}
+                    onClick={() => searchCategories(categories)}
+                  >
+                    {categories}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
 
             <IconButton
               icon={isLightTheme ? <BiMoon size={30} /> : <BiSun size={30} />}

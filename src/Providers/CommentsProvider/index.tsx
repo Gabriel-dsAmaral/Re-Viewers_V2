@@ -6,12 +6,37 @@ import {
   ReactNode,
 } from "react";
 
-import { api } from "../../services/api";
+import { api2 } from "../../services/api";
 import { useUser } from "../UserProvider";
 
+interface AnimesData {
+  myListStatus?: string;
+  id: string;
+  title: string;
+  categories: Array<object>;
+  average_rate: Number;
+  banner: string;
+  image: string;
+  original_title: string;
+  status: string;
+  launch_data: string;
+  studio: string;
+  sinopse: string;
+  userId?: number;
+  data?: object;
+}
+
+interface User {
+  user_id: number;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+}
 interface Comment {
-  animeId: number;
+  comment_id: string;
   comment: string;
+  user: User;
+  anime: AnimesData;
   userId: number;
   id: number;
   name: string;
@@ -24,15 +49,15 @@ interface CommentProviderProps {
 
 interface CommentsContextData {
   comments: Comment[];
-  MakeComment: (animeId: number, comment: string) => Promise<void>;
-  DeleteComment: (credentials: number) => Promise<void>;
-  LoadComments: (credentials: number) => Promise<void>;
-  EditComment: (credentials: EditCommentCredentials) => Promise<void>;
+  postComment: (animeId: string, comment: string) => Promise<void>;
+  delComment: (credentials: string) => Promise<void>;
+  getComments: (credentials: string) => Promise<void>;
+  patchComment: (credentials: EditCommentCredentials) => Promise<void>;
 }
 
 interface EditCommentCredentials {
   comment: string;
-  CommentId: number;
+  CommentId: string;
 }
 
 const CommentsContext = createContext<CommentsContextData>(
@@ -42,51 +67,52 @@ const CommentsContext = createContext<CommentsContextData>(
 const useComment = () => useContext(CommentsContext);
 
 const CommentProvider = ({ children }: CommentProviderProps) => {
-  const { accessToken, user } = useUser();
+  const { accessToken } = useUser();
 
   const [comments, setComments] = useState<Comment[]>([]);
 
-  const MakeComment = useCallback(async (animeId: number, comment: string) => {
-    await api
+  const postComment = useCallback(async (animeId: string, comment: string) => {
+    await api2
       .post(
-        "/comments",
+        "/api/comments/",
         {
-          animeId,
+          anime_id: animeId,
           comment,
-          userId: user?.id,
-          name: user?.name,
-          userImg: user?.userImg,
         },
         {
-          headers: { Authorization: `Bearer ${accessToken}` },
+          headers: { Authorization: `Token ${accessToken}` },
         }
       )
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("postComment", err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const LoadComments = useCallback(async (animeId: number) => {
-    await api
-      .get(`/comments?animeId=${animeId}`)
-      .then((response) => setComments(response.data));
+  const getComments = useCallback(async (animeId: string) => {
+    setComments([]);
+    await api2
+      .get(`/api/comments/anime/${animeId}/`)
+      .then((response) => {
+        setComments(response.data);
+      })
+      .catch((err) => {});
   }, []);
 
-  const DeleteComment = useCallback(async (CommentId: number) => {
-    await api
-      .delete(`/comments/${CommentId}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
+  const delComment = useCallback(async (CommentId: string) => {
+    await api2
+      .delete(`/api/comments/${CommentId}/`, {
+        headers: { Authorization: `Token ${accessToken}` },
       })
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const EditComment = useCallback(
+  const patchComment = useCallback(
     async ({ comment, CommentId }: EditCommentCredentials) => {
-      await api.patch(
-        `/comments/${CommentId}`,
+      await api2.patch(
+        `/api/comments/${CommentId}/`,
         { comment },
         {
-          headers: { Authorization: `Bearer ${accessToken}` },
+          headers: { Authorization: `Token ${accessToken}` },
         }
       );
     },
@@ -96,11 +122,11 @@ const CommentProvider = ({ children }: CommentProviderProps) => {
   return (
     <CommentsContext.Provider
       value={{
-        MakeComment,
-        DeleteComment,
-        LoadComments,
+        postComment,
+        delComment,
+        getComments,
         comments,
-        EditComment,
+        patchComment,
       }}
     >
       {children}

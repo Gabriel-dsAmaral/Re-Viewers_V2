@@ -16,11 +16,11 @@ import { useComment } from "../../Providers/CommentsProvider";
 import { ModalSuccess } from "../Modals/ModalSuccess";
 
 interface EditableCommentProps {
-  id: number;
+  id: string;
   input: string;
   name: string;
   img: string;
-  callback: (id: number) => void;
+  callback: (id: string) => void;
 }
 
 export const EditableComment = ({
@@ -30,7 +30,7 @@ export const EditableComment = ({
   img,
   callback,
 }: EditableCommentProps) => {
-  const { EditComment } = useComment();
+  const { patchComment } = useComment();
 
   const [value, setValue] = useState<string>(input);
 
@@ -128,7 +128,7 @@ export const EditableComment = ({
             setValue(e.target.value)
           }
           onSubmit={() =>
-            EditComment({ CommentId: id, comment: value }).then((res) =>
+            patchComment({ CommentId: id, comment: value }).then((res) =>
               onModalSuccessOpen()
             )
           }

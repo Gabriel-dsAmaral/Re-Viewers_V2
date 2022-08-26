@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { useAnime } from "../../Providers/AnimesProvider";
 
 export const AnimeCardMobile = () => {
-  const { getAnimes, animes } = useAnime();
+  const { getAllAnimes, animes } = useAnime();
 
   useEffect(() => {
-    getAnimes();
+    // getAllAnimes();
   });
 
   const termineiAnmesList = animes.filter(
@@ -15,7 +15,7 @@ export const AnimeCardMobile = () => {
 
   return (
     <Center marginTop="50%" zIndex="999" flexDir="column" position="absolute">
-      <Image width="200px" src={termineiAnmesList[1].image_url} />
+      <Image width="200px" src={termineiAnmesList[1].image} />
 
       <Text fontSize="2.125rem" fontWeight="bold">
         {termineiAnmesList[1].title}
@@ -34,8 +34,8 @@ export const AnimeCardMobile = () => {
         Score: descomend to see
         {/* <Text>{termineiAnmesList[1].rate}</Text> */}
       </Text>
-      <Flex justifyContent="center" wrap="wrap">
-        {termineiAnmesList[1].category.map((textCateg) => (
+      {/* <Flex justifyContent="center" wrap="wrap">
+        {termineiAnmesList[1].categories.map((textCateg) => (
           <Button
             color="grey"
             bgColor="rgba(212, 161, 111, 0.1)"
@@ -52,7 +52,7 @@ export const AnimeCardMobile = () => {
             {textCateg}
           </Button>
         ))}
-      </Flex>
+      </Flex> */}
     </Center>
   );
 };

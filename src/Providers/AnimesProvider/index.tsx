@@ -1,170 +1,119 @@
-import { createContext, ReactNode, useContext, useState } from "react";
-import { api } from "../../services/api";
-import { useUser } from "../UserProvider";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
+import { api2 } from "../../services/api";
 
 interface Children {
   children: ReactNode;
 }
 
-interface Rate {
-  userId: number;
-  value: number;
-}
 interface AnimesData {
   myListStatus?: string;
-  id: number;
+  id: string;
   title: string;
-  category: Array<string>;
-  rate?: Array<Rate>;
-  banner_url: string;
-  image_url: string;
-  original: string;
+  categories: Array<object>;
+  average_rate: Number;
+  banner: string;
+  image: string;
+  original_title: string;
   status: string;
-  launch_date: string;
+  launch_data: string;
   studio: string;
-  synopsis: string;
+  sinopse: string;
   userId?: number;
   data?: object;
 }
 interface AnimeProviderData {
   animes: AnimesData[];
-  myList: AnimesData[] | object;
-  shounenAnimes: AnimesData[];
   selectedAnime: AnimesData;
   searchList: AnimesData[];
   searched: string;
+  bestAnimes: AnimesData[];
+  load: boolean;
+  setLoad: (load: boolean) => void;
 
   setSearchList: (prevState: AnimesData[]) => void;
-  getAnimeById: (id: number) => void;
-  getAnimes: () => void;
-  getMyList: (userId: number) => void;
-  deleteMyList: (userId: number) => void;
-  addAnimeList: (data: AnimesData) => void;
+  getAnimeById: (id: string) => void;
   searchAnime: (search: string) => void;
   setSearched: (search: string) => void;
+  getAllAnimes: () => void;
+  getBestAnimes: (amount: number) => void;
+  getAnimesByCategory: (category: string) => void;
 }
 
 const AnimeContext = createContext<AnimeProviderData>({} as AnimeProviderData);
 
 const AnimeProvider = ({ children }: Children) => {
-  const { user, accessToken } = useUser();
-
   const [animes, setAnimes] = useState<AnimesData[]>([]);
-  const [shounenAnimes, setShounenAnimes] = useState<AnimesData[]>([]);
   const [selectedAnime, setSelectedAnime] = useState<AnimesData>(
     {} as AnimesData
   );
-  const [myList, setMyList] = useState<AnimesData[]>([]);
   const [searchList, setSearchList] = useState<AnimesData[]>([]);
   const [searched, setSearched] = useState("");
+  const [bestAnimes, setBestAnimes] = useState<AnimesData[]>([]);
+  const [load, setLoad] = useState(false);
+  console.log("load", load);
 
-  const getAnimes = async () => {
-    const response = await api.get("/animes");
-
-    const data = response.data;
-    setAnimes(data);
+  const getAllAnimes = async () => {
+    const response = await api2.get("/api/animes/");
+    setAnimes(response.data);
   };
 
-  const getAnimeById = async (id: number) => {
-    const response = await api.get(`/animes?id=${id}`);
-
-    const data = response.data;
-
-    setSelectedAnime(data[0]);
+  const getBestAnimes = async (amount: number) => {
+    const response = await api2.get(`/api/animes/best/${amount}/`);
+    setBestAnimes(response.data);
   };
 
-  const addAnimeList = async (data: AnimesData) => {
-    const postData = {
-      title: data.title,
-      category: data.category,
-      rate: data.rate,
-      banner_url: data.banner_url,
-      image_url: data.image_url,
-      original: data.original,
-      status: data.status,
-      launch_date: data.launch_date,
-      studio: data.studio,
-      synopsis: data.synopsis,
-      userId: user.id,
-      animeId: data.id,
-    };
+  const getAnimeById = async (id: string) => {
+    const response = await api2.get(`/api/animes/one/${id}/`);
 
-    await api.post("/mylist", postData, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    setSelectedAnime(response.data);
   };
 
-  const getMyList = async (userId: number) => {
-    const response = await api.get(`/users/${userId}/mylist`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    setMyList(response.data);
-  };
-
-  const deleteMyList = async (userId: number) => {
-    const response = await api.delete(`/mylist/${userId} `, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    setMyList(response.data);
+  const getAnimesByCategory = async (category: string) => {
+    const response = await api2.get(`/api/animes/category/?${category}`);
+    setSearchList(response.data[0]);
   };
 
   const searchAnime = (search: string) => {
     setSearched(search);
+
     const searchedLower = search.toLowerCase();
+
     const filterAnimeName = animes.filter((anime) => {
       return anime.title.toLowerCase().includes(searchedLower);
     });
 
-    // eslint-disable-next-line array-callback-return
-    const filterAnimeCategory = animes.filter((anime) => {
-      const category = anime.category.map((actual) => actual.toLowerCase());
-      const filtered = category.filter((actual) =>
-        actual.includes(searchedLower)
-      );
-
-      if (filtered[0]) {
-        return anime;
-      }
-    });
-
-    if (filterAnimeName[0]) {
-      setSearchList(filterAnimeName);
-    } else if (filterAnimeCategory[0]) {
-      setSearchList(filterAnimeCategory);
-    }
+    setSearchList(filterAnimeName);
   };
 
   return (
     <AnimeContext.Provider
       value={{
-        getAnimes,
         getAnimeById,
-        addAnimeList,
-        getMyList,
-        deleteMyList,
         searchAnime,
         setSearchList,
         setSearched,
+        getAllAnimes,
+        getBestAnimes,
+        getAnimesByCategory,
         searched,
         animes,
-        shounenAnimes,
         selectedAnime,
-        myList,
         searchList,
+        bestAnimes,
+        load,
+        setLoad,
       }}
     >
       {children}
     </AnimeContext.Provider>
   );
 };
-
 const useAnime = () => useContext(AnimeContext);
 
 export { AnimeProvider, useAnime };

@@ -29,7 +29,7 @@ export const AboutUs = () => {
       <Flex>
         <Img margin="50px 0px 0pc 0pc" maxH="500px" src={logo} />
       </Flex>
-      <Flex position="absolute" bottom="0">
+      <Flex position="absolute" bottom="0" w="100%">
         <Footer />
       </Flex>
     </Flex>

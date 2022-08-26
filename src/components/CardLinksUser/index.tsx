@@ -6,26 +6,33 @@ interface Rate {
 }
 interface AnimesData {
   myListStatus?: string;
-  id: number;
+  id: string;
   title: string;
-  category: Array<string>;
+  categories: Array<object>;
   rate?: Array<Rate>;
-  banner_url: string;
-  image_url: string;
-  original: string;
+  banner: string;
+  image: string;
+  original_title: string;
   status: string;
-  launch_date: string;
+  launch_data: string;
   studio: string;
-  synopsis: string;
+  sinopse: string;
   userId?: number;
   data?: object;
 }
 interface CardLinksProps {
   title: string;
-  animes: AnimesData[];
+  list: IUserListStatus[];
 }
 
-export const CardLinksUser = ({ title, animes }: CardLinksProps) => {
+type IUserListStatus = {
+  id: string;
+  watching_status: string;
+  anime: AnimesData;
+};
+
+export const CardLinksUser = ({ title, list }: CardLinksProps) => {
+  console.log("cardlinkuser", list);
   return (
     <Flex
       direction="column"
@@ -57,9 +64,19 @@ export const CardLinksUser = ({ title, animes }: CardLinksProps) => {
         overflow="overlay"
         maxH="480px"
       >
-        {animes.map((anime) => (
-          <Animecard anime={anime} key={animes.indexOf(anime)} />
-        ))}
+        {list.length > 0 ? (
+          list.map((e) => <Animecard anime={e.anime} key={list.indexOf(e)} />)
+        ) : (
+          <Text
+            textAlign="center"
+            color="grey.greyStone"
+            fontWeight="500"
+            fontSize="24px"
+            lineHeight="25px"
+          >
+            Vazio por enquanto
+          </Text>
+        )}
       </Flex>
     </Flex>
   );

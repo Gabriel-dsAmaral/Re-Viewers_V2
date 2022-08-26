@@ -14,7 +14,8 @@ import { ModalError } from "../ModalError";
 import { useUser } from "../../../Providers/UserProvider";
 
 const signupSchema = yup.object().shape({
-  name: yup.string().required("Precisamos do seu nome Otaku"),
+  first_name: yup.string().required("Precisamos do seu nome Otaku"),
+  last_name: yup.string().required("Precisamos do seu sobrenome Otaku"),
   email: yup
     .string()
     .required("Must have a E-mail")
@@ -57,14 +58,20 @@ export const Signup = ({ isOpen, onClose }: ModalCartProps) => {
     onClose: onModalErrorClose,
   } = useDisclosure();
 
-  const { sigNup } = useUser();
+  const { signUp } = useUser();
 
-  const handleSignup = ({ name, email, password }: SignupData) => {
-    sigNup({
-      name,
+  const handleSignup = ({
+    first_name,
+    last_name,
+    email,
+    password,
+  }: SignupData) => {
+    signUp({
+      first_name,
+      last_name,
       email,
       password,
-      userImg:
+      avatar:
         "http://pm1.narvii.com/6861/44017694789ca7409a0a9a30a8c0be4a7e2bd9f8r1-800-713v2_00.jpg",
     })
       .then(() => onClose())

@@ -29,7 +29,16 @@ export const SignupForm = ({ handleSignup, errors, register }: SignupData) => {
         <Heading size="3">Criar Conta</Heading>
       </Flex>
       <VStack spacing="7" mt="5">
-        <Input label="Name" error={errors.name} {...register("name")} />
+        <Input
+          label="First name"
+          error={errors.first_name}
+          {...register("first_name")}
+        />
+        <Input
+          label="Last name"
+          error={errors.last_name}
+          {...register("last_name")}
+        />
         <Box w="100%">
           <Input
             label="E-mail"

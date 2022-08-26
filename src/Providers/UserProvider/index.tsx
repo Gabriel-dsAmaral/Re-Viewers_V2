@@ -181,13 +181,24 @@ const UserProvider = ({ children }: UserProviderProps) => {
       password,
       avatar,
     }: SignUpCredentials) => {
-      await api2.post("/api/users/register/", {
-        first_name,
-        last_name,
-        email,
-        password,
-        avatar,
-      });
+      await api2
+        .post("/api/users/register/", {
+          first_name,
+          last_name,
+          email,
+          password,
+          avatar,
+        })
+        .then(() => {
+          toast({
+            position: "top",
+            title: "Arigatō!",
+            description: "Cadastrado com sucesso!",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        });
     },
     []
   );

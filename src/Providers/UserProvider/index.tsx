@@ -166,7 +166,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
     navigate("/");
     toast({
       position: "top",
-      // title: "",
       description: "Volte sempre!",
       status: "success",
       duration: 2000,

@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 export const Footer = () => {
@@ -12,9 +12,18 @@ export const Footer = () => {
       alignItems="center"
       justifyContent="space-around"
     >
-      <div onClick={() => navigate("/aboutUs")}>About Us</div>
-      <div onClick={() => navigate("/")}>Home</div>
-      <div>Developers</div>
+      <Text _hover={{ cursor: "pointer" }} onClick={() => navigate("/aboutUs")}>
+        About Us
+      </Text>
+      <Text _hover={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+        Home
+      </Text>
+      <Text
+        _hover={{ cursor: "pointer" }}
+        onClick={() => navigate("/developers")}
+      >
+        Developers
+      </Text>
     </Flex>
   );
 };

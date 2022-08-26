@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 import { api2 } from "../../services/api";
 
 interface Children {
@@ -27,6 +33,8 @@ interface AnimeProviderData {
   searchList: AnimesData[];
   searched: string;
   bestAnimes: AnimesData[];
+  load: boolean;
+  setLoad: (load: boolean) => void;
 
   setSearchList: (prevState: AnimesData[]) => void;
   getAnimeById: (id: string) => void;
@@ -47,6 +55,8 @@ const AnimeProvider = ({ children }: Children) => {
   const [searchList, setSearchList] = useState<AnimesData[]>([]);
   const [searched, setSearched] = useState("");
   const [bestAnimes, setBestAnimes] = useState<AnimesData[]>([]);
+  const [load, setLoad] = useState(false);
+  console.log("load", load);
 
   const getAllAnimes = async () => {
     const response = await api2.get("/api/animes/");
@@ -60,6 +70,7 @@ const AnimeProvider = ({ children }: Children) => {
 
   const getAnimeById = async (id: string) => {
     const response = await api2.get(`/api/animes/one/${id}/`);
+
     setSelectedAnime(response.data);
   };
 
@@ -95,13 +106,14 @@ const AnimeProvider = ({ children }: Children) => {
         selectedAnime,
         searchList,
         bestAnimes,
+        load,
+        setLoad,
       }}
     >
       {children}
     </AnimeContext.Provider>
   );
 };
-
 const useAnime = () => useContext(AnimeContext);
 
 export { AnimeProvider, useAnime };

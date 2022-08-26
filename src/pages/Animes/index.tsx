@@ -40,15 +40,13 @@ type IUserListStatus = {
 };
 
 export const AnimePage = () => {
-  const [scoreResult, setScoreResult] = useState<number>(0);
-
   const {
     selectedAnime,
     getAnimeById,
     setSearched,
-    searchAnime,
-    getAllAnimes,
+    // getAllAnimes,
     getAnimesByCategory,
+    setLoad,
   } = useAnime();
 
   const navigate = useNavigate();
@@ -60,13 +58,14 @@ export const AnimePage = () => {
   const searchCategories = (search: string) => {
     setSearched(search);
     getAnimesByCategory(search);
+    setLoad(false);
     navigate(`/search/${search}`);
   };
 
   useEffect(() => {
     getAnimeById(String(id));
     setSearched("");
-    getAllAnimes();
+    // getAllAnimes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -144,44 +143,64 @@ export const AnimePage = () => {
               {isWideVersion && (
                 <VStack w="230px">
                   {handleUserList(watchingList) ? (
-                    <Button w="inherit" model="1" disabled>
+                    <Button
+                      w="inherit"
+                      model="1"
+                      disabled
+                      title="Anime já em sua lista"
+                    >
                       Assistindo
                     </Button>
                   ) : (
                     <Button
                       w="inherit"
                       model="1"
-                      onClick={() =>
-                        addUserList("Assistindo", id!, statusFound)
-                      }
+                      onClick={() => {
+                        addUserList("Assistindo", id!, statusFound);
+                        OnOpenModalInfo();
+                      }}
                     >
                       Assistindo
                     </Button>
                   )}
                   {handleUserList(watchLaterList) ? (
-                    <Button w="inherit" model="2" disabled>
+                    <Button
+                      w="inherit"
+                      model="2"
+                      disabled
+                      title="Anime já em sua lista"
+                    >
                       Assistir mais tarde
                     </Button>
                   ) : (
                     <Button
                       w="inherit"
                       model="2"
-                      onClick={() =>
-                        addUserList("Assistir mais tarde", id!, statusFound)
-                      }
+                      onClick={() => {
+                        addUserList("Assistir mais tarde", id!, statusFound);
+                        OnOpenModalInfo();
+                      }}
                     >
                       Assistir mais tarde
                     </Button>
                   )}
                   {handleUserList(finishedList) ? (
-                    <Button w="inherit" model="3" disabled>
+                    <Button
+                      w="inherit"
+                      model="3"
+                      disabled
+                      title="Anime já em sua lista"
+                    >
                       Finalizado
                     </Button>
                   ) : (
                     <Button
                       w="inherit"
                       model="3"
-                      onClick={() => addUserList("Terminado", id!, statusFound)}
+                      onClick={() => {
+                        addUserList("Terminado", id!, statusFound);
+                        OnOpenModalInfo();
+                      }}
                     >
                       Finalizado
                     </Button>
@@ -232,7 +251,7 @@ export const AnimePage = () => {
                   mb="10px"
                   textShadow="1px 1px #d6883f"
                 >
-                  Score: {selectedAnime.average_rate}
+                  {`Score: ${selectedAnime.average_rate}`}
                 </Text>
               </Box>
 

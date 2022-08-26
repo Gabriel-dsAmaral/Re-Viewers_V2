@@ -6,7 +6,7 @@ export const AnimeCardMobile = () => {
   const { getAllAnimes, animes } = useAnime();
 
   useEffect(() => {
-    getAllAnimes();
+    // getAllAnimes();
   });
 
   const termineiAnmesList = animes.filter(
@@ -34,7 +34,7 @@ export const AnimeCardMobile = () => {
         Score: descomend to see
         {/* <Text>{termineiAnmesList[1].rate}</Text> */}
       </Text>
-      <Flex justifyContent="center" wrap="wrap">
+      {/* <Flex justifyContent="center" wrap="wrap">
         {termineiAnmesList[1].categories.map((textCateg) => (
           <Button
             color="grey"
@@ -52,7 +52,7 @@ export const AnimeCardMobile = () => {
             {textCateg}
           </Button>
         ))}
-      </Flex>
+      </Flex> */}
     </Center>
   );
 };

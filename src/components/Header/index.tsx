@@ -9,10 +9,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
   Button,
 } from "@chakra-ui/react";
 
@@ -25,6 +21,7 @@ import {
   BiHome,
   BiUserPlus,
   BiLogIn,
+  BiMenu,
 } from "react-icons/bi";
 
 import { InputSearch } from "../Input/InputSearch";
@@ -57,7 +54,8 @@ export const Header = () => {
     onClose: onModalConfirmClose,
   } = useDisclosure();
 
-  const { searched, setSearched, getAnimesByCategory } = useAnime();
+  const { searched, setSearched, getAnimesByCategory, setLoad, load } =
+    useAnime();
 
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true);
 
@@ -72,6 +70,8 @@ export const Header = () => {
   const searchCategories = (search: string) => {
     setSearched(search);
     getAnimesByCategory(search);
+
+    setLoad(false);
     navigate(`/search/${search}`);
   };
 
@@ -169,15 +169,26 @@ export const Header = () => {
             />
 
             <Menu>
-              <MenuButton
-                as={Button}
-                bg="transparent"
-                w="100%"
-                color="white"
-                fontSize={20}
-              >
-                Categorias
-              </MenuButton>
+              {isWideVersion ? (
+                <MenuButton
+                  as={Button}
+                  bg="transparent"
+                  w="100%"
+                  color="white"
+                  fontSize={20}
+                >
+                  Categorias
+                </MenuButton>
+              ) : (
+                <MenuButton
+                  as={IconButton}
+                  icon={<BiMenu size={30} />}
+                  bg="transparent"
+                  w="100%"
+                  color="white"
+                  fontSize={20}
+                />
+              )}
               <MenuList h="500px" overflowY="scroll">
                 {categories.map((categories, key) => (
                   <MenuItem

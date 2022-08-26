@@ -6,6 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useUser } from "../../../Providers/UserProvider";
@@ -49,6 +50,8 @@ export const ModalScore = ({
 
   const { user, accessToken } = useUser();
 
+  const toast = useToast();
+
   const tokenBearer = {
     headers: {
       Authorization: `Token ${accessToken}`,
@@ -64,15 +67,35 @@ export const ModalScore = ({
         },
         tokenBearer
       )
+      .then(() => {
+        toast({
+          position: "top",
+          title: "Nota",
+          description: "Nota computada com sucesso!",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      })
       .catch((err) => {
-        console.log("entrou no erro do post rate", err.request.status);
-        api2.patch(
-          `/api/rate/${selectedAnime.id}/`,
-          {
-            rate: sliderValue,
-          },
-          tokenBearer
-        );
+        api2
+          .patch(
+            `/api/rate/${selectedAnime.id}/`,
+            {
+              rate: sliderValue,
+            },
+            tokenBearer
+          )
+          .then(() => {
+            toast({
+              position: "top",
+              title: "Alteração Nota",
+              description: "Nota alterada com sucesso!",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+          });
       });
   };
 

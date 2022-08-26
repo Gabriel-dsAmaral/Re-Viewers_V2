@@ -38,6 +38,7 @@ export const SectionContainer = ({
       w="100%"
       fontSize="28px"
       paddingY="10px"
+      mt="10px"
     >
       {title}
     </Heading>
@@ -52,11 +53,12 @@ export const SectionContainer = ({
     />
 
     <Flex
-      justifyContent={["space-between"]}
-      alignItems="center"
+      justifyContent="center"
       overflowY="auto"
       width="100%"
-      gap="20px"
+      gap="30px"
+      flexWrap="wrap"
+      p="20px"
     >
       {animeList.map((anime) => (
         <Animecard anime={anime} key={animeList.indexOf(anime)} />

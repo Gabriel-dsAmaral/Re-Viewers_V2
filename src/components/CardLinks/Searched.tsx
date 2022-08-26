@@ -28,9 +28,10 @@ interface SearchedProps {
 }
 
 export const Searched = ({ title, animes }: SearchedProps) => {
+  //
   return (
     <Flex
-      direction="row"
+      direction="column"
       maxW={["100%", "100%"]}
       justifyContent="center"
       flexWrap="wrap"

@@ -3,47 +3,50 @@ import { Slide } from "react-slideshow-image";
 import { Box } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAnime } from "../../Providers/AnimesProvider";
-import { useEffect } from "react";
+
+interface AnimesData {
+  myListStatus?: string;
+  id: string;
+  title: string;
+  categories: Array<object>;
+  average_rate: Number;
+  banner: string;
+  image: string;
+  original_title: string;
+  status: string;
+  launch_data: string;
+  studio: string;
+  sinopse: string;
+  userId?: number;
+  data?: object;
+}
 
 export const SliderContainer = () => {
-  const { getAllAnimes, animes } = useAnime();
-  // let randomAnimes = [];
+  const { animes } = useAnime();
 
-  // for (let i = 0; i < 5; i++) {
-  //   randomAnimes.push(animes[Math.floor(Math.random() * animes.length)]);
-  // }
+  let randomAnimes: AnimesData[] = [];
 
-  const slideImages = [
-    // animes[0].banner,
-    // randomAnimes[0].banner,
-    // randomAnimes[1].banner,
-    // randomAnimes[2].banner,
-    // randomAnimes[3].banner,
-    // randomAnimes[4].banner,
-    "https://media.kitsu.io/anime/cover_images/8699/original.jpg",
-    "https://media.kitsu.io/anime/cover_images/8063/original.png",
-    "https://media.kitsu.io/anime/cover_images/43321/original.png",
-    "https://media.kitsu.io/anime/cover_images/8576/original.jpg",
-    "https://media.kitsu.io/anime/cover_images/13593/original.jpg",
-  ];
-
-  const link = [52, 54, 49, 47, 33];
+  for (let i = 0; i < 5; i++) {
+    randomAnimes.push(animes[Math.floor(Math.random() * animes.length)]);
+  }
 
   const navigate = useNavigate();
 
   return (
     <Slide easing="ease">
-      {slideImages.map((image, index) => (
-        <Box
-          key={index}
-          background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${image})`}
-          _hover={{ cursor: "pointer" }}
-          backgroundPosition="center"
-          backgroundSize="cover"
-          height="350px"
-          onClick={() => navigate(`/animePage/${link[index]}`)}
-        />
-      ))}
+      {randomAnimes.length &&
+        randomAnimes.map((anime, index) => (
+          <Box
+            key={index}
+            background={`linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),url(${anime.banner})`}
+            _hover={{ cursor: "pointer" }}
+            backgroundPosition="center"
+            backgroundSize="cover"
+            height="350px"
+            onClick={() => navigate(`/animePage/${anime.id}`)}
+            title={anime.title}
+          />
+        ))}
     </Slide>
   );
 };

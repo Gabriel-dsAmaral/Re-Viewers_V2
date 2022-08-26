@@ -46,8 +46,8 @@ export const Animecard = ({ anime }: AnimeCardProps) => {
       backgroundPosition="center"
       backgroundSize="cover"
       minW="135px"
-      width="135px"
-      height="180px"
+      width="160px"
+      height="205px"
       borderRadius="2px"
       boxShadow={"-2.5px 5px 7.5px -1px rgba(59,45,31,0.97)"}
       onMouseOver={() => setShow(true)}
